@@ -5,39 +5,48 @@ import org.opensky.model.StateVector;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class DynamicAircraftData {
     private static final String OPENSKYUSERNAME = "jku1234";
     private static final String OPENSKYPASSWORD = "jku1234";
+    private static final OpenSkyApi API = new OpenSkyApi(OPENSKYUSERNAME, OPENSKYPASSWORD);
+    private static final OpenSkyApi.BoundingBox AUSTRIA = new OpenSkyApi.BoundingBox(46.4318173285, 49.0390742051, 9.47996951665, 16.9796667823);
 
-    static void loadDynamicAircraftData(List<Aircraft> aircraftList) {
-        String[] icaos = getIcaosFromAircraft(aircraftList);
+    static void startUpdateServiceDynamicAircraftData(List<Aircraft> aircraftList) {
+        while (true) {
+            loadDynamicAircraftData(aircraftList);
+            try {
+                Thread.sleep(15000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static void loadDynamicAircraftData(List<Aircraft> aircraftList) {
         try {
-            setDataAircrafts(aircraftList, loadStateVector(icaos));
+            List<StateVector> states = loadStateVector();
+            setDataAircrafts(states);
         } catch (IOException e) {
-            loadDummyAircraftData(aircraftList);
-        }
+            loadDummyAircraftData();
+        } catch (NullPointerException ignored) {};
     }
 
-    private static String[] getIcaosFromAircraft(List<Aircraft> aircraftList) {
-        List<String> icaosList = new ArrayList<String>();
-        for (Aircraft aircraft : aircraftList) {
-            icaosList.add(aircraft.icao);
-        }
-        return (String[]) icaosList.toArray();
-    }
-
-    private static List<StateVector> loadStateVector(String[] icaos) throws IOException {
-        OpenSkyApi api = new OpenSkyApi(OPENSKYUSERNAME, OPENSKYPASSWORD);
-        OpenSkyStates os = api.getMyStates(0, icaos, null);
+    private static List<StateVector> loadStateVector() throws IOException {
+        OpenSkyStates os = API.getStates(0, null, AUSTRIA);
         return new ArrayList<>(os.getStates());
     }
 
-    private static void setDataAircrafts(List<Aircraft> aircraftList,List<StateVector> stateVectorList) {
-        // Load data for Aircrafts
+    private static void setDataAircrafts(List<StateVector> stateVectorList) {
+        for (Aircraft aircraft : Main.aircrafts) {
+            Optional<StateVector> state = stateVectorList.stream().filter(s -> s.getIcao24() == aircraft.icao).findFirst();
+            state.ifPresent(aircraft.states::add);
+        }
     }
 
-    private static void loadDummyAircraftData(List<Aircraft> aircraftList) {
+    private static void loadDummyAircraftData() {
         // Load dummy data for Aircrafts
     }
 }
