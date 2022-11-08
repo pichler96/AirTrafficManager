@@ -8,14 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static List<Aircraft> aircrafts = null;
+    public static List<Aircraft> aircrafts = new ArrayList<>();
 
     public static void main(String[] args) {
-        List<Aircraft> aircraftList = new ArrayList<>();
-        Aircraft aircraft = new Aircraft("4407fe");
-        aircraftList.add(aircraft);
-        DynamicAircraftData.startUpdateServiceDynamicAircraftData(aircraftList);
-        System.out.println(aircraftList.get(0).states);
+        Aircraft aircraft = new Aircraft("710070");
+        aircrafts.add(aircraft);
+        DynamicAircraftData.loadDynamicAircraftData(aircrafts);
+        System.out.println(aircrafts.get(0).states.get(0));
 
         /*
         // some definitions

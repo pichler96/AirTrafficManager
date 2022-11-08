@@ -1,6 +1,7 @@
 import org.opensky.model.StateVector;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Aircraft {
@@ -27,6 +28,7 @@ public class Aircraft {
 
     public Aircraft(String icao) {
         this.icao = icao;
+        this.states = new ArrayList<>();
     }
 
     public String getIcao() {

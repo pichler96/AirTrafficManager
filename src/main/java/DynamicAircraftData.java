@@ -22,11 +22,10 @@ public class DynamicAircraftData {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            break;
         }
     }
 
-    private static void loadDynamicAircraftData(List<Aircraft> aircraftList) {
+    static void loadDynamicAircraftData(List<Aircraft> aircraftList) {
         try {
             List<StateVector> states = loadStateVector();
             setDataAircrafts(states);
@@ -43,7 +42,7 @@ public class DynamicAircraftData {
     private static void setDataAircrafts(List<StateVector> stateVectorList) {
         for (Aircraft aircraft : Main.aircrafts) {
             Optional<StateVector> state = stateVectorList.stream().filter(s -> s.getIcao24().equals(aircraft.getIcao())).findFirst();
-            state.ifPresent(aircraft.states::add);
+            if (state.isPresent()) aircraft.states.add(state.get());
         }
     }
 
