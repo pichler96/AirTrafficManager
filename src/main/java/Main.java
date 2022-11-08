@@ -14,21 +14,10 @@ public class Main {
         Aircraft aircraft = new Aircraft("710070");
         aircrafts.add(aircraft);
         DynamicAircraftData.loadDynamicAircraftData(aircrafts);
-        System.out.println(aircrafts.get(0).states.get(0));
+        RDFConverter.convertToRDF();
 
-        /*
-        // some definitions
-        String AircraftURI    = "http://somewhere/JohnSmith";
-        String icao24     =      "John Smith";
 
-        // create an empty Model
-        Model model = ModelFactory.createDefaultModel();
 
-        // create the resource
-        Resource johnSmith = model.createResource(AircraftURI);
 
-        // add the property
-        johnSmith.addProperty(VCARD.FN, icao24);
-        */
     }
 }
