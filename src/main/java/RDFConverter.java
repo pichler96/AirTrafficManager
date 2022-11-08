@@ -1,16 +1,11 @@
 import org.apache.jena.rdf.model.*;
 import org.opensky.model.StateVector;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RDFConverter {
-
-
-
-    static void convertToRDF(){
-
+    static void convertToRDF() {
         String AircraftURI    = "http://aircraft/firstAircraft";
         String icao = "3c5eec";
         String registration = "D-AGWL";
@@ -57,13 +52,12 @@ public class RDFConverter {
                 .addProperty(model.createProperty("http://aircraft/hasowner/"+owner.getName()), owner.getName())
                 .addProperty(model.createProperty("http://aircraft/hasengine/"+engine.getName()), engine.getName());
 
-        if(states.size() == 0)
+        if(states.size() == 0) {
             firstAircraft.addProperty(model.createProperty("http://aircraft/haslateststate/null"), "null");
-        else
+        }
+        else {
             firstAircraft.addProperty(model.createProperty("http://aircraft/haslateststate/"+states.get(states.size()-1).getIcao24()), states.get(states.size()-1).getIcao24());
-
-
-
+        }
         StmtIterator iter = model.listStatements();
 
         // print out the predicate, subject and object of each statement
@@ -81,10 +75,8 @@ public class RDFConverter {
                 // object is a literal
                 System.out.print(" \"" + object.toString() + "\"");
             }
-
             System.out.println(" .");
         }
     }
-
 }
 

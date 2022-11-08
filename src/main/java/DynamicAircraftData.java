@@ -47,8 +47,18 @@ public class DynamicAircraftData {
     }
 
     private static void loadDummyAircraftData() {
-        // Load dummy data for Aircrafts
+        for (Aircraft aircraft : Main.aircrafts) {
+            StateVector vector = new StateVector(aircraft.getIcao());
+            vector.setBaroAltitude(3244.34);
+            vector.setGeoAltitude(3123.3);
+            vector.setVelocity(213123.3);
+            vector.setLastContact(0.0);
+            vector.setLastPositionUpdate(0.0);
+            vector.setOnGround(true);
+            vector.setOriginCountry("GER");
+            vector.setLatitude(0.0);
+            vector.setLongitude(0.0);
+            aircraft.states.add(vector);
+        }
     }
-
-
 }
