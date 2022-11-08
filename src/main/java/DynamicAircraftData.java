@@ -22,6 +22,7 @@ public class DynamicAircraftData {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            break;
         }
     }
 
@@ -49,4 +50,6 @@ public class DynamicAircraftData {
     private static void loadDummyAircraftData() {
         // Load dummy data for Aircrafts
     }
+
+
 }

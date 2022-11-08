@@ -25,7 +25,7 @@ public class StaticAircraftData {
         try {
             CSVReader csv = new CSVReader(new FileReader("aircraftDatabase-filtered.csv"));
             while (csv.readNext() != null) {
-                Aircraft aircraft = new Aircraft();
+                Aircraft aircraft = new Aircraft("3c5eec");
                 ArrayList<String> aircraftDetails = new ArrayList<>(Arrays.asList(csv.readNext()));
                 csv.getRecordsRead();
                 for (int i = 0; i < aircraftDetails.size(); i++) {
@@ -44,7 +44,7 @@ public class StaticAircraftData {
                             aircraft.setManufacturer(new Manufacturer(manufacturerIcao, manufacturerName));
                             break;
                         case 5:
-                            aircraft.setModel(new Model(aircraftDetails.get(i)));
+                            aircraft.setModel(new AircraftModel(aircraftDetails.get(i)));
                             break;
                         case 6:
                             aircraft.setTypeCode(aircraftDetails.get(i));

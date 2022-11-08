@@ -1,4 +1,4 @@
-public class Model {
+public class AircraftModel {
     private String name;
 
     public String getName() {
@@ -9,7 +9,7 @@ public class Model {
         this.name = name;
     }
 
-    public Model(String name) {
+    public AircraftModel(String name) {
         this.name = name;
     }
 }

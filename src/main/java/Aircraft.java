@@ -1,6 +1,5 @@
 import org.opensky.model.StateVector;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -8,7 +7,7 @@ public class Aircraft {
     private String icao;
     private String registration;
     private Manufacturer manufacturer;
-    private Model model;
+    private AircraftModel aircraftModel;
     private String typeCode;
     private String serialNumber;
     private IcaoAircraftType icaoAircraftType;
@@ -23,6 +22,12 @@ public class Aircraft {
     private String categoryDescription;
     private Operator operator;
     private Owner owner;
+    private Engine engine;
+    List<StateVector> states;
+
+    public Aircraft(String icao) {
+        this.icao = icao;
+    }
 
     public String getIcao() {
         return icao;
@@ -48,12 +53,12 @@ public class Aircraft {
         this.manufacturer = manufacturer;
     }
 
-    public Model getModel() {
-        return model;
+    public AircraftModel getModel() {
+        return aircraftModel;
     }
 
-    public void setModel(Model model) {
-        this.model = model;
+    public void setModel(AircraftModel aircraftModel) {
+        this.aircraftModel = aircraftModel;
     }
 
     public String getTypeCode() {
@@ -184,6 +189,5 @@ public class Aircraft {
         this.states = states;
     }
 
-    private Engine engine;
-    List<StateVector> states;
+
 }
