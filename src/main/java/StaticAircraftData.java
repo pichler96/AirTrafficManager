@@ -25,6 +25,7 @@ public class StaticAircraftData {
         try {
             CSVReader csv = new CSVReader(new FileReader("aircraftDatabase-filtered.csv"));
             while (csv.readNext() != null) {
+                csv.readNext();
                 Aircraft aircraft = new Aircraft("3c5eec");
                 ArrayList<String> aircraftDetails = new ArrayList<>(Arrays.asList(csv.readNext()));
                 csv.getRecordsRead();

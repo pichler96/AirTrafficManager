@@ -14,10 +14,9 @@ public class Main {
         Aircraft aircraft = new Aircraft("710070");
         aircrafts.add(aircraft);
         DynamicAircraftData.loadDynamicAircraftData(aircrafts);
+        aircrafts = StaticAircraftData.loadStaticAircraftData();
+        System.out.println(aircrafts.toString());
         RDFConverter.convertToRDF();
-
-
-
 
     }
 }
