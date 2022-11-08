@@ -31,7 +31,7 @@ public class DynamicAircraftData {
             setDataAircrafts(states);
         } catch (IOException e) {
             loadDummyAircraftData();
-        } catch (NullPointerException ignored) {};
+        } catch (NullPointerException ignored) {}
     }
 
     private static List<StateVector> loadStateVector() throws IOException {
@@ -41,7 +41,7 @@ public class DynamicAircraftData {
 
     private static void setDataAircrafts(List<StateVector> stateVectorList) {
         for (Aircraft aircraft : Main.aircrafts) {
-            Optional<StateVector> state = stateVectorList.stream().filter(s -> s.getIcao24() == aircraft.icao).findFirst();
+            Optional<StateVector> state = stateVectorList.stream().filter(s -> s.getIcao24().equals(aircraft.getIcao())).findFirst();
             state.ifPresent(aircraft.states::add);
         }
     }
