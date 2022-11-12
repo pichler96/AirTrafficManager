@@ -7,6 +7,7 @@ public class Main {
 
     public static void main(String[] args) {
         aircrafts = StaticAircraftData.loadStaticAircraftData();
+        System.out.println(aircrafts.toString());
         DynamicAircraftData.loadDynamicAircraftData(aircrafts);
         RDFConverter.convertToRDF();
     }

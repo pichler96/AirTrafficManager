@@ -26,6 +26,10 @@ public class Aircraft {
     private Engine engine;
     List<StateVector> states;
 
+    public Aircraft() {
+
+    }
+
     public Aircraft(String icao) {
         this.icao = icao;
         this.states = new ArrayList<>();
@@ -191,5 +195,8 @@ public class Aircraft {
         this.states = states;
     }
 
+    public String toString() {
+        return "icao: " + this.icao + ",";
+    }
 
 }

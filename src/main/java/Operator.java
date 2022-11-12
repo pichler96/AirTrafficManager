@@ -7,7 +7,7 @@ public class Operator {
     private String iata;
     private String name;
     private String callsign;
-    private ArrayList<Aircraft> listOfAircrafts;
+    private ArrayList<Aircraft> listOfAircrafts = new ArrayList<>();
 
     public Operator(String name, String callsign, String icao, String iata, ArrayList<Aircraft> listOfAircrafts) {
         this.name = name;

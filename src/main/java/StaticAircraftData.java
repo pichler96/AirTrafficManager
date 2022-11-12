@@ -1,8 +1,13 @@
+import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
+import org.apache.commons.csv.CSVParser;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -23,12 +28,18 @@ public class StaticAircraftData {
 
     static List<Aircraft> loadStaticAircraftData() {
         try {
-            CSVReader csv = new CSVReader(new FileReader("aircraftDatabase-filtered.csv"));
-            while (csv.readNext() != null) {
-                csv.readNext();
-                Aircraft aircraft = new Aircraft("3c5eec");
-                ArrayList<String> aircraftDetails = new ArrayList<>(Arrays.asList(csv.readNext()));
-                csv.getRecordsRead();
+            //CSVReader reader = new CSVReader(new FileReader("aircraftDatabase-filtered.csv"));
+            //Reader reader = new BufferedReader(new FileReader("aircraftDatabase-filtered.csv"));
+            CSVReader reader = new CSVReaderBuilder(new FileReader("aircraftDatabase-filtered.csv")).withCSVParser(new CSVParserBuilder().withSeparator(';').build()).build();
+            //CSVReaderBuilder csvReader = new CSVReaderBuilder(reader).withCSVParser(new CSVParserBuilder().withSeparator(';').build());
+            reader.skip(1);
+            String[] nextLine;
+            while ((nextLine = reader.readNext()) != null) {
+                //csv.readNext();
+               //Aircraft aircraft = new Aircraft("3c5eec");
+                Aircraft aircraft = new Aircraft();
+                ArrayList<String> aircraftDetails = new ArrayList<>(Arrays.asList(nextLine));
+                reader.getRecordsRead();
                 for (int i = 0; i < aircraftDetails.size(); i++) {
                     switch (i+1) {
                         case 1:
@@ -70,7 +81,7 @@ public class StaticAircraftData {
                             break;
                         case 13:
                             String operatorIata = aircraftDetails.get(i);
-                            listOfOperatorAircrafts.add(aircraft);
+                            //listOfOperatorAircrafts.add(aircraft);
                             aircraft.setOperator(new Operator(operatorName, operatorCallSign, operatorIcao, operatorIata, listOfOperatorAircrafts));
                             break;
                         case 14:
@@ -80,19 +91,35 @@ public class StaticAircraftData {
                             //TODO testreg?
                             break;
                         case 16:
-                            aircraft.setRegistered(LocalDate.parse(aircraftDetails.get(i), formatter));
+                            if (aircraftDetails.get(i) == "" || aircraftDetails.get(i) == null) {
+                                aircraft.setRegistered(null);
+                            } else {
+                                aircraft.setRegistered(LocalDate.parse(aircraftDetails.get(i), formatter));
+                            }
                             break;
                         case 17:
-                            aircraft.setRegUntil(LocalDate.parse(aircraftDetails.get(i), formatter));
+                            if (aircraftDetails.get(i) == "" || aircraftDetails.get(i) == null) {
+                                aircraft.setRegistered(null);
+                            } else {
+                                aircraft.setRegUntil(LocalDate.parse(aircraftDetails.get(i), formatter));
+                            }
                             break;
                         case 18:
                             //TODO status?
                             break;
                         case 19:
-                            aircraft.setBuilt(LocalDate.parse(aircraftDetails.get(i), formatter));
+                            if (aircraftDetails.get(i) == "" || aircraftDetails.get(i) == null) {
+                                aircraft.setRegistered(null);
+                            } else {
+                                aircraft.setBuilt(LocalDate.parse(aircraftDetails.get(i), formatter));
+                            }
                             break;
                         case 20:
-                            aircraft.setFirstFlightDate(LocalDate.parse(aircraftDetails.get(i), formatter));
+                            if (aircraftDetails.get(i) == "" || aircraftDetails.get(i) == null) {
+                                aircraft.setRegistered(null);
+                            } else {
+                                aircraft.setFirstFlightDate(LocalDate.parse(aircraftDetails.get(i)));
+                            }
                             break;
                         case 21:
                             //TODO seatconfiguration?
