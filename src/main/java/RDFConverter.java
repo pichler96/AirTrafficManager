@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RDFConverter {
-    static void convertToRDF() {
+    static void convertToRDF(List<Aircraft> aircrafts) {
         String AircraftURI    = "http://aircraft/firstAircraft";
         String icao = "3c5eec";
         String registration = "D-AGWL";
@@ -31,6 +31,7 @@ public class RDFConverter {
         Model model = ModelFactory.createDefaultModel();
 
         // create the resource
+        //TODO deal with null
         Resource firstAircraft = model.createResource(AircraftURI)
                 .addProperty(model.createProperty("http://aircraft/hasicao/"+icao), icao)
                 .addProperty(model.createProperty("http://aircraft/hasregistration/"+registration), registration)
@@ -51,7 +52,7 @@ public class RDFConverter {
                 .addProperty(model.createProperty("http://aircraft/hasoperator/"+operator.getIcao()), operator.getIcao())
                 .addProperty(model.createProperty("http://aircraft/hasowner/"+owner.getName()), owner.getName())
                 .addProperty(model.createProperty("http://aircraft/hasengine/"+engine.getName()), engine.getName());
-
+        //TODO deal with null
         if(states.size() == 0) {
             firstAircraft.addProperty(model.createProperty("http://aircraft/haslateststate/null"), "null");
         }

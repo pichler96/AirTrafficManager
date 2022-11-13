@@ -14,4 +14,12 @@ public class Manufacturer {
     public void setIcao(String icao) {
         this.icao = icao;
     }
+
+    @Override
+    public String toString() {
+        return "Manufacturer{" +
+                "icao='" + icao + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

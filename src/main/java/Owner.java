@@ -12,4 +12,11 @@ public class Owner {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "Owner{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

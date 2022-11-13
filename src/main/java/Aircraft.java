@@ -196,7 +196,49 @@ public class Aircraft {
     }
 
     public String toString() {
-        return "icao: " + this.icao + ",";
+        /*
+        private String registration;
+        private Manufacturer manufacturer;
+        private AircraftModel aircraftModel;
+        private String typeCode;
+        private String serialNumber;
+        private IcaoAircraftType icaoAircraftType;
+        private LocalDate registered;
+        private LocalDate regUntil;
+        private LocalDate built;
+        private LocalDate firstFlightDate;
+        private boolean modes;
+        private boolean adsb;
+        private boolean acars;
+        private String notes;
+        private String categoryDescription;
+        private Operator operator;
+        private Owner owner;
+        private Engine engine;
+        List<StateVector> states;*/
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("\nicao: \t" + this.icao + "\n");
+        sb.append("registration: \t" + this.registration + "\n");
+        sb.append("manufacturer: \t" + this.manufacturer + "\n");
+        sb.append("aircraftModel: \t" + this.aircraftModel + "\n");
+        sb.append("typeCode: \t" + this.typeCode + "\n");
+        sb.append("serialNumber: \t" + this.serialNumber + "\n");
+        sb.append("icaoAircraftType: \t" + this.icaoAircraftType + "\n");
+        sb.append("registered: \t" + this.registered + "\n");
+        sb.append("regUntil: \t" + this.regUntil + "\n");
+        sb.append("built: \t" + this.built + "\n");
+        sb.append("firstFlightDate: \t" + this.firstFlightDate + "\n");
+        sb.append("modes: \t" + this.modes + "\n");
+        sb.append("adsb: \t" + this.adsb + "\n");
+        sb.append("acars: \t" + this.acars + "\n");
+        sb.append("notes: \t" + this.notes + "\n");
+        sb.append("categoryDescription: \t" + this.categoryDescription + "\n");
+        sb.append("operator: \t" + this.operator + "\n");
+        sb.append("owner: \t" + this.owner + "\n");
+        sb.append("engine: \t" + this.engine + "\n");
+        sb.append("states: \t" + this.states + "\n\n");
+        return sb.toString();
     }
 
 }

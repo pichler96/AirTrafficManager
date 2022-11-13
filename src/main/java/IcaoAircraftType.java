@@ -11,4 +11,11 @@ public class IcaoAircraftType {
     public void setTypeName(String typeName) {
         this.typeName = typeName;
     }
+
+    @Override
+    public String toString() {
+        return "IcaoAircraftType{" +
+                "typeName='" + typeName + '\'' +
+                '}';
+    }
 }

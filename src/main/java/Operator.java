@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class Operator {
 
-
     private String icao;
     private String iata;
     private String name;
@@ -55,5 +54,16 @@ public class Operator {
 
     public void setListOfAircrafts(ArrayList<Aircraft> listOfAircrafts) {
         this.listOfAircrafts = listOfAircrafts;
+    }
+
+    @Override
+    public String toString() {
+        return "Operator{" +
+                "icao='" + icao + '\'' +
+                ", iata='" + iata + '\'' +
+                ", name='" + name + '\'' +
+                ", callsign='" + callsign + '\'' +
+                ", listOfAircrafts=" + listOfAircrafts +
+                '}';
     }
 }

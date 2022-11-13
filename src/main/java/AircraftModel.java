@@ -12,4 +12,11 @@ public class AircraftModel {
     public AircraftModel(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "AircraftModel{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

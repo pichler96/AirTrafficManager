@@ -9,6 +9,6 @@ public class Main {
         aircrafts = StaticAircraftData.loadStaticAircraftData();
         System.out.println(aircrafts.toString());
         DynamicAircraftData.loadDynamicAircraftData(aircrafts);
-        RDFConverter.convertToRDF();
+        RDFConverter.convertToRDF(aircrafts);
     }
 }
