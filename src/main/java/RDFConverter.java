@@ -50,37 +50,64 @@ public class RDFConverter {
         //load static and dynamic data into seperate named graphs
 
 
+
         // create the resource
         //TODO deal with null
         //TODO generate properties first, use later
-        Property hasIcao = ResourceFactory.createProperty("http://aircraft/hasicao");
+        Property hasIcao = model.createProperty("http://aircraft/hasIcao");
+        Property hasRegistration = model.createProperty("http://aircraft/hasRegistration");
+        Property hasManufacturer = model.createProperty("http://aircraft/hasManufacturer");
+        Property hasAircraftModel = model.createProperty("http://aircraft/hasAircraftModel");
+        Property hasTypeCode = model.createProperty("http://aircraft/hasTypeCode");
+        Property hasSerialNumber = model.createProperty("http://aircraft/hasSerialNumber");
+        Property hasIcaoAircraftType = model.createProperty("http://aircraft/hasIcaoAircraftType");
+        Property hasRegistered = model.createProperty("http://aircraft/hasRegistered");
+        Property hasRegUntil = model.createProperty("http://aircraft/hasRegUntil");
+        Property hasBuilt = model.createProperty("http://aircraft/hasBuilt");
+        Property hasFirstFlightDate = model.createProperty("http://aircraft/hasFirstFlightDate");
+        Property hasModes = model.createProperty("http://aircraft/hasModes");
+        Property hasAdsb = model.createProperty("http://aircraft/hasAdsb");
+        Property hasAcars = model.createProperty("http://aircraft/hasAcars");
+        Property hasNotes = model.createProperty("http://aircraft/hasnotes");
+        Property hasCategoryDescription = model.createProperty("http://aircraft/hasCategoryDescription");
+        Property hasOperator = model.createProperty("http://aircraft/hasOperator");
+        Property hasOwner = model.createProperty("http://aircraft/hasOwner");
+        Property hasEngine = model.createProperty("http://aircraft/hasEngine");
+        Property hasLatestState = model.createProperty("http://aircraft/hasLatestState");
+
+
+
         Resource firstAircraft = model.createResource(AircraftURI)
                 .addProperty(hasIcao, icao)
-                .addProperty(model.createProperty("http://aircraft/hasregistration"), registration)
-                .addProperty(model.createProperty("http://aircraft/hasmanufacturer"), manufacturer.getIcao())
-                .addProperty(model.createProperty("http://aircraft/hasaircraftModel"), aircraftModel.getName())
-                .addProperty(model.createProperty("http://aircraft/hastypeCode"), typeCode)
-                .addProperty(model.createProperty("http://aircraft/hasserialNumber"), serialNumber)
-                .addProperty(model.createProperty("http://aircraft/hasicaoAircraftType"), icaoAircraftType.getTypeName())
-                .addProperty(model.createProperty("http://aircraft/hasregistered"), registered.toString())
-                .addProperty(model.createProperty("http://aircraft/hasregUntil"), regUntil.toString())
-                .addProperty(model.createProperty("http://aircraft/hasbuilt"), built.toString())
-                .addProperty(model.createProperty("http://aircraft/hasfirstFlightDate"), firstFlightDate.toString())
-                .addProperty(model.createProperty("http://aircraft/hasmodes"), String.valueOf(modes))
-                .addProperty(model.createProperty("http://aircraft/hasadsb"), String.valueOf(adsb))
-                .addProperty(model.createProperty("http://aircraft/hasacars"), String.valueOf(acars))
-                .addProperty(model.createProperty("http://aircraft/hasnotes"), notes)
-                .addProperty(model.createProperty("http://aircraft/hascategoryDescription"), categoryDescription)
-                .addProperty(model.createProperty("http://aircraft/hasoperator"), operator.getIcao())
-                .addProperty(model.createProperty("http://aircraft/hasowner"), owner.getName())
-                .addProperty(model.createProperty("http://aircraft/hasengine"), engine.getName());
+                .addProperty(hasRegistration, registration)
+                .addProperty(hasManufacturer, manufacturer.getIcao())
+                .addProperty(hasAircraftModel, aircraftModel.getName())
+                .addProperty(hasTypeCode, typeCode)
+                .addProperty(hasSerialNumber, serialNumber)
+                .addProperty(hasIcaoAircraftType, icaoAircraftType.getTypeName())
+                .addProperty(hasRegistered, registered.toString())
+                .addProperty(hasRegUntil, regUntil.toString())
+                .addProperty(hasBuilt, built.toString())
+                .addProperty(hasFirstFlightDate, firstFlightDate.toString())
+                .addProperty(hasModes, String.valueOf(modes))
+                .addProperty(hasAdsb, String.valueOf(adsb))
+                .addProperty(hasAcars, String.valueOf(acars))
+                .addProperty(hasNotes, notes)
+                .addProperty(hasCategoryDescription, categoryDescription)
+                .addProperty(hasOperator, operator.getIcao())
+                .addProperty(hasOwner, owner.getName())
+                .addProperty(hasEngine, engine.getName());
         //TODO deal with null
         if(states.size() == 0) {
-            firstAircraft.addProperty(model.createProperty("http://aircraft/haslateststate"), "null");
+            firstAircraft.addProperty(hasLatestState, "null");
         }
         else {
-            firstAircraft.addProperty(model.createProperty("http://aircraft/haslateststate"), states.get(states.size()-1).getIcao24());
+            firstAircraft.addProperty(hasLatestState, states.get(states.size()-1).getIcao24());
         }
+
+
+
+
         StmtIterator iter = model.listStatements();
 
         // print out the predicate, subject and object of each statement
