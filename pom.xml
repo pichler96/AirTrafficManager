@@ -26,13 +26,14 @@
             <artifactId>opencsv</artifactId>
             <version>5.7.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.jena/jena-fuseki -->
         <dependency>
-            <groupId>com.opencsv</groupId>
-            <artifactId>opencsv</artifactId>
-            <version>5.4</version>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-fuseki</artifactId>
+            <version>4.6.1</version>
+            <type>pom</type>
+            <scope>test</scope>
         </dependency>
-
-
     </dependencies>
 
 </project>

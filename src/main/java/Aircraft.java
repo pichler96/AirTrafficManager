@@ -8,10 +8,10 @@ public class Aircraft {
     private String icao;
     private String registration;
     private Manufacturer manufacturer;
-    private AircraftModel aircraftModel;
+    private String aircraftModel;
     private String typeCode;
     private String serialNumber;
-    private IcaoAircraftType icaoAircraftType;
+    private String icaoAircraftType;
     private LocalDate registered;
     private LocalDate regUntil;
     private LocalDate built;
@@ -22,8 +22,8 @@ public class Aircraft {
     private String notes;
     private String categoryDescription;
     private Operator operator;
-    private Owner owner;
-    private Engine engine;
+    private String owner;
+    private String engine;
     List<StateVector> states;
 
     public Aircraft() {
@@ -61,11 +61,11 @@ public class Aircraft {
         this.manufacturer = manufacturer;
     }
 
-    public AircraftModel getModel() {
+    public String getModel() {
         return aircraftModel;
     }
 
-    public void setModel(AircraftModel aircraftModel) {
+    public void setModel(String aircraftModel) {
         this.aircraftModel = aircraftModel;
     }
 
@@ -85,11 +85,11 @@ public class Aircraft {
         this.serialNumber = serialNumber;
     }
 
-    public IcaoAircraftType getAircraftType() {
+    public String getAircraftType() {
         return icaoAircraftType;
     }
 
-    public void setAircraftType(IcaoAircraftType icaoAircraftType) {
+    public void setAircraftType(String icaoAircraftType) {
         this.icaoAircraftType = icaoAircraftType;
     }
 
@@ -173,19 +173,19 @@ public class Aircraft {
         this.operator = operator;
     }
 
-    public Owner getOwner() {
+    public String getOwner() {
         return owner;
     }
 
-    public void setOwner(Owner owner) {
+    public void setOwner(String owner) {
         this.owner = owner;
     }
 
-    public Engine getEngine() {
+    public String getEngine() {
         return engine;
     }
 
-    public void setEngine(Engine engine) {
+    public void setEngine(String engine) {
         this.engine = engine;
     }
 

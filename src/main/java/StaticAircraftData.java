@@ -61,7 +61,7 @@ public class StaticAircraftData {
                             aircraft.setManufacturer(new Manufacturer(manufacturerIcao, manufacturerName));
                             break;
                         case 5:
-                            aircraft.setModel(new AircraftModel(aircraftDetails.get(i)));
+                            aircraft.setModel(aircraftDetails.get(i));
                             break;
                         case 6:
                             aircraft.setTypeCode(aircraftDetails.get(i));
@@ -73,7 +73,7 @@ public class StaticAircraftData {
                             //TODO linenumber?
                             break;
                         case 9:
-                            aircraft.setAircraftType(new IcaoAircraftType(aircraftDetails.get(i)));
+                            aircraft.setAircraftType(aircraftDetails.get(i));
                             break;
                         case 10:
                             operatorName = aircraftDetails.get(i);
@@ -91,7 +91,7 @@ public class StaticAircraftData {
                             aircraft.setOperator(new Operator(operatorName, operatorCallSign, operatorIcao, operatorIata, listOfOperatorAircrafts));
                             break;
                         case 14:
-                            aircraft.setOwner(new Owner(aircraftDetails.get(i)));
+                            aircraft.setOwner(aircraftDetails.get(i));
                             break;
                         case 15:
                             //TODO testreg?
@@ -131,7 +131,7 @@ public class StaticAircraftData {
                             //TODO seatconfiguration?
                             break;
                         case 22:
-                            aircraft.setEngine(new Engine(aircraftDetails.get(i)));
+                            aircraft.setEngine(aircraftDetails.get(i));
                             break;
                         case 23:
                             aircraft.setModes(Boolean.parseBoolean(aircraftDetails.get(i)));

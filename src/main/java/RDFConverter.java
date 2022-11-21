@@ -1,4 +1,6 @@
 import org.apache.jena.rdf.model.*;
+import org.apache.jena.rdfconnection.RDFConnectionFuseki;
+import org.apache.jena.shacl.validation.ShaclPlainValidator;
 import org.apache.jena.shacl.vocabulary.SHACL;
 import org.apache.jena.vocabulary.RDF;
 import org.opensky.model.StateVector;
@@ -12,10 +14,10 @@ public class RDFConverter {
         String icao = "3c5eec";
         String registration = "D-AGWL";
         Manufacturer manufacturer = new Manufacturer("AIRBUS", "Airbus");
-        AircraftModel aircraftModel = new AircraftModel("A319132");
+        String aircraftModel = "A319132";
         String typeCode = "A319";
         String serialNumber = "3534";
-        IcaoAircraftType icaoAircraftType = new IcaoAircraftType("L2J");
+        String icaoAircraftType = "L2J";
         LocalDate registered = LocalDate.now();
         LocalDate regUntil = LocalDate.now();
         LocalDate built = LocalDate.now();
@@ -26,8 +28,8 @@ public class RDFConverter {
         String notes = "null";
         String categoryDescription = "Large (75000 to 300000)";
         Operator operator = new Operator(null, "GERMANWINGS", "GWI", null,null);
-        Owner owner = new Owner("Germanwings");
-        Engine engine = new Engine("test");
+        String owner = "Germanwings";
+        String engine = "test";
         List<StateVector> states = new ArrayList<>();
         // create an empty Model
         Model model = ModelFactory.createDefaultModel();
@@ -38,8 +40,11 @@ public class RDFConverter {
 
 
 
+
         //create class URI resource
         //Resource Aircraft = ResourceFactory.createResource("URI");
+
+
 
         //model.add()
         //RDF.type
@@ -48,7 +53,6 @@ public class RDFConverter {
         //Validation through SHACL with method call
 
         //load static and dynamic data into seperate named graphs
-
 
 
         // create the resource
@@ -81,10 +85,10 @@ public class RDFConverter {
                 .addProperty(hasIcao, icao)
                 .addProperty(hasRegistration, registration)
                 .addProperty(hasManufacturer, manufacturer.getIcao())
-                .addProperty(hasAircraftModel, aircraftModel.getName())
+                .addProperty(hasAircraftModel, aircraftModel)
                 .addProperty(hasTypeCode, typeCode)
                 .addProperty(hasSerialNumber, serialNumber)
-                .addProperty(hasIcaoAircraftType, icaoAircraftType.getTypeName())
+                .addProperty(hasIcaoAircraftType, icaoAircraftType)
                 .addProperty(hasRegistered, registered.toString())
                 .addProperty(hasRegUntil, regUntil.toString())
                 .addProperty(hasBuilt, built.toString())
@@ -95,8 +99,10 @@ public class RDFConverter {
                 .addProperty(hasNotes, notes)
                 .addProperty(hasCategoryDescription, categoryDescription)
                 .addProperty(hasOperator, operator.getIcao())
-                .addProperty(hasOwner, owner.getName())
-                .addProperty(hasEngine, engine.getName());
+                .addProperty(hasOwner, owner)
+                .addProperty(hasEngine, engine);
+
+        model.add(firstAircraft, RDF.type, "Aircraft");
         //TODO deal with null
         if(states.size() == 0) {
             firstAircraft.addProperty(hasLatestState, "null");
