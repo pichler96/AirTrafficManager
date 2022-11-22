@@ -1,3 +1,6 @@
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Resource;
 import org.opensky.api.OpenSkyApi;
 import org.opensky.model.OpenSkyStates;
 import org.opensky.model.StateVector;
@@ -11,19 +14,9 @@ import java.util.stream.Collectors;
 public class DynamicAircraftData {
     private static final String OPENSKYUSERNAME = "jku1234";
     private static final String OPENSKYPASSWORD = "jku1234";
-    private static final OpenSkyApi API = new OpenSkyApi(OPENSKYUSERNAME, OPENSKYPASSWORD);
+    private static final OpenSkyApi API = new OpenSkyApi();
     private static final OpenSkyApi.BoundingBox AUSTRIA = new OpenSkyApi.BoundingBox(46.4318173285, 49.0390742051, 9.47996951665, 16.9796667823);
 
-    static void startUpdateServiceDynamicAircraftData(List<Aircraft> aircraftList) {
-        while (true) {
-            loadDynamicAircraftData(aircraftList);
-            try {
-                Thread.sleep(15000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     static void loadDynamicAircraftData(List<Aircraft> aircraftList) {
         try {
@@ -38,6 +31,7 @@ public class DynamicAircraftData {
         OpenSkyStates os = API.getStates(0, null, AUSTRIA);
         return new ArrayList<>(os.getStates());
     }
+
 
     private static void setDataAircrafts(List<StateVector> stateVectorList) {
         for (Aircraft aircraft : Main.aircrafts) {

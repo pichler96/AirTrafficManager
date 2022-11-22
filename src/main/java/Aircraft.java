@@ -181,6 +181,22 @@ public class Aircraft {
         this.owner = owner;
     }
 
+    public String getAircraftModel() {
+        return aircraftModel;
+    }
+
+    public void setAircraftModel(String aircraftModel) {
+        this.aircraftModel = aircraftModel;
+    }
+
+    public String getIcaoAircraftType() {
+        return icaoAircraftType;
+    }
+
+    public void setIcaoAircraftType(String icaoAircraftType) {
+        this.icaoAircraftType = icaoAircraftType;
+    }
+
     public String getEngine() {
         return engine;
     }

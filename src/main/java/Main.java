@@ -1,4 +1,6 @@
 
+import org.apache.jena.vocabulary.RDF;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,7 @@ public class Main {
         aircrafts = StaticAircraftData.loadStaticAircraftData();
         System.out.println(aircrafts.toString());
         DynamicAircraftData.loadDynamicAircraftData(aircrafts);
-        RDFConverter.convertToRDF(aircrafts);
+        RDFConverter.convertDynamicData(aircrafts);
+        RDFConverter.convertStaticData(aircrafts);
     }
 }

@@ -4,35 +4,24 @@ import org.apache.jena.shacl.validation.ShaclPlainValidator;
 import org.apache.jena.shacl.vocabulary.SHACL;
 import org.apache.jena.vocabulary.RDF;
 import org.opensky.model.StateVector;
+
+import javax.swing.plaf.nimbus.State;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class RDFConverter {
+
+
+
+
+
+
     static void convertToRDF(List<Aircraft> aircrafts) {
-        String AircraftURI    = "http://aircraft/firstAircraft";
-        String icao = "3c5eec";
-        String registration = "D-AGWL";
-        Manufacturer manufacturer = new Manufacturer("AIRBUS", "Airbus");
-        String aircraftModel = "A319132";
-        String typeCode = "A319";
-        String serialNumber = "3534";
-        String icaoAircraftType = "L2J";
-        LocalDate registered = LocalDate.now();
-        LocalDate regUntil = LocalDate.now();
-        LocalDate built = LocalDate.now();
-        LocalDate firstFlightDate = LocalDate.now();
-        boolean modes = false;
-        boolean adsb = false;
-        boolean acars = false;
-        String notes = "null";
-        String categoryDescription = "Large (75000 to 300000)";
-        Operator operator = new Operator(null, "GERMANWINGS", "GWI", null,null);
-        String owner = "Germanwings";
-        String engine = "test";
-        List<StateVector> states = new ArrayList<>();
+
         // create an empty Model
-        Model model = ModelFactory.createDefaultModel();
+
         //TODO add properties to model instead of resource
         //TODO load model into fuseki
 
@@ -58,6 +47,44 @@ public class RDFConverter {
         // create the resource
         //TODO deal with null
         //TODO generate properties first, use later
+
+
+
+
+
+
+
+
+
+
+        /*
+        StmtIterator iter = model.listStatements();
+
+        // print out the predicate, subject and object of each statement
+        while (iter.hasNext()) {
+            Statement stmt      = iter.nextStatement();  // get next statement
+            Resource  subject   = stmt.getSubject();     // get the subject
+            Property  predicate = stmt.getPredicate();   // get the predicate
+            RDFNode   object    = stmt.getObject();      // get the object
+
+            System.out.print(subject.toString());
+            System.out.print(" " + predicate.toString() + " ");
+            if (object instanceof Resource) {
+                System.out.print(object.toString());
+            } else {
+                // object is a literal
+                System.out.print(" \"" + object.toString() + "\"");
+            }
+            System.out.println(" .");
+        }
+        */
+    }
+
+    static Model convertStaticData(List<Aircraft> aircrafts){
+
+
+        Model model = ModelFactory.createDefaultModel();
+
         Property hasIcao = model.createProperty("http://aircraft/hasIcao");
         Property hasRegistration = model.createProperty("http://aircraft/hasRegistration");
         Property hasManufacturer = model.createProperty("http://aircraft/hasManufacturer");
@@ -79,60 +106,96 @@ public class RDFConverter {
         Property hasEngine = model.createProperty("http://aircraft/hasEngine");
         Property hasLatestState = model.createProperty("http://aircraft/hasLatestState");
 
+        for (Aircraft aircraft : aircrafts) {
 
+            String aircraftUri = "http://aircraft/aircraft#";
 
-        Resource firstAircraft = model.createResource(AircraftURI)
-                .addProperty(hasIcao, icao)
-                .addProperty(hasRegistration, registration)
-                .addProperty(hasManufacturer, manufacturer.getIcao())
-                .addProperty(hasAircraftModel, aircraftModel)
-                .addProperty(hasTypeCode, typeCode)
-                .addProperty(hasSerialNumber, serialNumber)
-                .addProperty(hasIcaoAircraftType, icaoAircraftType)
-                .addProperty(hasRegistered, registered.toString())
-                .addProperty(hasRegUntil, regUntil.toString())
-                .addProperty(hasBuilt, built.toString())
-                .addProperty(hasFirstFlightDate, firstFlightDate.toString())
-                .addProperty(hasModes, String.valueOf(modes))
-                .addProperty(hasAdsb, String.valueOf(adsb))
-                .addProperty(hasAcars, String.valueOf(acars))
-                .addProperty(hasNotes, notes)
-                .addProperty(hasCategoryDescription, categoryDescription)
-                .addProperty(hasOperator, operator.getIcao())
-                .addProperty(hasOwner, owner)
-                .addProperty(hasEngine, engine);
+            Resource AircraftData = model.createResource(aircraftUri+aircraft.getIcao())
+                    .addProperty(hasIcao, aircraft.getIcao())
+                    .addProperty(hasRegistration, aircraft.getRegistration())
+                    .addProperty(hasManufacturer, aircraft.getManufacturer().getIcao())
+                    .addProperty(hasAircraftModel, aircraft.getAircraftType())
+                    .addProperty(hasTypeCode, aircraft.getTypeCode())
+                    .addProperty(hasSerialNumber, aircraft.getSerialNumber())
+                    .addProperty(hasIcaoAircraftType, aircraft.getIcaoAircraftType())
+                    .addProperty(hasRegistered, aircraft.getRegistered().toString())
+                    .addProperty(hasRegUntil, aircraft.getRegUntil().toString())
+                    .addProperty(hasBuilt, aircraft.getBuilt().toString())
+                    .addProperty(hasFirstFlightDate, aircraft.getFirstFlightDate().toString())
+                    .addProperty(hasModes, String.valueOf(aircraft.isModes()))
+                    .addProperty(hasAdsb, String.valueOf(aircraft.isAdsb()))
+                    .addProperty(hasAcars, String.valueOf(aircraft.isAcars()))
+                    .addProperty(hasNotes, aircraft.getNotes())
+                    .addProperty(hasCategoryDescription, aircraft.getCategoryDescription())
+                    .addProperty(hasOperator, aircraft.getOperator().getIcao())
+                    .addProperty(hasOwner, aircraft.getOwner())
+                    .addProperty(hasEngine, aircraft.getEngine());
 
-        model.add(firstAircraft, RDF.type, "Aircraft");
-        //TODO deal with null
-        if(states.size() == 0) {
-            firstAircraft.addProperty(hasLatestState, "null");
-        }
-        else {
-            firstAircraft.addProperty(hasLatestState, states.get(states.size()-1).getIcao24());
-        }
-
-
-
-
-        StmtIterator iter = model.listStatements();
-
-        // print out the predicate, subject and object of each statement
-        while (iter.hasNext()) {
-            Statement stmt      = iter.nextStatement();  // get next statement
-            Resource  subject   = stmt.getSubject();     // get the subject
-            Property  predicate = stmt.getPredicate();   // get the predicate
-            RDFNode   object    = stmt.getObject();      // get the object
-
-            System.out.print(subject.toString());
-            System.out.print(" " + predicate.toString() + " ");
-            if (object instanceof Resource) {
-                System.out.print(object.toString());
-            } else {
-                // object is a literal
-                System.out.print(" \"" + object.toString() + "\"");
+            model.add(AircraftData, RDF.type, "Aircraft");
+            //TODO deal with null
+            if(aircraft.getStates().size() == 0) {
+                AircraftData.addProperty(hasLatestState, "null");
             }
-            System.out.println(" .");
+            else {
+                AircraftData.addProperty(hasLatestState, aircraft.getStates().get(aircraft.getStates().size()-1).getIcao24());
+            }
         }
+
+
+        return model;
     }
+
+    static Model convertDynamicData(List<Aircraft> aircrafts){
+
+        String flightURI = "http://aircraft/flight#";
+
+        Model model = ModelFactory.createDefaultModel();
+
+        Property hasBaroAltitude = model.createProperty("http://aircraft/hasBaroAltitude");
+        Property hasGeoAltitude = model.createProperty("http://aircraft/hasGeoAltitude");
+        Property hasVelocity = model.createProperty("http://aircraft/hasVelocity");
+        Property hasLastContact = model.createProperty("http://aircraft/hasLastContact");
+        Property hasLastPositionUpdate = model.createProperty("http://aircraft/hasLastPositionUpdate");
+        Property hasOnGround = model.createProperty("http://aircraft/hasOnGround");
+        Property hasOriginCountry = model.createProperty("http://aircraft/hasOriginCountry");
+        Property hasLatitude = model.createProperty("http://aircraft/hasLatitude");
+        Property hasLongitude = model.createProperty("http://aircraft/hasLongitude");
+        Property hasHeading = model.createProperty("http://aircraft/hasHeading");
+        Property hasVerticalRate = model.createProperty("http://aircraft/hasVerticalRate");
+        Property hasIcao24 = model.createProperty("http://aircraft/hasIcao24");
+        Property hasCallsign = model.createProperty("http://aircraft/hasCallsign");
+        Property hasSquawk = model.createProperty("http://aircraft/hasSquawk");
+        Property hasSpi = model.createProperty("http://aircraft/hasSpi");
+        Property hasPositionSource = model.createProperty("http://aircraft/hasPositionSource");
+        Property hasSerials = model.createProperty("http://aircraft/hasSerials");
+
+        for (Aircraft aircraft : aircrafts) {
+
+            StateVector state = aircraft.getStates().get(aircrafts.size()-1);
+
+            Resource flight = model.createResource(flightURI+state.getIcao24())
+                    .addProperty(hasBaroAltitude,String.valueOf(state.getBaroAltitude()))
+                    .addProperty(hasGeoAltitude,String.valueOf(state.getGeoAltitude()))
+                    .addProperty(hasVelocity,String.valueOf(state.getVelocity()))
+                    .addProperty(hasLastContact,String.valueOf(state.getLastContact()))
+                    .addProperty(hasLastPositionUpdate,String.valueOf(state.getLastPositionUpdate()))
+                    .addProperty(hasOnGround,String.valueOf(state.isOnGround()))
+                    .addProperty(hasOriginCountry,String.valueOf(state.getOriginCountry()))
+                    .addProperty(hasLatitude,String.valueOf(state.getLatitude()))
+                    .addProperty(hasLongitude,String.valueOf(state.getLongitude()))
+                    .addProperty(hasHeading,String.valueOf(state.getHeading()))
+                    .addProperty(hasVerticalRate,String.valueOf(state.getVerticalRate()))
+                    .addProperty(hasIcao24,String.valueOf(state.getIcao24()))
+                    .addProperty(hasCallsign,String.valueOf(state.getCallsign()))
+                    .addProperty(hasSquawk,String.valueOf(state.getSquawk()))
+                    .addProperty(hasSpi,String.valueOf(state.isSpi()))
+                    .addProperty(hasPositionSource,String.valueOf(state.getPositionSource()))
+                    .addProperty(hasSerials,String.valueOf(state.getSerials()));
+        }
+
+
+        return model;
+    }
+
 }
 
