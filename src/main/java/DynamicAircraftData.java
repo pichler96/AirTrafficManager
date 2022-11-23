@@ -30,7 +30,9 @@ public class DynamicAircraftData {
             List<StateVector> states = loadStateVector();
             setDataAircrafts(states);
         } catch (IOException e) {
+            System.out.println("Could not load dynamic productive data. Loading dummy test data...");
             loadDummyAircraftData();
+            System.out.println("Test data successfully loaded.");
         } catch (NullPointerException ignored) {}
     }
 
@@ -46,7 +48,7 @@ public class DynamicAircraftData {
         }
     }
 
-    private static void loadDummyAircraftData() {
+    static void loadDummyAircraftData() {
         for (Aircraft aircraft : Main.aircrafts) {
             StateVector vector = new StateVector(aircraft.getIcao());
             vector.setBaroAltitude(3244.34);
