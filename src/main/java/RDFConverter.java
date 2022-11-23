@@ -1,9 +1,7 @@
 import org.apache.jena.rdf.model.*;
-import org.apache.jena.rdfconnection.RDFConnectionFuseki;
-import org.apache.jena.shacl.validation.ShaclPlainValidator;
-import org.apache.jena.shacl.vocabulary.SHACL;
 import org.apache.jena.vocabulary.RDF;
 import org.opensky.model.StateVector;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
