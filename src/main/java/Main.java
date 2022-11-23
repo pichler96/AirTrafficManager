@@ -62,7 +62,8 @@ public class Main {
     }
 
     private static void convertDataIntoGraph(/*List<Aircraft> aircrafts*/) {
-        RDFConverter.convertToRDF(aircrafts);
+        RDFConverter.convertStaticData(aircrafts);
+        RDFConverter.convertDynamicData(aircrafts);
         //TODO load data into named graph and return?
     }
 
