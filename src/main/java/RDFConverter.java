@@ -5,61 +5,31 @@ import org.opensky.model.StateVector;
 import java.util.List;
 
 public class RDFConverter {
-
-
-
-
-
-
     static void convertToRDF(List<Aircraft> aircrafts) {
 
         // create an empty Model
-
         //TODO add properties to model instead of resource
         //TODO load model into fuseki
 
         //FusekiRemoteConnection(); zum laden des aktuellen States in einen named Graph
-
-
-
-
         //create class URI resource
         //Resource Aircraft = ResourceFactory.createResource("URI");
-
-
-
         //model.add()
         //RDF.type
         //model.add(firstAircraft, RDF.type, Aircraft);
-
         //Validation through SHACL with method call
-
         //load static and dynamic data into seperate named graphs
-
-
         // create the resource
         //TODO deal with null
         //TODO generate properties first, use later
-
-
-
-
-
-
-
-
-
-
         /*
         StmtIterator iter = model.listStatements();
-
         // print out the predicate, subject and object of each statement
         while (iter.hasNext()) {
             Statement stmt      = iter.nextStatement();  // get next statement
             Resource  subject   = stmt.getSubject();     // get the subject
             Property  predicate = stmt.getPredicate();   // get the predicate
             RDFNode   object    = stmt.getObject();      // get the object
-
             System.out.print(subject.toString());
             System.out.print(" " + predicate.toString() + " ");
             if (object instanceof Resource) {
@@ -74,10 +44,7 @@ public class RDFConverter {
     }
 
     static Model convertStaticData(List<Aircraft> aircrafts){
-
-
         Model model = ModelFactory.createDefaultModel();
-
         Property hasIcao = model.createProperty("http://aircraft/hasIcao");
         Property hasRegistration = model.createProperty("http://aircraft/hasRegistration");
         Property hasManufacturer = model.createProperty("http://aircraft/hasManufacturer");
@@ -100,15 +67,13 @@ public class RDFConverter {
         Property hasLatestState = model.createProperty("http://aircraft/hasLatestState");
 
         for (Aircraft aircraft : aircrafts) {
-
             String aircraftUri = "http://aircraft/aircraft#";
-
             Resource AircraftData = model.createResource(aircraftUri+aircraft.getIcao())
                     .addProperty(hasIcao, aircraft.getIcao())
                     .addProperty(hasRegistration, aircraft.getRegistration())
                     .addProperty(hasManufacturer, aircraft.getManufacturer().getManufacturerIcao())
                     .addProperty(hasAircraftModel, aircraft.getAircraftType())
-                    .addProperty(hasTypeCode, aircraft.getTypeCode())
+                    .addProperty(hasTypeCode, aircraft.getTypeCode() != null ? aircraft.getTypeCode() : "null")
                     .addProperty(hasSerialNumber, aircraft.getSerialNumber())
                     .addProperty(hasIcaoAircraftType, aircraft.getIcaoAircraftType())
                     .addProperty(hasRegistered, aircraft.getRegistered().toString())
@@ -123,25 +88,13 @@ public class RDFConverter {
                     .addProperty(hasOperator, aircraft.getOperator().getIcao())
                     .addProperty(hasOwner, aircraft.getOwner())
                     .addProperty(hasEngine, aircraft.getEngine());
-
             model.add(AircraftData, RDF.type, "Aircraft");
-            //TODO deal with null
-            if(aircraft.getStates().size() == 0) {
-                AircraftData.addProperty(hasLatestState, "null");
-            }
-            else {
-                AircraftData.addProperty(hasLatestState, aircraft.getStates().get(aircraft.getStates().size()-1).getIcao24());
-            }
         }
-
-
         return model;
     }
 
     static Model convertDynamicData(List<Aircraft> aircrafts){
-
         String flightURI = "http://aircraft/flight#";
-
         Model model = ModelFactory.createDefaultModel();
 
         Property hasBaroAltitude = model.createProperty("http://aircraft/hasBaroAltitude");
@@ -163,8 +116,8 @@ public class RDFConverter {
         Property hasSerials = model.createProperty("http://aircraft/hasSerials");
 
         for (Aircraft aircraft : aircrafts) {
-
-            StateVector state = aircraft.getStates().get(aircrafts.size()-1);
+            if(aircraft.states.isEmpty()) break;
+            StateVector state = aircraft.getStates().get(aircrafts.size() -1);
 
             Resource flight = model.createResource(flightURI+state.getIcao24())
                     .addProperty(hasBaroAltitude,String.valueOf(state.getBaroAltitude()))
@@ -185,8 +138,6 @@ public class RDFConverter {
                     .addProperty(hasPositionSource,String.valueOf(state.getPositionSource()))
                     .addProperty(hasSerials,String.valueOf(state.getSerials()));
         }
-
-
         return model;
     }
 
