@@ -100,14 +100,14 @@ public class StaticAircraftData {
                             if (aircraftDetails.get(i).equals("") || aircraftDetails.get(i) == null) {
                                 aircraft.setRegistered(null);
                             } else {
-                                aircraft.setRegistered(LocalDate.parse(aircraftDetails.get(i), formatter));
+                                aircraft.setRegistered(aircraftDetails.get(i));
                             }
                             break;
                         case 17:
                             if (aircraftDetails.get(i).equals("") || aircraftDetails.get(i) == null) {
                                 aircraft.setRegistered(null);
                             } else {
-                                aircraft.setRegUntil(LocalDate.parse(aircraftDetails.get(i), formatter));
+                                aircraft.setRegUntil(aircraftDetails.get(i));
                             }
                             break;
                         case 18:
@@ -117,14 +117,14 @@ public class StaticAircraftData {
                             if (aircraftDetails.get(i).equals("") || aircraftDetails.get(i) == null) {
                                 aircraft.setRegistered(null);
                             } else {
-                                aircraft.setBuilt(LocalDate.parse(aircraftDetails.get(i), formatter));
+                                aircraft.setBuilt(aircraftDetails.get(i));
                             }
                             break;
                         case 20:
                             if (aircraftDetails.get(i).equals("") || aircraftDetails.get(i) == null) {
                                 aircraft.setRegistered(null);
                             } else {
-                                aircraft.setFirstFlightDate(LocalDate.parse(aircraftDetails.get(i)));
+                                aircraft.setFirstFlightDate(aircraftDetails.get(i));
                             }
                             break;
                         case 21:

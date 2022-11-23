@@ -1,6 +1,4 @@
 import org.opensky.model.StateVector;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +10,10 @@ public class Aircraft {
     private String typeCode;
     private String serialNumber;
     private String icaoAircraftType;
-    private LocalDate registered;
-    private LocalDate regUntil;
-    private LocalDate built;
-    private LocalDate firstFlightDate;
+    private String registered;
+    private String regUntil;
+    private String built;
+    private String firstFlightDate;
     private boolean modes;
     private boolean adsb;
     private boolean acars;
@@ -27,7 +25,7 @@ public class Aircraft {
     List<StateVector> states;
 
     public Aircraft() {
-
+        this.states = new ArrayList<>();
     }
 
     public Aircraft(String icao) {
@@ -93,35 +91,35 @@ public class Aircraft {
         this.icaoAircraftType = icaoAircraftType;
     }
 
-    public LocalDate getRegistered() {
+    public String getRegistered() {
         return registered;
     }
 
-    public void setRegistered(LocalDate registered) {
+    public void setRegistered(String registered) {
         this.registered = registered;
     }
 
-    public LocalDate getRegUntil() {
+    public String getRegUntil() {
         return regUntil;
     }
 
-    public void setRegUntil(LocalDate regUntil) {
+    public void setRegUntil(String regUntil) {
         this.regUntil = regUntil;
     }
 
-    public LocalDate getBuilt() {
+    public String getBuilt() {
         return built;
     }
 
-    public void setBuilt(LocalDate built) {
+    public void setBuilt(String built) {
         this.built = built;
     }
 
-    public LocalDate getFirstFlightDate() {
+    public String getFirstFlightDate() {
         return firstFlightDate;
     }
 
-    public void setFirstFlightDate(LocalDate firstFlightDate) {
+    public void setFirstFlightDate(String firstFlightDate) {
         this.firstFlightDate = firstFlightDate;
     }
 
@@ -198,27 +196,6 @@ public class Aircraft {
     }
 
     public String toString() {
-        /*
-        private String registration;
-        private Manufacturer manufacturer;
-        private AircraftModel aircraftModel;
-        private String typeCode;
-        private String serialNumber;
-        private IcaoAircraftType icaoAircraftType;
-        private LocalDate registered;
-        private LocalDate regUntil;
-        private LocalDate built;
-        private LocalDate firstFlightDate;
-        private boolean modes;
-        private boolean adsb;
-        private boolean acars;
-        private String notes;
-        private String categoryDescription;
-        private Operator operator;
-        private Owner owner;
-        private Engine engine;
-        List<StateVector> states;*/
-
         StringBuilder sb = new StringBuilder();
         sb.append("\nicao: \t" + this.icao + "\n");
         sb.append("registration: \t" + this.registration + "\n");

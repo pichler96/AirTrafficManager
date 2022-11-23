@@ -43,7 +43,7 @@ public class RDFConverter {
         */
     }
 
-    static Model convertStaticData(List<Aircraft> aircrafts){
+    static Model convertStaticData(List<Aircraft> aircrafts) {
         Model model = ModelFactory.createDefaultModel();
         Property hasIcao = model.createProperty("http://aircraft/hasIcao");
         Property hasRegistration = model.createProperty("http://aircraft/hasRegistration");
@@ -69,11 +69,12 @@ public class RDFConverter {
         for (Aircraft aircraft : aircrafts) {
             String aircraftUri = "http://aircraft/aircraft#";
             Resource AircraftData = model.createResource(aircraftUri+aircraft.getIcao())
-                    .addProperty(hasIcao, aircraft.getIcao())
-                    .addProperty(hasRegistration, aircraft.getRegistration())
-                    .addProperty(hasManufacturer, aircraft.getManufacturer().getManufacturerIcao())
-                    .addProperty(hasAircraftModel, aircraft.getAircraftType())
-                    .addProperty(hasTypeCode, aircraft.getTypeCode() != null ? aircraft.getTypeCode() : "null")
+
+                    .addProperty(hasIcao, returnNull(aircraft.getIcao()))
+                    .addProperty(hasRegistration, returnNull(aircraft.getRegistration()))
+                    .addProperty(hasManufacturer, returnNull(aircraft.getManufacturer().getManufacturerIcao())
+                    .addProperty(hasAircraftModel, returnNull(aircraft.getAircraftType()))
+                    .addProperty(hasTypeCode, returnNull(aircraft.getTypeCode()))
                     .addProperty(hasSerialNumber, aircraft.getSerialNumber())
                     .addProperty(hasIcaoAircraftType, aircraft.getIcaoAircraftType())
                     .addProperty(hasRegistered, aircraft.getRegistered().toString())
@@ -141,5 +142,9 @@ public class RDFConverter {
         return model;
     }
 
+    static String returnNull(String object) {
+        if(object != null) return object;
+        return "null";
+    }
 }
 
