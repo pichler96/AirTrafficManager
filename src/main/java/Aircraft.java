@@ -14,9 +14,9 @@ public class Aircraft {
     private String regUntil;
     private String built;
     private String firstFlightDate;
-    private boolean modes;
-    private boolean adsb;
-    private boolean acars;
+    private String modes;
+    private String adsb;
+    private String acars;
     private String notes;
     private String categoryDescription;
     private Operator operator;
@@ -83,7 +83,7 @@ public class Aircraft {
         this.serialNumber = serialNumber;
     }
 
-    public String getAircraftType() {
+    public String getIcaoAircraftType() {
         return icaoAircraftType;
     }
 
@@ -123,27 +123,27 @@ public class Aircraft {
         this.firstFlightDate = firstFlightDate;
     }
 
-    public boolean isModes() {
+    public String isModes() {
         return modes;
     }
 
-    public void setModes(boolean modes) {
+    public void setModes(String modes) {
         this.modes = modes;
     }
 
-    public boolean isAdsb() {
+    public String isAdsb() {
         return adsb;
     }
 
-    public void setAdsb(boolean adsb) {
+    public void setAdsb(String adsb) {
         this.adsb = adsb;
     }
 
-    public boolean isAcars() {
+    public String isAcars() {
         return acars;
     }
 
-    public void setAcars(boolean acars) {
+    public void setAcars(String acars) {
         this.acars = acars;
     }
 

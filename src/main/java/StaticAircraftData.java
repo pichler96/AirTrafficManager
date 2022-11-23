@@ -134,13 +134,13 @@ public class StaticAircraftData {
                             aircraft.setEngine(aircraftDetails.get(i));
                             break;
                         case 23:
-                            aircraft.setModes(Boolean.parseBoolean(aircraftDetails.get(i)));
+                            aircraft.setModes((aircraftDetails.get(i)));
                             break;
                         case 24:
-                            aircraft.setAdsb(Boolean.parseBoolean(aircraftDetails.get(i)));
+                            aircraft.setAdsb((aircraftDetails.get(i)));
                             break;
                         case 25:
-                            aircraft.setAcars(Boolean.parseBoolean(aircraftDetails.get(i)));
+                            aircraft.setAcars(aircraftDetails.get(i));
                             break;
                         case 26:
                             aircraft.setNotes(aircraftDetails.get(i));
