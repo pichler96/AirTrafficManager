@@ -1,15 +1,8 @@
 import org.apache.jena.rdf.model.*;
-import org.apache.jena.rdfconnection.RDFConnectionFuseki;
-import org.apache.jena.shacl.validation.ShaclPlainValidator;
-import org.apache.jena.shacl.vocabulary.SHACL;
 import org.apache.jena.vocabulary.RDF;
 import org.opensky.model.StateVector;
 
-import javax.swing.plaf.nimbus.State;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class RDFConverter {
 
@@ -113,7 +106,7 @@ public class RDFConverter {
             Resource AircraftData = model.createResource(aircraftUri+aircraft.getIcao())
                     .addProperty(hasIcao, aircraft.getIcao())
                     .addProperty(hasRegistration, aircraft.getRegistration())
-                    .addProperty(hasManufacturer, aircraft.getManufacturer().getIcao())
+                    .addProperty(hasManufacturer, aircraft.getManufacturer().getManufacturerIcao())
                     .addProperty(hasAircraftModel, aircraft.getAircraftType())
                     .addProperty(hasTypeCode, aircraft.getTypeCode())
                     .addProperty(hasSerialNumber, aircraft.getSerialNumber())

@@ -1,25 +1,25 @@
 public class Manufacturer {
-    private String icao;
-    private String name;
+    private String manufacturerIcao;
+    private String manufactorerName;
 
-    public Manufacturer(String icao, String name) {
-        this.icao = icao;
-        this.name = name;
+    public Manufacturer(String icao, String manufactorerName) {
+        this.manufacturerIcao = icao;
+        this.manufactorerName = manufactorerName;
     }
 
-    public String getIcao() {
-        return icao;
+    public String getManufacturerIcao() {
+        return manufacturerIcao;
     }
 
-    public void setIcao(String icao) {
-        this.icao = icao;
+    public void setManufacturerIcao(String manufacturerIcao) {
+        this.manufacturerIcao = manufacturerIcao;
     }
 
     @Override
     public String toString() {
         return "Manufacturer{" +
-                "icao='" + icao + '\'' +
-                ", name='" + name + '\'' +
+                "icao='" + manufacturerIcao + '\'' +
+                ", name='" + manufactorerName + '\'' +
                 '}';
     }
 }
