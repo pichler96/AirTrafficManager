@@ -35,7 +35,7 @@ public class StaticAircraftData {
             //CSVReaderBuilder csvReader = new CSVReaderBuilder(reader).withCSVParser(new CSVParserBuilder().withSeparator(';').build());
 
             //Test case with 10 data sets
-            CSVReader reader = new CSVReaderBuilder(new FileReader("aircraftDatabase-filtered.csv")).withCSVParser(new CSVParserBuilder().withSeparator(';').build()).build();
+            CSVReader reader = new CSVReaderBuilder(new FileReader("aircraftDatabase-filtered-new.csv")).withCSVParser(new CSVParserBuilder().withSeparator(';').build()).build();
 
 
             reader.skip(1);

@@ -12,7 +12,7 @@ public class DynamicAircraftData {
     private static final String OPENSKYUSERNAME = "jku1234";
     private static final String OPENSKYPASSWORD = "jku1234";
     private static final OpenSkyApi API = new OpenSkyApi(OPENSKYUSERNAME, OPENSKYPASSWORD);
-    private static final OpenSkyApi.BoundingBox AUSTRIA = new OpenSkyApi.BoundingBox(46.4318173285, 49.0390742051, 9.47996951665, 16.9796667823);
+    private static final OpenSkyApi.BoundingBox AUSTRIA = new OpenSkyApi.BoundingBox(/*46.4318173285, 49.0390742051, 9.47996951665, 16.9796667823*/46.22,49.01,9.32,17.1);
 
     static void startUpdateServiceDynamicAircraftData(List<Aircraft> aircraftList) {
         while (true) {
@@ -42,10 +42,23 @@ public class DynamicAircraftData {
     }
 
     private static void setDataAircrafts(List<StateVector> stateVectorList) {
+        Boolean icaoFound = false;
         for (Aircraft aircraft : Main.aircrafts) {
-            Optional<StateVector> state = stateVectorList.stream().filter(s -> s.getIcao24().equals(aircraft.getIcao())).findFirst();
-            if (state.isPresent()) aircraft.states.add(state.get());
+            for (StateVector state : stateVectorList) {
+                if (aircraft.getIcao().equals(state.getIcao24())) {
+                    icaoFound = true;
+                    System.out.println(aircraft.getIcao());
+                    aircraft.states.add(state);
+                }
+            }
+            System.out.println(icaoFound);
+            icaoFound = false;
         }
+        /*
+        for (Aircraft aircraft : Main.aircrafts) {
+            Optional<StateVector> state = stateVectorList.stream().filter(s -> s.getIcao24().equals(aircraft.getIcao())).findAny()/*.findFirst()*//*;
+            if (state.isPresent()) aircraft.states.add(state.get());
+        }*/
     }
 
     static void loadDummyAircraftData() {
