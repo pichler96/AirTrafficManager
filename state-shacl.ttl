@@ -1,0 +1,105 @@
+@prefix sh:	<http://www.w3.org/ns/shacl#>.
+@prefix xsd:	<http://www.w3.org/2001/XMLSchema#>.
+@prefix ex: <http://www.w3.org/2022/example#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+ex:State
+	a sh:NodeShape;
+	
+	sh:property [
+		sh:path ex:geoAltitude;
+		sh:datatype xsd:double;
+		sh:name "GeoAltitude";
+	];
+	sh:property [
+		sh:path ex:longitude;
+		sh:datatype xsd:double;
+		sh:name "Longitude";
+		sh:maxCount 1;
+	];
+	sh:property [
+		sh:path ex:latitude;
+		sh:datatype xsd:double;
+		sh:name "Latitude";
+		sh:maxCount 1;
+	];
+	sh:property [
+		sh:path ex:velocity;
+		sh:datatype xsd:double;
+		sh:name "Velocity";
+		sh:maxCount 1;
+	];
+	sh:property [
+		sh:path ex:heading;
+		sh:datatype xsd:double;
+		sh:name "Heading";
+		sh:maxCount 1;
+	];
+	sh:property [
+		sh:path ex:verticalRate;
+		sh:datatype xsd:double;
+		sh:name "VerticalRate";
+		sh:maxCount 1;
+	];
+	sh:property [
+		sh:path ex:icao24;
+		sh:datatype xsd:string;
+		sh:name "Icao24";
+		sh:maxCount 1;
+	];
+	sh:property [
+		sh:path ex:callsign;
+		sh:datatype xsd:string;
+		sh:name "Callsign";
+		sh:maxCount 1;
+	];
+	sh:property [
+		sh:path ex:onGround;
+		sh:datatype xsd:boolean;
+		sh:name "OnGround";
+		sh:maxCount 1;
+	];
+	sh:property [
+		sh:path ex:lastContact;
+		sh:datatype xsd:double;
+		sh:name "lastContact";
+		sh:maxCount 1;
+	];
+	sh:property [
+		sh:path ex:lastPositionUpdate;
+		sh:datatype xsd:double;
+		sh:name "LastPositionUpdate";
+		sh:maxCount 1;
+	];
+	sh:property [
+		sh:path ex:originCountry;
+		sh:datatype xsd:string;
+		sh:name "OriginCountry";
+		sh:maxCount 1;
+	];
+	sh:property [
+		sh:path ex:squawk;
+		sh:datatype xsd:string;
+		sh:name "Squawk";
+		sh:maxCount 1;
+	];
+	sh:property [
+		sh:path ex:spi;
+		sh:datatype xsd:boolean;
+		sh:name "Spi";
+		sh:maxCount 1;
+	];
+	sh:property [
+		sh:path ex:baroAltitude;
+		sh:datatype xsd:double;
+		sh:name "BaroAltitude";
+		sh:maxCount 1;
+	];
+	
+	sh:property [
+		sh:path ex:positionSource;
+		sh:datatype xsd:string;
+		sh:name "PositionSource";
+		sh:maxCount 1;
+	].
+
