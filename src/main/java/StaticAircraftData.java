@@ -2,13 +2,8 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
-import org.apache.commons.csv.CSVParser;
-
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,12 +23,6 @@ public class StaticAircraftData {
 
     static List<Aircraft> loadStaticAircraftData() {
         try {
-            //andere Schreibweisen
-            //CSVReader reader = new CSVReader(new FileReader("aircraftDatabase-filtered.csv"));
-            //Reader reader = new BufferedReader(new FileReader("aircraftDatabase-filtered.csv"));
-            //CSVReader reader = new CSVReaderBuilder(new FileReader("aircraftDatabase-filtered.csv")).withCSVParser(new CSVParserBuilder().withSeparator(';').build()).build();
-            //CSVReaderBuilder csvReader = new CSVReaderBuilder(reader).withCSVParser(new CSVParserBuilder().withSeparator(';').build());
-
             //Test case with 10 data sets
             CSVReader reader = new CSVReaderBuilder(new FileReader("aircraftDatabase-filtered-new.csv")).withCSVParser(new CSVParserBuilder().withSeparator(';').build()).build();
 
@@ -41,8 +30,6 @@ public class StaticAircraftData {
             reader.skip(1);
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
-                //csv.readNext();
-               //Aircraft aircraft = new Aircraft("3c5eec");
                 Aircraft aircraft = new Aircraft();
                 ArrayList<String> aircraftDetails = new ArrayList<>(Arrays.asList(nextLine));
                 for (int i = 0; i < aircraftDetails.size(); i++) {

@@ -16,7 +16,7 @@ public class Main {
         System.out.println("Loading initial Aircraft states... \n");
 
         aircrafts = StaticAircraftData.loadStaticAircraftData();
-        loadProductiveData(/*aircrafts*/);
+        loadProductiveData();
 
         System.out.println("Initial Aircraft states loaded. \n");
         System.out.println("Would you like to work in productive mode or test mode to update your states?");
@@ -29,13 +29,12 @@ public class Main {
             userInput = in.nextLine();
             if (userInput.equals("1")) {
                 isProductiveModeFlag = true;
-                loadProductiveData(/*aircrafts*/);
-                convertDataIntoGraph(/*aircrafts*/);
+                loadProductiveData();
+                convertDataIntoGraph();
             } else if (userInput.equals("2")) {
                 isProductiveModeFlag = true;
                 DynamicAircraftData.loadDummyAircraftData();
-                convertDataIntoGraph(/*aircrafts*/);
-                //loadTestData(aircrafts);
+                convertDataIntoGraph();
             } else if (userInput.equals("3")) {
                 System.exit(0);
             } else {
@@ -61,22 +60,13 @@ public class Main {
         } while (!userInput.equalsIgnoreCase("exit"));
     }
 
-    private static void convertDataIntoGraph(/*List<Aircraft> aircrafts*/) {
+    private static void convertDataIntoGraph() {
         RDFConverter.convertStaticData(aircrafts);
         RDFConverter.convertDynamicData(aircrafts);
-        //TODO load data into named graph and return?
     }
 
-    //TODO do we need this?
-    /*
-        private static List<Aircraft> loadTestData() {
-            //load dummy data into aircrafts
-            DynamicAircraftData.loadDummyAircraftData();
-            return aircrafts;
-        }
-    */
-    private static List<Aircraft> loadProductiveData(/*List<Aircraft> aircrafts*/) {
-        DynamicAircraftData.loadDynamicAircraftData(aircrafts);
+    private static List<Aircraft> loadProductiveData() {
+        DynamicAircraftData.loadDynamicAircraftData();
         return aircrafts;
     }
 }

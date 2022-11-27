@@ -5,8 +5,6 @@ import org.opensky.model.StateVector;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class DynamicAircraftData {
     private static final String OPENSKYUSERNAME = "jku1234";
@@ -14,26 +12,15 @@ public class DynamicAircraftData {
     private static final OpenSkyApi API = new OpenSkyApi(OPENSKYUSERNAME, OPENSKYPASSWORD);
     private static final OpenSkyApi.BoundingBox AUSTRIA = new OpenSkyApi.BoundingBox(/*46.4318173285, 49.0390742051, 9.47996951665, 16.9796667823*/46.22,49.01,9.32,17.1);
 
-    static void startUpdateServiceDynamicAircraftData(List<Aircraft> aircraftList) {
-        while (true) {
-            loadDynamicAircraftData(aircraftList);
-            try {
-                Thread.sleep(15000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    static void loadDynamicAircraftData(List<Aircraft> aircraftList) {
+    static void loadDynamicAircraftData() {
         try {
-            List<StateVector> states = loadStateVector();
-            setDataAircrafts(states);
+            setDataAircrafts(loadStateVector());
         } catch (IOException e) {
             System.out.println("Could not load dynamic productive data. Loading dummy test data...");
             loadDummyAircraftData();
             System.out.println("Test data successfully loaded.");
-        } catch (NullPointerException ignored) {}
+        }
+        catch (NullPointerException err) {}
     }
 
     private static List<StateVector> loadStateVector() throws IOException {
@@ -54,11 +41,6 @@ public class DynamicAircraftData {
             System.out.println(icaoFound);
             icaoFound = false;
         }
-        /*
-        for (Aircraft aircraft : Main.aircrafts) {
-            Optional<StateVector> state = stateVectorList.stream().filter(s -> s.getIcao24().equals(aircraft.getIcao())).findAny()/*.findFirst()*//*;
-            if (state.isPresent()) aircraft.states.add(state.get());
-        }*/
     }
 
     static void loadDummyAircraftData() {

@@ -1,5 +1,10 @@
+import org.apache.jena.graph.Graph;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.rdfconnection.RDFConnection;
+import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.shacl.ShaclValidator;
+import org.apache.jena.shacl.Shapes;
+import org.apache.jena.shacl.ValidationReport;
 import org.apache.jena.shacl.vocabulary.SHACL;
 import org.apache.jena.vocabulary.RDF;
 import org.opensky.model.StateVector;
@@ -8,7 +13,7 @@ import java.util.List;
 
 public class RDFConverter {
 
-    static void convertStaticData(List<Aircraft> aircrafts) {
+    static <err> void convertStaticData(List<Aircraft> aircrafts) {
         Model model = ModelFactory.createDefaultModel();
 
         Property hasIcao = model.createProperty("http://aircraft/hasIcao#");
@@ -62,10 +67,17 @@ public class RDFConverter {
             }
         }
 
-        try ( RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
             conn.load(model);
-        }
+        } catch (Exception err) {}
         model.write(System.out, "TURTLE");
+
+        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("state-shacl.ttl"));
+        if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
+            System.out.println("SHACL VALIDATION (STATIC) SUCCESSFUL");
+        } else {
+            System.out.println("SHACL VALIDATION NOT (STATIC) SUCCESSFUL");
+        }
     }
 
     static void convertDynamicData(List<Aircraft> aircrafts){
@@ -115,10 +127,20 @@ public class RDFConverter {
             model.add(FlightState, RDF.type, "FlightState");
         }
 
-        try ( RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+        // Load in Knowledgegraph
+        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
             conn.load(model);
         }
+        catch (Exception err) {}
         model.write(System.out, "TURTLE");
+
+        // Validate SHACL
+        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("state-shacl.ttl"));
+        if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
+            System.out.println("SHACL VALIDATION (DYNAMIC) SUCCESSFUL");
+        } else {
+            System.out.println("SHACL VALIDATION NOT (DYNAMIC) SUCCESSFUL");
+        }
     }
 }
 
