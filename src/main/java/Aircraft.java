@@ -22,15 +22,13 @@ public class Aircraft {
     private Operator operator;
     private String owner;
     private String engine;
-    List<StateVector> states;
+    StateVector state;
 
     public Aircraft() {
-        this.states = new ArrayList<>();
     }
 
     public Aircraft(String icao) {
         this.icao = icao;
-        this.states = new ArrayList<>();
     }
 
     public String getIcao() {
@@ -187,12 +185,12 @@ public class Aircraft {
         this.engine = engine;
     }
 
-    public List<StateVector> getStates() {
-        return states;
+    public StateVector getState() {
+        return state;
     }
 
-    public void setStates(List<StateVector> states) {
-        this.states = states;
+    public void setState(StateVector state) {
+        this.state = state;
     }
 
     public String toString() {
@@ -216,7 +214,7 @@ public class Aircraft {
         sb.append("operator: \t" + this.operator + "\n");
         sb.append("owner: \t" + this.owner + "\n");
         sb.append("engine: \t" + this.engine + "\n");
-        sb.append("states: \t" + this.states + "\n\n");
+        sb.append("states: \t" + this.state + "\n\n");
         return sb.toString();
     }
 

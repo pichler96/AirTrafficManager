@@ -35,27 +35,26 @@ public class DynamicAircraftData {
                 if (aircraft.getIcao().equals(state.getIcao24())) {
                     icaoFound = true;
                     System.out.println(aircraft.getIcao());
-                    aircraft.states.add(state);
+                    aircraft.setState(state);
                 }
             }
-            System.out.println(icaoFound);
             icaoFound = false;
         }
     }
 
     static void loadDummyAircraftData() {
         for (Aircraft aircraft : Main.aircrafts) {
-            StateVector vector = new StateVector(aircraft.getIcao());
-            vector.setBaroAltitude(3244.34);
-            vector.setGeoAltitude(3123.3);
-            vector.setVelocity(213123.3);
-            vector.setLastContact(0.0);
-            vector.setLastPositionUpdate(0.0);
-            vector.setOnGround(true);
-            vector.setOriginCountry("GER");
-            vector.setLatitude(0.0);
-            vector.setLongitude(0.0);
-            aircraft.states.add(vector);
+            StateVector state = new StateVector(aircraft.getIcao());
+            state.setBaroAltitude(3244.34);
+            state.setGeoAltitude(3123.3);
+            state.setVelocity(213123.3);
+            state.setLastContact(0.0);
+            state.setLastPositionUpdate(0.0);
+            state.setOnGround(true);
+            state.setOriginCountry("GER");
+            state.setLatitude(0.0);
+            state.setLongitude(0.0);
+            aircraft.setState(state);
         }
     }
 }
