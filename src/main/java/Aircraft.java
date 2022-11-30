@@ -1,7 +1,3 @@
-import org.opensky.model.StateVector;
-import java.util.ArrayList;
-import java.util.List;
-
 public class Aircraft {
     private String icao;
     private String registration;
@@ -22,7 +18,6 @@ public class Aircraft {
     private Operator operator;
     private String owner;
     private String engine;
-    StateVector state;
 
     public Aircraft() {
     }
@@ -185,14 +180,6 @@ public class Aircraft {
         this.engine = engine;
     }
 
-    public StateVector getState() {
-        return state;
-    }
-
-    public void setState(StateVector state) {
-        this.state = state;
-    }
-
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\nicao: \t" + this.icao + "\n");
@@ -214,7 +201,6 @@ public class Aircraft {
         sb.append("operator: \t" + this.operator + "\n");
         sb.append("owner: \t" + this.owner + "\n");
         sb.append("engine: \t" + this.engine + "\n");
-        sb.append("states: \t" + this.state + "\n\n");
         return sb.toString();
     }
 

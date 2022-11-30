@@ -8,9 +8,9 @@ import org.opensky.model.StateVector;
 import java.util.List;
 
 public class RDFConverter {
-
-    static <err> void convertStaticData(List<Aircraft> aircrafts) {
+    static void convertStaticData(List<Aircraft> aircrafts) {
         Model model = ModelFactory.createDefaultModel();
+        String aircraftUri = "http://aircraft/aircraft#";
 
         Property hasIcao = model.createProperty("http://aircraft/hasIcao");
         Property hasRegistration = model.createProperty("http://aircraft/hasRegistration");
@@ -31,10 +31,9 @@ public class RDFConverter {
         Property hasOperator = model.createProperty("http://aircraft/hasOperator");
         Property hasOwner = model.createProperty("http://aircraft/hasOwner");
         Property hasEngine = model.createProperty("http://aircraft/hasEnginer");
-        Property hasLatestState = model.createProperty("http://aircraft/hasLatestState");
 
         for (Aircraft aircraft : aircrafts) {
-            String aircraftUri = "http://aircraft/aircraft#";
+            //TODO: Remove Strings, remove null values
             Resource aircraftData = model.createResource(aircraftUri + aircraft.getIcao())
                     .addProperty(hasIcao, String.valueOf(aircraft.getIcao()))
                     .addProperty(hasRegistration, String.valueOf(aircraft.getRegistration()))
@@ -55,31 +54,24 @@ public class RDFConverter {
                     .addProperty(hasOperator, String.valueOf(aircraft.getOperator().getIcao()))
                     .addProperty(hasOwner, String.valueOf(aircraft.getOwner()))
                     .addProperty(hasEngine, String.valueOf(aircraft.getEngine()));
-            if (aircraft.getState() == null) {
-                aircraftData.addProperty(hasLatestState, ("null"));
-            } else {
-                aircraftData.addProperty(hasLatestState, String.valueOf(aircraft.getState()));
-                model.add(aircraftData, RDF.type, "Aircraft");
-            }
+            model.add(aircraftData, RDF.type, "Aircraft");
         }
-
-        //TODO: Validate before
-        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
-            conn.load(model);
-        } catch (Exception err) {}
-        model.write(System.out, "TURTLE");
 
         Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("state-shacl.ttl"));
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
             System.out.println("SHACL VALIDATION (STATIC) SUCCESSFUL");
+            try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+                conn.load(model);
+            } catch (Exception ignored) {}
+            model.write(System.out, "TURTLE");
         } else {
             System.out.println("SHACL VALIDATION NOT (STATIC) SUCCESSFUL");
         }
     }
 
-    static void convertDynamicData(List<Aircraft> aircrafts){
-        String flightURI = "http://aircraft/flight#";
+    static void convertDynamicData(List<StateVector> states){
         Model model = ModelFactory.createDefaultModel();
+        String stateURI = "http://aircraft/state#";
 
         Property hasBaroAltitude = model.createProperty("http://aircraft/hasBaroAltitude");
         Property hasGeoAltitude = model.createProperty("http://aircraft/hasGeoAltitude");
@@ -99,12 +91,9 @@ public class RDFConverter {
         Property hasPositionSource = model.createProperty("http://aircraft/hasPositionSource");
         Property hasSerials = model.createProperty("http://aircraft/hasSerials");
 
-        for (Aircraft aircraft : aircrafts) {
-            if(aircraft.state == null) break;
-            StateVector state = aircraft.getState();
-
+        for (StateVector state : states) {
             //TODO: Remove Strings, remove null values
-            Resource FlightState = model.createResource(flightURI+state.getIcao24())
+            Resource FlightState = model.createResource(stateURI+state.getIcao24())
                     .addProperty(hasBaroAltitude, String.valueOf(state.getBaroAltitude()))
                     .addProperty(hasGeoAltitude, String.valueOf(state.getGeoAltitude()))
                     .addProperty(hasVelocity, String.valueOf(state.getVelocity()))
@@ -122,25 +111,23 @@ public class RDFConverter {
                     .addProperty(hasSpi, String.valueOf(state.isSpi()))
                     .addProperty(hasPositionSource, String.valueOf(state.getPositionSource()))
                     .addProperty(hasSerials, String.valueOf(state.getSerials()));
-            model.add(FlightState, RDF.type, "FlightState");
-
+            model.add(FlightState, RDF.type, "State");
+            // TODO:
             //Resource test = ResourceFactory.createResource("test");
             //model.add(test, hasBaroAltitude, test);
+            // Class Response -> add time
         }
 
-        // Load in Knowledgegraph
-        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
-            conn.load(model);
-            //TODO
-            //conn.load(model,"http://example/dynamicdata23232");
-        }
-        catch (Exception err) {}
-        model.write(System.out, "TURTLE");
-
-        // Validate SHACL
         Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("state-shacl.ttl"));
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
             System.out.println("SHACL VALIDATION (DYNAMIC) SUCCESSFUL");
+            try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+                conn.load(model);
+                //TODO:
+                //conn.load(model,"http://example/dynamicdata23232");
+            }
+            catch (Exception err) {}
+            model.write(System.out, "TURTLE");
         } else {
             System.out.println("SHACL VALIDATION NOT (DYNAMIC) SUCCESSFUL");
         }

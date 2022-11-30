@@ -12,15 +12,14 @@ public class DynamicAircraftData {
     private static final OpenSkyApi API = new OpenSkyApi(OPENSKYUSERNAME, OPENSKYPASSWORD);
     private static final OpenSkyApi.BoundingBox AUSTRIA = new OpenSkyApi.BoundingBox(/*46.4318173285, 49.0390742051, 9.47996951665, 16.9796667823*/46.22,49.01,9.32,17.1);
 
-    static void loadDynamicAircraftData() {
+    static List<StateVector> loadDynamicAircraftData() {
         try {
-            setDataAircrafts(loadStateVector());
+            return loadStateVector();
         } catch (IOException e) {
             System.out.println("Could not load dynamic productive data. Loading dummy test data...");
-            loadDummyAircraftData();
             System.out.println("Test data successfully loaded.");
+            return loadDummyAircraftData();
         }
-        catch (NullPointerException err) {}
     }
 
     private static List<StateVector> loadStateVector() throws IOException {
@@ -28,21 +27,8 @@ public class DynamicAircraftData {
         return new ArrayList<>(os.getStates());
     }
 
-    private static void setDataAircrafts(List<StateVector> stateVectorList) {
-        Boolean icaoFound = false;
-        for (Aircraft aircraft : Main.aircrafts) {
-            for (StateVector state : stateVectorList) {
-                if (aircraft.getIcao().equals(state.getIcao24())) {
-                    icaoFound = true;
-                    System.out.println(aircraft.getIcao());
-                    aircraft.setState(state);
-                }
-            }
-            icaoFound = false;
-        }
-    }
-
-    static void loadDummyAircraftData() {
+    static List<StateVector> loadDummyAircraftData() {
+        List<StateVector> states = new ArrayList<>();
         for (Aircraft aircraft : Main.aircrafts) {
             StateVector state = new StateVector(aircraft.getIcao());
             state.setBaroAltitude(3244.34);
@@ -54,7 +40,8 @@ public class DynamicAircraftData {
             state.setOriginCountry("GER");
             state.setLatitude(0.0);
             state.setLongitude(0.0);
-            aircraft.setState(state);
+            states.add(state);
         }
+        return states;
     }
 }
