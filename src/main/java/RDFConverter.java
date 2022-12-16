@@ -33,27 +33,27 @@ public class RDFConverter {
         Property hasEngine = model.createProperty("http://aircraft/hasEnginer");
 
         for (Aircraft aircraft : aircrafts) {
-            //TODO: Remove Strings, remove null values
-            Resource aircraftData = model.createResource(aircraftUri + aircraft.getIcao())
-                    .addProperty(hasIcao, String.valueOf(aircraft.getIcao()))
-                    .addProperty(hasRegistration, String.valueOf(aircraft.getRegistration()))
-                    .addProperty(hasManufacturer, String.valueOf(aircraft.getManufacturer().getIcao()))
-                    .addProperty(hasAircraftModel, String.valueOf(aircraft.getModel()))
-                    .addProperty(hasTypeCode, String.valueOf(aircraft.getTypeCode()))
-                    .addProperty(hasSerialNumber, String.valueOf(aircraft.getSerialNumber()))
-                    .addProperty(hasIcaoAircraftType, String.valueOf(aircraft.getIcaoAircraftType()))
-                    .addProperty(hasRegistered, String.valueOf(aircraft.getRegistered()))
-                    .addProperty(hasRegUntil, String.valueOf(aircraft.getRegUntil()))
-                    .addProperty(hasBuilt, String.valueOf(aircraft.getBuilt()))
-                    .addProperty(hasFirstFlightDate, String.valueOf(aircraft.getFirstFlightDate()))
-                    .addProperty(hasModes, String.valueOf(aircraft.isModes()))
-                    .addProperty(hasAdsb, String.valueOf(aircraft.isAdsb()))
-                    .addProperty(hasAcars, String.valueOf(aircraft.isAcars()))
-                    .addProperty(hasNotes, String.valueOf(aircraft.getNotes()))
-                    .addProperty(hasCategoryDescription, String.valueOf(aircraft.getCategoryDescription()))
-                    .addProperty(hasOperator, String.valueOf(aircraft.getOperator().getIcao()))
-                    .addProperty(hasOwner, String.valueOf(aircraft.getOwner()))
-                    .addProperty(hasEngine, String.valueOf(aircraft.getEngine()));
+            //TODO: Remove Strings
+            Resource aircraftData = model.createResource(aircraftUri + aircraft.getIcao());
+            if (aircraft.getIcao() != null) aircraftData.addProperty(hasIcao, String.valueOf(aircraft.getIcao()));
+            if (aircraft.getRegistration() != null) aircraftData.addProperty(hasRegistration, String.valueOf(aircraft.getRegistration()));
+            if (aircraft.getManufacturer().getIcao() != null) aircraftData.addProperty(hasManufacturer, String.valueOf(aircraft.getManufacturer().getIcao()));
+            if (aircraft.getModel() != null) aircraftData.addProperty(hasAircraftModel, String.valueOf(aircraft.getModel()));
+            if (aircraft.getTypeCode() != null) aircraftData.addProperty(hasTypeCode, String.valueOf(aircraft.getTypeCode()));
+            if (aircraft.getSerialNumber() != null) aircraftData.addProperty(hasSerialNumber, String.valueOf(aircraft.getSerialNumber()));
+            if (aircraft.getIcaoAircraftType() != null) aircraftData.addProperty(hasIcaoAircraftType, String.valueOf(aircraft.getIcaoAircraftType()));
+            if (aircraft.getRegistered() != null) aircraftData.addProperty(hasRegistered, String.valueOf(aircraft.getRegistered()));
+            if (aircraft.getRegUntil() != null) aircraftData.addProperty(hasRegUntil, String.valueOf(aircraft.getRegUntil()));
+            if (aircraft.getBuilt() != null) aircraftData.addProperty(hasBuilt, String.valueOf(aircraft.getBuilt()));
+            if (aircraft.getFirstFlightDate() != null) aircraftData.addProperty(hasFirstFlightDate, String.valueOf(aircraft.getFirstFlightDate()));
+            if (aircraft.isModes() != null) aircraftData.addProperty(hasModes, String.valueOf(aircraft.isModes()));
+            if (aircraft.isAdsb() != null) aircraftData.addProperty(hasAdsb, String.valueOf(aircraft.isAdsb()));
+            if (aircraft.isAcars() != null) aircraftData.addProperty(hasAcars, String.valueOf(aircraft.isAcars()));
+            if (aircraft.getNotes() != null) aircraftData.addProperty(hasNotes, String.valueOf(aircraft.getNotes()));
+            if (aircraft.getCategoryDescription() != null) aircraftData.addProperty(hasCategoryDescription, String.valueOf(aircraft.getCategoryDescription()));
+            if (aircraft.getOperator().getIcao() != null) aircraftData.addProperty(hasOperator, String.valueOf(aircraft.getOperator().getIcao()));
+            if (aircraft.getOwner() != null) aircraftData.addProperty(hasOwner, String.valueOf(aircraft.getOwner()));
+            if (aircraft.getEngine() != null) aircraftData.addProperty(hasEngine, String.valueOf(aircraft.getEngine()));
             model.add(aircraftData, RDF.type, "Aircraft");
         }
 
@@ -92,26 +92,26 @@ public class RDFConverter {
         Property hasSerials = model.createProperty("http://aircraft/hasSerials");
 
         for (StateVector state : states) {
-            //TODO: Remove Strings, remove null values
-            Resource FlightState = model.createResource(stateURI+state.getIcao24())
-                    .addProperty(hasBaroAltitude, String.valueOf(state.getBaroAltitude()))
-                    .addProperty(hasGeoAltitude, String.valueOf(state.getGeoAltitude()))
-                    .addProperty(hasVelocity, String.valueOf(state.getVelocity()))
-                    .addProperty(hasLastContact, String.valueOf(state.getLastContact()))
-                    .addProperty(hasLastPositionUpdate, String.valueOf(state.getLastPositionUpdate()))
-                    .addProperty(hasOnGround, String.valueOf(state.isOnGround()))
-                    .addProperty(hasOriginCountry, String.valueOf(state.getOriginCountry()))
-                    .addProperty(hasLatitude, String.valueOf(state.getLatitude()))
-                    .addProperty(hasLongitude, String.valueOf(state.getLongitude()))
-                    .addProperty(hasHeading, String.valueOf(state.getHeading()))
-                    .addProperty(hasVerticalRate, String.valueOf(state.getVerticalRate()))
-                    .addProperty(hasIcao24, String.valueOf(state.getIcao24()))
-                    .addProperty(hasCallsign, String.valueOf(state.getCallsign()))
-                    .addProperty(hasSquawk, String.valueOf(state.getSquawk()))
-                    .addProperty(hasSpi, String.valueOf(state.isSpi()))
-                    .addProperty(hasPositionSource, String.valueOf(state.getPositionSource()))
-                    .addProperty(hasSerials, String.valueOf(state.getSerials()));
-            model.add(FlightState, RDF.type, "State");
+            //TODO: Remove Strings
+            Resource flightState = model.createResource(stateURI+state.getIcao24());
+            if (state.getBaroAltitude() != null) flightState.addProperty(hasBaroAltitude, String.valueOf(state.getBaroAltitude()));
+            if (state.getGeoAltitude() != null) flightState.addProperty(hasGeoAltitude, String.valueOf(state.getGeoAltitude()));
+            if (state.getVelocity() != null) flightState.addProperty(hasVelocity, String.valueOf(state.getVelocity()));
+            if (state.getLastContact() != null) flightState.addProperty(hasLastContact, String.valueOf(state.getLastContact()));
+            if (state.getLastPositionUpdate() != null) flightState.addProperty(hasLastPositionUpdate, String.valueOf(state.getLastPositionUpdate()));
+            if (String.valueOf(state.isOnGround()) != null) flightState.addProperty(hasOnGround, String.valueOf(state.isOnGround()));
+            if (state.getOriginCountry() != null) flightState.addProperty(hasOriginCountry, String.valueOf(state.getOriginCountry()));
+            if (state.getLatitude() != null) flightState.addProperty(hasLatitude, String.valueOf(state.getLatitude()));
+            if (state.getLongitude() != null) flightState.addProperty(hasLongitude, String.valueOf(state.getLongitude()));
+            if (state.getHeading() != null) flightState.addProperty(hasHeading, String.valueOf(state.getHeading()));
+            if (state.getVerticalRate() != null) flightState.addProperty(hasVerticalRate, String.valueOf(state.getVerticalRate()));
+            if (state.getIcao24() != null) flightState.addProperty(hasIcao24, String.valueOf(state.getIcao24()));
+            if (state.getCallsign() != null) flightState.addProperty(hasCallsign, String.valueOf(state.getCallsign()));
+            if (state.getSquawk() != null) flightState.addProperty(hasSquawk, String.valueOf(state.getSquawk()));
+            if (String.valueOf(state.isSpi()) != null) flightState.addProperty(hasSpi, String.valueOf(state.isSpi()));
+            if (state.getPositionSource() != null) flightState.addProperty(hasPositionSource, String.valueOf(state.getPositionSource()));
+            if (state.getSerials() != null) flightState.addProperty(hasSerials, String.valueOf(state.getSerials()));
+            model.add(flightState, RDF.type, "State");
             // TODO:
             //Resource test = ResourceFactory.createResource("test");
             //model.add(test, hasBaroAltitude, test);
