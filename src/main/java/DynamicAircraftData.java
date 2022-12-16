@@ -24,6 +24,11 @@ public class DynamicAircraftData {
 
     private static List<StateVector> loadStateVector() throws IOException {
         OpenSkyStates os = API.getStates(0, null, AUSTRIA);
+        Response response = new Response();
+        //TODO
+        //os.getStates().forEach(); iterate through states
+        State state = null;
+        //state.setResponse(response);
         return new ArrayList<>(os.getStates());
     }
 

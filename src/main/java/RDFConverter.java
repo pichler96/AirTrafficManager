@@ -33,7 +33,7 @@ public class RDFConverter {
         Property hasEngine = model.createProperty("http://aircraft/hasEnginer");
 
         for (Aircraft aircraft : aircrafts) {
-            //TODO: Remove Strings
+            //TODO: Remove Strings [Open -> mit Paul besprechen]
             Resource aircraftData = model.createResource(aircraftUri + aircraft.getIcao());
             if (aircraft.getIcao() != null) aircraftData.addProperty(hasIcao, String.valueOf(aircraft.getIcao()));
             if (aircraft.getRegistration() != null) aircraftData.addProperty(hasRegistration, String.valueOf(aircraft.getRegistration()));
@@ -92,7 +92,7 @@ public class RDFConverter {
         Property hasSerials = model.createProperty("http://aircraft/hasSerials");
 
         for (StateVector state : states) {
-            //TODO: Remove Strings
+            //TODO: Remove Strings [Open -> mit Paul besprechen]
             Resource flightState = model.createResource(stateURI+state.getIcao24());
             if (state.getBaroAltitude() != null) flightState.addProperty(hasBaroAltitude, String.valueOf(state.getBaroAltitude()));
             if (state.getGeoAltitude() != null) flightState.addProperty(hasGeoAltitude, String.valueOf(state.getGeoAltitude()));
@@ -111,19 +111,23 @@ public class RDFConverter {
             if (String.valueOf(state.isSpi()) != null) flightState.addProperty(hasSpi, String.valueOf(state.isSpi()));
             if (state.getPositionSource() != null) flightState.addProperty(hasPositionSource, String.valueOf(state.getPositionSource()));
             if (state.getSerials() != null) flightState.addProperty(hasSerials, String.valueOf(state.getSerials()));
+
+
             model.add(flightState, RDF.type, "State");
-            // TODO:
+            // TODO (für dynamisch + statisch) [Thomas]:
             //Resource test = ResourceFactory.createResource("test");
             //model.add(test, hasBaroAltitude, test);
-            // Class Response -> add time
+            //TODO attributsname in shacl ändern (hasicao24 auf hasicao) [Lukas]
+            // Class Response -> add time [Gerald]
         }
 
         Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("state-shacl.ttl"));
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
+            //TODO check for invalid shacl shapes [Arion]
             System.out.println("SHACL VALIDATION (DYNAMIC) SUCCESSFUL");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
                 conn.load(model);
-                //TODO:
+                //TODO [Arion]:
                 //conn.load(model,"http://example/dynamicdata23232");
             }
             catch (Exception err) {}
