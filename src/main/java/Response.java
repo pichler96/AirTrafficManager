@@ -1,12 +1,18 @@
-import org.opensky.model.StateVector;
+import java.time.Instant;
+
 
 public class Response {
 
     private Double time;
 
-    public static Double getTime(StateVector state) {
-        //TODO convert date to Double [Gerald]
-        Double time = 0.0;
-        return time;
+    public Response() {
+        this.time = -1.0;
+    }
+    public Response(double time) {
+            this.time = time;
+        }
+
+    public double getTime() {
+        return this.time;
     }
 }

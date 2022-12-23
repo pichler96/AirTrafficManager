@@ -2,7 +2,9 @@ import org.opensky.api.OpenSkyApi;
 import org.opensky.model.OpenSkyStates;
 import org.opensky.model.StateVector;
 
+
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,7 @@ public class DynamicAircraftData {
     private static final OpenSkyApi API = new OpenSkyApi(OPENSKYUSERNAME, OPENSKYPASSWORD);
     private static final OpenSkyApi.BoundingBox AUSTRIA = new OpenSkyApi.BoundingBox(/*46.4318173285, 49.0390742051, 9.47996951665, 16.9796667823*/46.22,49.01,9.32,17.1);
 
-    static List<StateVector> loadDynamicAircraftData() {
+    static List<State> loadDynamicAircraftData() {
         try {
             return loadStateVector();
         } catch (IOException e) {
@@ -22,29 +24,23 @@ public class DynamicAircraftData {
         }
     }
 
-    private static List<StateVector> loadStateVector() throws IOException {
+    private static List<State> loadStateVector() throws IOException {
         OpenSkyStates os = API.getStates(0, null, AUSTRIA);
-        Response response = new Response();
-        //TODO
-        //os.getStates().forEach(); iterate through states
-        State state = null;
-        //state.setResponse(response);
-        return new ArrayList<>(os.getStates());
+        Response response = new Response(Instant.now().getEpochSecond());
+        ArrayList<State> states = new ArrayList<>();
+        for (StateVector stateVector : os.getStates()) {
+            State newState = new State(stateVector);
+            newState.setResponse(response);
+            states.add(newState);
+        }
+        return states;
     }
 
-    static List<StateVector> loadDummyAircraftData() {
-        List<StateVector> states = new ArrayList<>();
+    static List<State> loadDummyAircraftData() {
+        List<State> states = new ArrayList<>();
         for (Aircraft aircraft : Main.aircrafts) {
-            StateVector state = new StateVector(aircraft.getIcao());
-            state.setBaroAltitude(3244.34);
-            state.setGeoAltitude(3123.3);
-            state.setVelocity(213123.3);
-            state.setLastContact(0.0);
-            state.setLastPositionUpdate(0.0);
-            state.setOnGround(true);
-            state.setOriginCountry("GER");
-            state.setLatitude(0.0);
-            state.setLongitude(0.0);
+            State state = new State(aircraft.getIcao(), 3244.34, 3123.3, 213123.3,
+                    0.0, 0.0, true, "GER", 0.0, 0.0, new Response(-1.0));
             states.add(state);
         }
         return states;

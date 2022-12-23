@@ -4,7 +4,6 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.shacl.ShaclValidator;
 import org.apache.jena.shacl.Shapes;
 import org.apache.jena.vocabulary.RDF;
-import org.opensky.model.StateVector;
 import java.util.List;
 
 public class RDFConverter {
@@ -69,7 +68,7 @@ public class RDFConverter {
         }
     }
 
-    static void convertDynamicData(List<StateVector> states){
+    static void convertDynamicData(List<State> states){
         Model model = ModelFactory.createDefaultModel();
         String stateURI = "http://aircraft/state#";
 
@@ -91,7 +90,7 @@ public class RDFConverter {
         Property hasPositionSource = model.createProperty("http://aircraft/hasPositionSource");
         Property hasSerials = model.createProperty("http://aircraft/hasSerials");
 
-        for (StateVector state : states) {
+        for (State state : states) {
             //TODO: Remove Strings [Open -> mit Paul besprechen]
             Resource flightState = model.createResource(stateURI+state.getIcao24());
             if (state.getBaroAltitude() != null) flightState.addProperty(hasBaroAltitude, String.valueOf(state.getBaroAltitude()));

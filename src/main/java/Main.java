@@ -1,12 +1,10 @@
-import org.opensky.model.StateVector;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static List<Aircraft> aircrafts = new ArrayList<>();
-    public static List<StateVector> states = new ArrayList<>();
+    public static List<State> states = new ArrayList<>();
 
 
     public static void main(String[] args) {
