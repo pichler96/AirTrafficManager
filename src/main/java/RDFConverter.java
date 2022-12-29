@@ -3,6 +3,7 @@ import org.apache.jena.rdfconnection.RDFConnection;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.shacl.ShaclValidator;
 import org.apache.jena.shacl.Shapes;
+import org.apache.jena.shacl.ValidationReport;
 import org.apache.jena.vocabulary.RDF;
 import java.util.List;
 
@@ -122,18 +123,20 @@ public class RDFConverter {
 
         Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("state-shacl.ttl"));
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
-            //TODO check for invalid shacl shapes [Arion]
-            System.out.println("SHACL VALIDATION (DYNAMIC) SUCCESSFUL");
+            // Check for invalid shacl shapes TODO [Arion]
+            ValidationReport report = ShaclValidator.get().validate(shapes, model.getGraph());
+            if (report.conforms()) {
+                System.out.println("SHACL VALIDATION (DYNAMIC) SUCCESSFUL");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
                 conn.load(model);
                 //TODO [Arion]:
-                //conn.load(model,"http://example/dynamicdata23232");
+                conn.load("http://example.com/dynamicdata23232",model);
             }
             catch (Exception err) {}
+            }
             model.write(System.out, "TURTLE");
         } else {
             System.out.println("SHACL VALIDATION NOT (DYNAMIC) SUCCESSFUL");
         }
     }
 }
-
