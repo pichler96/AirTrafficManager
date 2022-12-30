@@ -31,6 +31,12 @@ public class DynamicAircraftData {
         for (StateVector stateVector : os.getStates()) {
             State newState = new State(stateVector);
             newState.setResponse(response);
+            for (Aircraft aircraft :
+                    Main.aircrafts) {
+                if (newState.getIcao24() == aircraft.getIcao()) {
+                    newState.setAircraft(aircraft);
+                }
+            }
             states.add(newState);
         }
         return states;

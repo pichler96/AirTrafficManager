@@ -22,9 +22,10 @@ public class State {
     private boolean spi;
     private Double baroAltitude;
     private PositionSource positionSource;
-
     private Set<Integer> serials;
+
     private Response response;
+    private Aircraft aircraft;
 
     public State(StateVector stateVector) {
         this.geoAltitude = stateVector.getGeoAltitude();
@@ -206,6 +207,14 @@ public class State {
 
     public void setResponse(Response response) {
         this.response = response;
+    }
+
+    public Aircraft getAircraft() {
+        return aircraft;
+    }
+
+    public void setAircraft(Aircraft aircraft) {
+        this.aircraft = aircraft;
     }
 
     @Override
