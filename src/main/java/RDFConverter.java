@@ -3,14 +3,15 @@ import org.apache.jena.rdfconnection.RDFConnection;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.shacl.ShaclValidator;
 import org.apache.jena.shacl.Shapes;
-import org.apache.jena.shacl.ValidationReport;
 import org.apache.jena.vocabulary.RDF;
+import org.opensky.model.StateVector;
 import java.util.List;
 
 public class RDFConverter {
     static void convertStaticData(List<Aircraft> aircrafts) {
         Model model = ModelFactory.createDefaultModel();
         String aircraftUri = "http://aircraft/aircraft#";
+
 
         Property hasIcao = model.createProperty("http://aircraft/hasIcao");
         Property hasRegistration = model.createProperty("http://aircraft/hasRegistration");
@@ -55,6 +56,7 @@ public class RDFConverter {
             if (aircraft.getOwner() != null) aircraftData.addProperty(hasOwner, String.valueOf(aircraft.getOwner()));
             if (aircraft.getEngine() != null) aircraftData.addProperty(hasEngine, String.valueOf(aircraft.getEngine()));
             model.add(aircraftData, RDF.type, "Aircraft");
+            
         }
 
         Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("state-shacl.ttl"));
@@ -69,7 +71,7 @@ public class RDFConverter {
         }
     }
 
-    static void convertDynamicData(List<State> states){
+    static void convertDynamicData(List<StateVector> states){
         Model model = ModelFactory.createDefaultModel();
         String stateURI = "http://aircraft/state#";
 
@@ -91,7 +93,7 @@ public class RDFConverter {
         Property hasPositionSource = model.createProperty("http://aircraft/hasPositionSource");
         Property hasSerials = model.createProperty("http://aircraft/hasSerials");
 
-        for (State state : states) {
+        for (StateVector state : states) {
             //TODO: Remove Strings [Open -> mit Paul besprechen]
             Resource flightState = model.createResource(stateURI+state.getIcao24());
             if (state.getBaroAltitude() != null) flightState.addProperty(hasBaroAltitude, String.valueOf(state.getBaroAltitude()));
@@ -123,20 +125,18 @@ public class RDFConverter {
 
         Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("state-shacl.ttl"));
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
-            // Check for invalid shacl shapes TODO [Arion]
-            ValidationReport report = ShaclValidator.get().validate(shapes, model.getGraph());
-            if (report.conforms()) {
-                System.out.println("SHACL VALIDATION (DYNAMIC) SUCCESSFUL");
+            //TODO check for invalid shacl shapes [Arion]
+            System.out.println("SHACL VALIDATION (DYNAMIC) SUCCESSFUL");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
                 conn.load(model);
                 //TODO [Arion]:
-                conn.load("http://example.com/dynamicdata23232",model);
+                //conn.load(model,"http://example/dynamicdata23232");
             }
             catch (Exception err) {}
-            }
             model.write(System.out, "TURTLE");
         } else {
             System.out.println("SHACL VALIDATION NOT (DYNAMIC) SUCCESSFUL");
         }
     }
 }
+

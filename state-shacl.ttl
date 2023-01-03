@@ -3,103 +3,89 @@
 @prefix ex: <http://www.w3.org/2022/example#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
-ex:State
+ex:StateShape
 	a sh:NodeShape;
+	sh:targetClass ex:State ;
+    sh:closed true ;
 	
 	sh:property [
-		sh:path ex:geoAltitude;
+		sh:path ex:hasGeoAltitude;
 		sh:datatype xsd:double;
-		sh:name "GeoAltitude";
 	];
 	sh:property [
-		sh:path ex:longitude;
+		sh:path ex:hasLongitude;
 		sh:datatype xsd:double;
-		sh:name "Longitude";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:latitude;
+		sh:path ex:hasLatitude;
 		sh:datatype xsd:double;
-		sh:name "Latitude";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:velocity;
+		sh:path ex:hasVelocity;
 		sh:datatype xsd:double;
-		sh:name "Velocity";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:heading;
+		sh:path ex:hasHeading;
 		sh:datatype xsd:double;
-		sh:name "Heading";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:verticalRate;
+		sh:path ex:hasVerticalRate;
 		sh:datatype xsd:double;
-		sh:name "VerticalRate";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:icao24;
+		sh:path ex:hasIcao24;
 		sh:datatype xsd:string;
-		sh:name "Icao24";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:callsign;
+		sh:path ex:hasCallsign;
 		sh:datatype xsd:string;
-		sh:name "Callsign";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:onGround;
+		sh:path ex:hasOnGround;
 		sh:datatype xsd:boolean;
-		sh:name "OnGround";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:lastContact;
+		sh:path ex:hasLastContact;
 		sh:datatype xsd:double;
-		sh:name "lastContact";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:lastPositionUpdate;
+		sh:path ex:hasLastPositionUpdate;
 		sh:datatype xsd:double;
-		sh:name "LastPositionUpdate";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:originCountry;
+		sh:path ex:hasOriginCountry;
 		sh:datatype xsd:string;
-		sh:name "OriginCountry";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:squawk;
+		sh:path ex:hasSquawk;
 		sh:datatype xsd:string;
-		sh:name "Squawk";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:spi;
+		sh:path ex:hasSpi;
 		sh:datatype xsd:boolean;
-		sh:name "Spi";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:baroAltitude;
+		sh:path ex:hasBaroAltitude;
 		sh:datatype xsd:double;
-		sh:name "BaroAltitude";
 		sh:maxCount 1;
 	];
 	
 	sh:property [
-		sh:path ex:positionSource;
+		sh:path ex:hasPositionSource;
 		sh:datatype xsd:string;
-		sh:name "PositionSource";
 		sh:maxCount 1;
 	].
 

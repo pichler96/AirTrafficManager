@@ -3,166 +3,142 @@
 @prefix ex: <http://www.w3.org/2022/example#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
-ex:Aircraft
+ex:AircraftShape
 	a sh:NodeShape;
+	sh:targetClass ex:Aircraft;
+    sh:closed true ;
 	
 	sh:property [
-		sh:path ex:icao24;
+		sh:path ex:hasIcao24;
 		sh:datatype xsd:string;
-		sh:name "Icao";
 	];
 	sh:property [
-		sh:path ex:registration;
+		sh:path ex:hasRegistration;
 		sh:datatype xsd:string;
-		sh:name "Registration";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:aircraftModel;
+		sh:path ex:hasAircraftModel;
 		sh:datatype xsd:string;
-		sh:name "AircraftModel";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:typeCode;
+		sh:path ex:hasTypeCode;
 		sh:datatype xsd:string;
-		sh:name "TypeCode";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:serialNumber;
+		sh:path ex:hasSerialNumber;
 		sh:datatype xsd:string;
-		sh:name "SerialNumber";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:icaoAircraftType;
+		sh:path ex:hasIcaoAircraftType;
 		sh:datatype xsd:string;
-		sh:name "IcaoAircraftType";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:registered;
+		sh:path ex:hasRegistered;
 		sh:datatype xsd:localDate;
-		sh:name "Registered";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:regUntil;
+		sh:path ex:hasRegUntil;
 		sh:datatype xsd:localDate;
-		sh:name "RegUntil";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:built;
+		sh:path ex:hasBuilt;
 		sh:datatype xsd:localDate;
-		sh:name "Built";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:firstFlightDate;
+		sh:path ex:hasFirstFlightDate;
 		sh:datatype xsd:localDate;
-		sh:name "FirstFlightDate";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:modes;
+		sh:path ex:hasModes;
 		sh:datatype xsd:boolean;
-		sh:name "Modes";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:adsb;
+		sh:path ex:hasAdsb;
 		sh:datatype xsd:boolean;
-		sh:name "Adsb";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:acars;
+		sh:path ex:hasAcars;
 		sh:datatype xsd:boolean;
-		sh:name "Acars";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:acars;
-		sh:datatype xsd:boolean;
-		sh:name "Acars";
-		sh:maxCount 1;
-	];
-	sh:property [
-		sh:path ex:notes;
+		sh:path ex:hasNotes;
 		sh:datatype xsd:string;
-		sh:name "Notes";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:categoryDescription;
+		sh:path ex:hasCategoryDescription;
 		sh:datatype xsd:string;
-		sh:name "CategoryDescription";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:owner;
+		sh:path ex:hasOwner;
 		sh:datatype xsd:string;
-		sh:name "Owner";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:engine;
+		sh:path ex:hasEngine;
 		sh:datatype xsd:string;
-		sh:name "Engine";
 		sh:maxCount 1;
 	];
 	sh:property [
-          	sh:path ex:manufacturer ;
+          	sh:path ex:hasManufacturer ;
           	sh:node ex:Manufacturer ;
           	sh:maxCount 1;
       	];
 	sh:property [
-          	sh:path ex:operator ;
+          	sh:path ex:hasOperator ;
           	sh:node ex:Operator ;
           	sh:maxCount 1;
       	].
 
 
-ex:Manufactorer
+ex:Manufacturer
 	a sh:NodeShape;
+	sh:targetClass ex:Manufacturer;
+	sh:closed true ;
 	sh:property [
-		sh:path ex:manufactorerIcao;
+		sh:path ex:hasManufacturerIcao;
 		sh:datatype xsd:string;
-		sh:name "ManufactorerIcao";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:manufactorerName;
+		sh:path ex:hasManufacturerName;
 		sh:datatype xsd:string;
-		sh:name "ManufactorerName";
 		sh:maxCount 1;
 	].
 
 ex:Operator
 	a sh:NodeShape;
+	sh:targetClass ex:Operator;
 	sh:property [
-		sh:path ex:icao;
+		sh:path ex:hasIcao;
 		sh:datatype xsd:string;
-		sh:name "Icao";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:iata;
+		sh:path ex:hasIata;
 		sh:datatype xsd:string;
-		sh:name "Iata";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:name;
+		sh:path ex:hasName;
 		sh:datatype xsd:string;
-		sh:name "Name";
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:callsign;
+		sh:path ex:hasCallsign;
 		sh:datatype xsd:string;
-		sh:name "Callsign";
 		sh:maxCount 1;
 	].
