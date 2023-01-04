@@ -52,7 +52,4 @@ public class DynamicAircraftData {
         return states;
     }
 
-    public String testCase(){
-        return "test";
-    }
 }
