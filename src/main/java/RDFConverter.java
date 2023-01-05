@@ -128,9 +128,8 @@ public class RDFConverter {
             //TODO check for invalid shacl shapes [Arion]
             System.out.println("SHACL VALIDATION (DYNAMIC) SUCCESSFUL");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/DynamicData") ) {
-                conn.load(model);
                 //TODO [Arion]:
-                //conn.load(model,"http://example/dynamicdata23232");
+                conn.load("http://localhost:3030/DynamicData",model);
             }
             catch (Exception err) {}
             model.write(System.out, "TURTLE");
