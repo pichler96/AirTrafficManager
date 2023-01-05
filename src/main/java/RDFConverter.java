@@ -62,7 +62,7 @@ public class RDFConverter {
         Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("state-shacl.ttl"));
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
             System.out.println("SHACL VALIDATION (STATIC) SUCCESSFUL");
-            try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+            try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/StaticData") ) {
                 conn.load(model);
             } catch (Exception ignored) {}
             model.write(System.out, "TURTLE");
@@ -127,7 +127,7 @@ public class RDFConverter {
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
             //TODO check for invalid shacl shapes [Arion]
             System.out.println("SHACL VALIDATION (DYNAMIC) SUCCESSFUL");
-            try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+            try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/DynamicData") ) {
                 conn.load(model);
                 //TODO [Arion]:
                 //conn.load(model,"http://example/dynamicdata23232");
