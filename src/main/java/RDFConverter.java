@@ -8,6 +8,12 @@ import org.opensky.model.StateVector;
 import java.util.List;
 
 public class RDFConverter {
+    /*
+    @prefix aircraft:
+@prefix state:
+@prefix response:
+    * */
+
     static void convertStaticData(List<Aircraft> aircrafts) {
         Model model = ModelFactory.createDefaultModel();
         String aircraftUri = "http://aircraft/aircraft#";
@@ -63,9 +69,9 @@ public class RDFConverter {
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
             System.out.println("SHACL VALIDATION (STATIC) SUCCESSFUL");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/StaticData") ) {
-                conn.load(model);
+                conn.load("http://localhost:3030/StaticData", model);
             } catch (Exception ignored) {}
-            model.write(System.out, "TURTLE");
+            //model.write(System.out, "TURTLE");
         } else {
             System.out.println("SHACL VALIDATION NOT (STATIC) SUCCESSFUL");
         }
@@ -74,6 +80,11 @@ public class RDFConverter {
     static void convertDynamicData(List<State> states){
         Model model = ModelFactory.createDefaultModel();
         String stateURI = "http://aircraft/state#";
+
+        model.setNsPrefix("sh" , "http://www.w3.org/ns/shacl#");
+        model.setNsPrefix("xsd" , "http://www.w3.org/2022/example#");
+        model.setNsPrefix("ex" , "http://www.w3.org/2022/example#");
+        model.setNsPrefix("rdf" , "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 
         Property hasBaroAltitude = model.createProperty("http://aircraft/hasBaroAltitude");
         Property hasGeoAltitude = model.createProperty("http://aircraft/hasGeoAltitude");
@@ -92,6 +103,7 @@ public class RDFConverter {
         Property hasSpi = model.createProperty("http://aircraft/hasSpi");
         Property hasPositionSource = model.createProperty("http://aircraft/hasPositionSource");
         Property hasSerials = model.createProperty("http://aircraft/hasSerials");
+        Property hasResponse = model.createProperty("http://aircraft/hasResponse");
 
         for (State state : states) {
             //TODO: Remove Strings [Open -> mit Paul besprechen]
@@ -113,26 +125,25 @@ public class RDFConverter {
             if (String.valueOf(state.isSpi()) != null) flightState.addProperty(hasSpi, String.valueOf(state.isSpi()));
             if (state.getPositionSource() != null) flightState.addProperty(hasPositionSource, String.valueOf(state.getPositionSource()));
             if (state.getSerials() != null) flightState.addProperty(hasSerials, String.valueOf(state.getSerials()));
+            if (state.getResponse() != null) flightState.addProperty(hasResponse, String.valueOf(state.getResponse()));
 
 
             model.add(flightState, RDF.type, "State");
-            // TODO (für dynamisch + statisch) [Thomas]:
-            //Resource test = ResourceFactory.createResource("test");
-            //model.add(test, hasBaroAltitude, test);
             //TODO attributsname in shacl ändern (hasicao24 auf hasicao) [Lukas]
-            // Class Response -> add time [Gerald]
         }
 
         Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("state-shacl.ttl"));
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
             //TODO check for invalid shacl shapes [Arion]
+            //TODO für jeden aufruf neuen dynamischen graph erstellen
+            //TODO bei named graph time dynamisch an String anhängen (außerhalb der Iteration)
             System.out.println("SHACL VALIDATION (DYNAMIC) SUCCESSFUL");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/DynamicData") ) {
                 //TODO [Arion]:
                 conn.load("http://localhost:3030/DynamicData",model);
             }
             catch (Exception err) {}
-            model.write(System.out, "TURTLE");
+            //model.write(System.out, "TURTLE");
         } else {
             System.out.println("SHACL VALIDATION NOT (DYNAMIC) SUCCESSFUL");
         }

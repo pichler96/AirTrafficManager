@@ -3,6 +3,8 @@
 @prefix ex: <http://www.w3.org/2022/example#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
+
+
 ex:StateShape
 	a sh:NodeShape;
 	sh:targetClass ex:State ;
@@ -16,6 +18,7 @@ ex:StateShape
 		sh:path ex:hasLongitude;
 		sh:datatype xsd:double;
 		sh:maxCount 1;
+		sh:minCount 2;
 	];
 	sh:property [
 		sh:path ex:hasLatitude;

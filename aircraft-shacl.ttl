@@ -1,7 +1,10 @@
 @prefix sh:	<http://www.w3.org/ns/shacl#>.
 @prefix xsd:	<http://www.w3.org/2001/XMLSchema#>.
-@prefix ex: <http://www.w3.org/2022/example#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex: <http://www.w3.org/2022/example#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix aircraft: <http://aircraft/aircraft#>.
+@prefix state: <http://aircraft/state#>.
+@prefix response: <http://aircraft/response#>.
 
 ex:AircraftShape
 	a sh:NodeShape;

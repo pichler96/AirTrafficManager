@@ -30,12 +30,15 @@ public class Main {
                 isProductiveModeFlag = true;
                 states = DynamicAircraftData.loadDynamicAircraftData();
                 convertDataIntoGraph();
+                break;
             } else if (userInput.equals("2")) {
                 isProductiveModeFlag = true;
                 states = DynamicAircraftData.loadDummyAircraftData();
                 convertDataIntoGraph();
+                break;
             } else if (userInput.equals("3")) {
                 System.exit(0);
+                break;
             } else {
                 System.out.println("Please enter a valid task number");
             }
