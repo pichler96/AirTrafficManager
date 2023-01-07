@@ -4,19 +4,27 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.shacl.ShaclValidator;
 import org.apache.jena.shacl.Shapes;
 import org.apache.jena.vocabulary.RDF;
-import org.opensky.model.StateVector;
+
 import java.util.List;
 
 public class RDFConverter {
     /*
     @prefix aircraft:
-@prefix state:
-@prefix response:
+    @prefix state:
+    @prefix response:
     * */
 
     static void convertStaticData(List<Aircraft> aircrafts) {
         Model model = ModelFactory.createDefaultModel();
         String aircraftUri = "http://aircraft/aircraft#";
+
+        model.setNsPrefix("sh" , "http://www.w3.org/ns/shacl#");
+        model.setNsPrefix("xsd" , "http://www.w3.org/2022/example#");
+        model.setNsPrefix("ex" , "http://www.w3.org/2022/example#");
+        model.setNsPrefix("rdf" , "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+        model.setNsPrefix("aircraft", "http://aircraft/aircraft#");
+        model.setNsPrefix("state", "http://aircraft/state#");
+        model.setNsPrefix("response", "http://aircraft/response#");
 
 
         Property hasIcao = model.createProperty("http://aircraft/hasIcao");
@@ -37,7 +45,7 @@ public class RDFConverter {
         Property hasCategoryDescription = model.createProperty("http://aircraft/hasCategoryDescription");
         Property hasOperator = model.createProperty("http://aircraft/hasOperator");
         Property hasOwner = model.createProperty("http://aircraft/hasOwner");
-        Property hasEngine = model.createProperty("http://aircraft/hasEnginer");
+        Property hasEngine = model.createProperty("http://aircraft/hasEngine");
 
         for (Aircraft aircraft : aircrafts) {
             //TODO: Remove Strings [Open -> mit Paul besprechen]
@@ -81,10 +89,15 @@ public class RDFConverter {
         Model model = ModelFactory.createDefaultModel();
         String stateURI = "http://aircraft/state#";
 
+
         model.setNsPrefix("sh" , "http://www.w3.org/ns/shacl#");
         model.setNsPrefix("xsd" , "http://www.w3.org/2022/example#");
         model.setNsPrefix("ex" , "http://www.w3.org/2022/example#");
         model.setNsPrefix("rdf" , "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+        model.setNsPrefix("aircraft", "http://aircraft/aircraft#");
+        model.setNsPrefix("state", "http://aircraft/state#");
+        model.setNsPrefix("response", "http://aircraft/response#");
+
 
         Property hasBaroAltitude = model.createProperty("http://aircraft/hasBaroAltitude");
         Property hasGeoAltitude = model.createProperty("http://aircraft/hasGeoAltitude");

@@ -19,6 +19,7 @@ ex:AircraftShape
 		sh:path ex:hasRegistration;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
+		sh:minCount 2;
 	];
 	sh:property [
 		sh:path ex:hasAircraftModel;
