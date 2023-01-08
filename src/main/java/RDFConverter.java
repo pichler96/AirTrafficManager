@@ -1,5 +1,6 @@
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.rdfconnection.RDFConnection;
+import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.shacl.ShaclValidator;
 import org.apache.jena.shacl.Shapes;
@@ -8,6 +9,15 @@ import org.apache.jena.vocabulary.RDF;
 import java.util.List;
 
 public class RDFConverter {
+
+    static String sh_URL = "http://www.w3.org/ns/shacl#";
+    static String xsd_URL = "http://www.w3.org/2022/example#";
+    static String ex_URL = "http://www.w3.org/2022/example#";
+    static String rdf_URL = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+    static String aircraft_URL = "http://www.dke-pr/aircraft#";
+    static String state_URL = "http://www.dke-pr/aircraft/state#";
+    static String response_URL = "http://www.dke-pr/aircraft/response#";
+
     /*
     @prefix aircraft:
     @prefix state:
@@ -16,64 +26,66 @@ public class RDFConverter {
 
     static void convertStaticData(List<Aircraft> aircrafts) {
         Model model = ModelFactory.createDefaultModel();
-        String aircraftUri = "http://aircraft/aircraft#";
+        String aircraftUri = "http://www.dke-pr/aircraft#";
 
-        model.setNsPrefix("sh" , "http://www.w3.org/ns/shacl#");
-        model.setNsPrefix("xsd" , "http://www.w3.org/2022/example#");
-        model.setNsPrefix("ex" , "http://www.w3.org/2022/example#");
-        model.setNsPrefix("rdf" , "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-        model.setNsPrefix("aircraft", "http://aircraft/aircraft#");
-        model.setNsPrefix("state", "http://aircraft/state#");
-        model.setNsPrefix("response", "http://aircraft/response#");
+        model.setNsPrefix("sh" , sh_URL);
+        model.setNsPrefix("xsd" , xsd_URL);
+        model.setNsPrefix("ex" , ex_URL);
+        model.setNsPrefix("rdf" , rdf_URL);
+        model.setNsPrefix("aircraft", aircraft_URL);
+        model.setNsPrefix("state", state_URL);
+        model.setNsPrefix("response", response_URL);
 
 
-        Property hasIcao = model.createProperty("http://aircraft/hasIcao");
-        Property hasRegistration = model.createProperty("http://aircraft/hasRegistration");
-        Property hasManufacturer = model.createProperty("http://aircraft/hasManufacturer");
-        Property hasAircraftModel = model.createProperty("http://aircraft/hasAircraftModel");
-        Property hasTypeCode = model.createProperty("http://aircraft/hasTypeCode");
-        Property hasSerialNumber = model.createProperty("http://aircraft/hasSerialNumber");
-        Property hasIcaoAircraftType = model.createProperty("http://aircraft/hasIcaoAircraftType");
-        Property hasRegistered = model.createProperty("http://aircraft/hasRegistered");
-        Property hasRegUntil = model.createProperty("http://aircraft/hasRegUntil");
-        Property hasBuilt = model.createProperty("http://aircraft/hasBuilt");
-        Property hasFirstFlightDate = model.createProperty("http://aircraft/hasFirstFlightDate");
-        Property hasModes = model.createProperty("http://aircraft/hasModes");
-        Property hasAdsb = model.createProperty("http://aircraft/hasAdsb");
-        Property hasAcars = model.createProperty("http://aircraft/hasAcars");
-        Property hasNotes = model.createProperty("http://aircraft/hasnotes");
-        Property hasCategoryDescription = model.createProperty("http://aircraft/hasCategoryDescription");
-        Property hasOperator = model.createProperty("http://aircraft/hasOperator");
-        Property hasOwner = model.createProperty("http://aircraft/hasOwner");
-        Property hasEngine = model.createProperty("http://aircraft/hasEngine");
+        Property hasIcao = model.createProperty(ex_URL+"hasIcao24");
+        Property hasRegistration = model.createProperty(ex_URL +"hasRegistration");
+        Property hasManufacturer = model.createProperty(ex_URL +"hasManufacturer");
+        Property hasAircraftModel = model.createProperty(ex_URL+"hasAircraftModel");
+        Property hasTypeCode = model.createProperty(ex_URL+"hasTypeCode");
+        Property hasSerialNumber = model.createProperty(ex_URL+"hasSerialNumber");
+        Property hasIcaoAircraftType = model.createProperty(ex_URL+"hasIcaoAircraftType");
+        Property hasRegistered = model.createProperty(ex_URL+"hasRegistered");
+        Property hasRegUntil = model.createProperty(ex_URL+"hasRegUntil");
+        Property hasBuilt = model.createProperty(ex_URL+"hasBuilt");
+        Property hasFirstFlightDate = model.createProperty(ex_URL+"hasFirstFlightDate");
+        Property hasModes = model.createProperty(ex_URL+"hasModes");
+        Property hasAdsb = model.createProperty(ex_URL+"hasAdsb");
+        Property hasAcars = model.createProperty(ex_URL+"hasAcars");
+        Property hasNotes = model.createProperty(ex_URL+"hasnotes");
+        Property hasCategoryDescription = model.createProperty(ex_URL+"hasCategoryDescription");
+        Property hasOperator = model.createProperty(ex_URL+"hasOperator");
+        Property hasOwner = model.createProperty(ex_URL+"hasOwner");
+        Property hasEngine = model.createProperty(ex_URL+"hasEngine");
 
         for (Aircraft aircraft : aircrafts) {
             //TODO: Remove Strings [Open -> mit Paul besprechen]
             Resource aircraftData = model.createResource(aircraftUri + aircraft.getIcao());
-            if (aircraft.getIcao() != null) aircraftData.addProperty(hasIcao, String.valueOf(aircraft.getIcao()));
-            if (aircraft.getRegistration() != null) aircraftData.addProperty(hasRegistration, String.valueOf(aircraft.getRegistration()));
-            if (aircraft.getManufacturer().getIcao() != null) aircraftData.addProperty(hasManufacturer, String.valueOf(aircraft.getManufacturer().getIcao()));
-            if (aircraft.getModel() != null) aircraftData.addProperty(hasAircraftModel, String.valueOf(aircraft.getModel()));
-            if (aircraft.getTypeCode() != null) aircraftData.addProperty(hasTypeCode, String.valueOf(aircraft.getTypeCode()));
-            if (aircraft.getSerialNumber() != null) aircraftData.addProperty(hasSerialNumber, String.valueOf(aircraft.getSerialNumber()));
-            if (aircraft.getIcaoAircraftType() != null) aircraftData.addProperty(hasIcaoAircraftType, String.valueOf(aircraft.getIcaoAircraftType()));
-            if (aircraft.getRegistered() != null) aircraftData.addProperty(hasRegistered, String.valueOf(aircraft.getRegistered()));
-            if (aircraft.getRegUntil() != null) aircraftData.addProperty(hasRegUntil, String.valueOf(aircraft.getRegUntil()));
-            if (aircraft.getBuilt() != null) aircraftData.addProperty(hasBuilt, String.valueOf(aircraft.getBuilt()));
-            if (aircraft.getFirstFlightDate() != null) aircraftData.addProperty(hasFirstFlightDate, String.valueOf(aircraft.getFirstFlightDate()));
-            if (aircraft.isModes() != null) aircraftData.addProperty(hasModes, String.valueOf(aircraft.isModes()));
-            if (aircraft.isAdsb() != null) aircraftData.addProperty(hasAdsb, String.valueOf(aircraft.isAdsb()));
-            if (aircraft.isAcars() != null) aircraftData.addProperty(hasAcars, String.valueOf(aircraft.isAcars()));
-            if (aircraft.getNotes() != null) aircraftData.addProperty(hasNotes, String.valueOf(aircraft.getNotes()));
-            if (aircraft.getCategoryDescription() != null) aircraftData.addProperty(hasCategoryDescription, String.valueOf(aircraft.getCategoryDescription()));
-            if (aircraft.getOperator().getIcao() != null) aircraftData.addProperty(hasOperator, String.valueOf(aircraft.getOperator().getIcao()));
-            if (aircraft.getOwner() != null) aircraftData.addProperty(hasOwner, String.valueOf(aircraft.getOwner()));
-            if (aircraft.getEngine() != null) aircraftData.addProperty(hasEngine, String.valueOf(aircraft.getEngine()));
-            model.add(aircraftData, RDF.type, "Aircraft");
+            if (aircraft.getIcao() != null) aircraftData.addLiteral(hasIcao, aircraft.getIcao());
+            if (aircraft.getRegistration() != null) aircraftData.addLiteral(hasRegistration, aircraft.getRegistration());
+            if (aircraft.getManufacturer().getIcao() != null) aircraftData.addLiteral(hasManufacturer, aircraft.getManufacturer());
+            if (aircraft.getModel() != null) aircraftData.addLiteral(hasAircraftModel, aircraft.getModel());
+            if (aircraft.getTypeCode() != null) aircraftData.addLiteral(hasTypeCode, aircraft.getTypeCode());
+            if (aircraft.getSerialNumber() != null) aircraftData.addLiteral(hasSerialNumber, aircraft.getSerialNumber());
+            if (aircraft.getIcaoAircraftType() != null) aircraftData.addLiteral(hasIcaoAircraftType, aircraft.getIcaoAircraftType());
+            if (aircraft.getRegistered() != null) aircraftData.addLiteral(hasRegistered, aircraft.getRegistered());
+            if (aircraft.getRegUntil() != null) aircraftData.addLiteral(hasRegUntil, aircraft.getRegUntil());
+            if (aircraft.getBuilt() != null) aircraftData.addLiteral(hasBuilt, aircraft.getBuilt());
+            if (aircraft.getFirstFlightDate() != null) aircraftData.addLiteral(hasFirstFlightDate, aircraft.getFirstFlightDate());
+            if (aircraft.isModes() != null) aircraftData.addLiteral(hasModes, aircraft.isModes());
+            if (aircraft.isAdsb() != null) aircraftData.addLiteral(hasAdsb, aircraft.isAdsb());
+            if (aircraft.isAcars() != null) aircraftData.addLiteral(hasAcars, aircraft.isAcars());
+            if (aircraft.getNotes() != null) aircraftData.addLiteral(hasNotes, aircraft.getNotes());
+            if (aircraft.getCategoryDescription() != null) aircraftData.addLiteral(hasCategoryDescription, aircraft.getCategoryDescription());
+            if (aircraft.getOperator().getIcao() != null) aircraftData.addLiteral(hasOperator, aircraft.getOperator());
+            if (aircraft.getOwner() != null) aircraftData.addLiteral(hasOwner, aircraft.getOwner());
+            if (aircraft.getEngine() != null) aircraftData.addLiteral(hasEngine, aircraft.getEngine());
+            aircraftData.addProperty(RDF.type, model.createProperty("http://www.w3.org/2022/example#Aircraft"));
             
         }
 
-        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("state-shacl.ttl"));
+        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("aircraft-shacl.ttl"));
+        System.out.println(model);
+        System.out.println(shapes.getGraph());
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
             System.out.println("SHACL VALIDATION (STATIC) SUCCESSFUL");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/StaticData") ) {
@@ -82,21 +94,23 @@ public class RDFConverter {
             //model.write(System.out, "TURTLE");
         } else {
             System.out.println("SHACL VALIDATION NOT (STATIC) SUCCESSFUL");
+            //System.out.println(ShaclValidator.get().validate(shapes, model.getGraph()).getGraph());
+            RDFDataMgr.write(System.out, ShaclValidator.get().validate(shapes, model.getGraph()).getModel(), Lang.TTL);
         }
     }
 
     static void convertDynamicData(List<State> states){
         Model model = ModelFactory.createDefaultModel();
-        String stateURI = "http://aircraft/state#";
+        String stateURI = "http://www.dke-pr/state#";
 
 
         model.setNsPrefix("sh" , "http://www.w3.org/ns/shacl#");
         model.setNsPrefix("xsd" , "http://www.w3.org/2022/example#");
         model.setNsPrefix("ex" , "http://www.w3.org/2022/example#");
         model.setNsPrefix("rdf" , "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-        model.setNsPrefix("aircraft", "http://aircraft/aircraft#");
-        model.setNsPrefix("state", "http://aircraft/state#");
-        model.setNsPrefix("response", "http://aircraft/response#");
+        model.setNsPrefix("aircraft", "http://www.dke-pr/aircraft#");
+        model.setNsPrefix("state", "http://www.dke-pr/aircraft/state#");
+        model.setNsPrefix("response", "http://www.dke-pr/aircraft/response#");
 
 
         Property hasBaroAltitude = model.createProperty("http://aircraft/hasBaroAltitude");
@@ -141,11 +155,13 @@ public class RDFConverter {
             if (state.getResponse() != null) flightState.addProperty(hasResponse, String.valueOf(state.getResponse()));
 
 
-            model.add(flightState, RDF.type, "State");
+            flightState.addProperty(RDF.type, model.createProperty("http://www.w3.org/2022/example#State"));
             //TODO attributsname in shacl ändern (hasicao24 auf hasicao) [Lukas]
         }
 
         Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("state-shacl.ttl"));
+        //System.out.println(model);
+        //System.out.println(shapes.getGraph());
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
             //TODO check for invalid shacl shapes [Arion]
             //TODO für jeden aufruf neuen dynamischen graph erstellen

@@ -2,12 +2,16 @@
 @prefix xsd:	<http://www.w3.org/2001/XMLSchema#>.
 @prefix ex: <http://www.w3.org/2022/example#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix aircraft: <http://www.dke-pr/aircraft#>.
+@prefix state: <http://www.dke-pr/aircraft/state#>.
+@prefix response: <http://www.dke-pr/aircraft/response#>.
+@prefix test: <http://www.dke-pr/test#>.
 
 
 
 ex:StateShape
 	a sh:NodeShape;
-	sh:targetClass ex:State ;
+	<http://www.w3.org/ns/shacl#targetClass> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ;
     sh:closed true ;
 	
 	sh:property [

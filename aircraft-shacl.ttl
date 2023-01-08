@@ -2,9 +2,10 @@
 @prefix xsd:	<http://www.w3.org/2001/XMLSchema#>.
 @prefix ex: <http://www.w3.org/2022/example#>.
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix aircraft: <http://aircraft/aircraft#>.
-@prefix state: <http://aircraft/state#>.
-@prefix response: <http://aircraft/response#>.
+@prefix aircraft: <http://www.dke-pr/aircraft#>.
+@prefix state: <http://www.dke-pr/aircraft/state#>.
+@prefix response: <http://www.dke-pr/aircraft/response#>.
+
 
 ex:AircraftShape
 	a sh:NodeShape;
@@ -14,6 +15,7 @@ ex:AircraftShape
 	sh:property [
 		sh:path ex:hasIcao24;
 		sh:datatype xsd:string;
+		sh:maxCount 1;
 	];
 	sh:property [
 		sh:path ex:hasRegistration;
