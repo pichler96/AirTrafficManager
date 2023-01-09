@@ -6,6 +6,7 @@ import org.apache.jena.shacl.ShaclValidator;
 import org.apache.jena.shacl.Shapes;
 import org.apache.jena.vocabulary.RDF;
 
+import java.time.Instant;
 import java.util.List;
 
 public class RDFConverter {
@@ -89,7 +90,7 @@ public class RDFConverter {
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
             System.out.println("SHACL VALIDATION (STATIC) SUCCESSFUL");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/StaticData") ) {
-                conn.load("http://localhost:3030/StaticData", model);
+                conn.load("http://localhost:3030/StaticData/"+Instant.now().getEpochSecond(), model);
             } catch (Exception ignored) {}
             //model.write(System.out, "TURTLE");
         } else {
@@ -134,7 +135,7 @@ public class RDFConverter {
 
         for (State state : states) {
 
-            Resource flightState = model.createResource(stateURI+state.getIcao24());
+            Resource flightState = model.createResource(stateURI+state.getIcao24()+"/"+state.getResponse().getTime());
             if (state.getBaroAltitude() != null) flightState.addLiteral(hasBaroAltitude, state.getBaroAltitude());
             if (state.getGeoAltitude() != null) flightState.addLiteral(hasGeoAltitude, state.getGeoAltitude());
             if (state.getVelocity() != null) flightState.addLiteral(hasVelocity, state.getVelocity());
@@ -164,13 +165,12 @@ public class RDFConverter {
         //System.out.println(shapes.getGraph());
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
 
-            //TODO für jeden aufruf neuen dynamischen graph erstellen
-            //TODO bei named graph time dynamisch an String anhängen (außerhalb der Iteration)
-            RDFDataMgr.write(System.out, ShaclValidator.get().validate(shapes, model.getGraph()).getModel(), Lang.TTL);
+            
+            //RDFDataMgr.write(System.out, ShaclValidator.get().validate(shapes, model.getGraph()).getModel(), Lang.TTL);
             System.out.println("SHACL VALIDATION (DYNAMIC) SUCCESSFUL");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/DynamicData") ) {
 
-                conn.load("http://localhost:3030/DynamicData",model);
+                conn.load("http://localhost:3030/DynamicData/"+ Instant.now().getEpochSecond(),model);
             }
             catch (Exception err) {}
             //model.write(System.out, "TURTLE");
