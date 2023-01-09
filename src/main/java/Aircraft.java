@@ -36,7 +36,7 @@ public class Aircraft {
         this.icao = icao;
     }
 
-    //TODO set URI for classes
+
 
     public String getRegistration() {
         return registration;

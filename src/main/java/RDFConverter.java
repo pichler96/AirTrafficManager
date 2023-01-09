@@ -58,7 +58,7 @@ public class RDFConverter {
         Property hasEngine = model.createProperty(ex_URL+"hasEngine");
 
         for (Aircraft aircraft : aircrafts) {
-            //TODO: Remove Strings [Open -> mit Paul besprechen]
+
             Resource aircraftData = model.createResource(aircraftUri + aircraft.getIcao());
             if (aircraft.getIcao() != null || aircraft.getIcao() == "") aircraftData.addLiteral(hasIcao, aircraft.getIcao());
             if (aircraft.getRegistration() != null || aircraft.getRegistration() == "") aircraftData.addLiteral(hasRegistration, aircraft.getRegistration());
@@ -133,7 +133,7 @@ public class RDFConverter {
         Property hasResponse = model.createProperty(ex_URL+"hasResponse");
 
         for (State state : states) {
-            //TODO: Remove Strings [Open -> mit Paul besprechen]
+
             Resource flightState = model.createResource(stateURI+state.getIcao24());
             if (state.getBaroAltitude() != null) flightState.addLiteral(hasBaroAltitude, state.getBaroAltitude());
             if (state.getGeoAltitude() != null) flightState.addLiteral(hasGeoAltitude, state.getGeoAltitude());
@@ -156,19 +156,19 @@ public class RDFConverter {
 
 
             flightState.addProperty(RDF.type, model.createProperty(ex_URL+"State"));
-            //TODO attributsname in shacl ändern (hasicao24 auf hasicao) [Lukas]
+
         }
 
         Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("state-shacl.ttl"));
         //System.out.println(model);
         //System.out.println(shapes.getGraph());
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
-            //TODO check for invalid shacl shapes [Arion]
+
             //TODO für jeden aufruf neuen dynamischen graph erstellen
             //TODO bei named graph time dynamisch an String anhängen (außerhalb der Iteration)
             System.out.println("SHACL VALIDATION (DYNAMIC) SUCCESSFUL");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/DynamicData") ) {
-                //TODO [Arion]:
+
                 conn.load("http://localhost:3030/DynamicData",model);
             }
             catch (Exception err) {}
