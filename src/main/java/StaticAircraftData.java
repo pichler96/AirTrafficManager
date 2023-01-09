@@ -4,6 +4,7 @@ import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +20,7 @@ public class StaticAircraftData {
     private static String operatorName;
     private static String operatorCallSign;
     private static String operatorIcao;
-    private static ArrayList<Aircraft> listOfOperatorAircrafts;
+
 
     static List<Aircraft> loadStaticAircraftData() {
         try {
@@ -75,7 +76,7 @@ public class StaticAircraftData {
                             String operatorIata = aircraftDetails.get(i);
                             //TODO
                             //listOfOperatorAircrafts.add(aircraft);
-                            aircraft.setOperator(new Operator(operatorName, operatorCallSign, operatorIcao, operatorIata, listOfOperatorAircrafts));
+                            aircraft.setOperator(new Operator(operatorName, operatorCallSign, operatorIcao, operatorIata));
                             break;
                         case 14:
                             aircraft.setOwner(aircraftDetails.get(i));
@@ -92,7 +93,7 @@ public class StaticAircraftData {
                             break;
                         case 17:
                             if (aircraftDetails.get(i).equals("") || aircraftDetails.get(i) == null) {
-                                aircraft.setRegistered(null);
+                                aircraft.setRegUntil(null);
                             } else {
                                 aircraft.setRegUntil(aircraftDetails.get(i));
                             }
@@ -102,14 +103,14 @@ public class StaticAircraftData {
                             break;
                         case 19:
                             if (aircraftDetails.get(i).equals("") || aircraftDetails.get(i) == null) {
-                                aircraft.setRegistered(null);
+                                aircraft.setBuilt(null);
                             } else {
                                 aircraft.setBuilt(aircraftDetails.get(i));
                             }
                             break;
                         case 20:
                             if (aircraftDetails.get(i).equals("") || aircraftDetails.get(i) == null) {
-                                aircraft.setRegistered(null);
+                                aircraft.setFirstFlightDate(null);
                             } else {
                                 aircraft.setFirstFlightDate(aircraftDetails.get(i));
                             }
@@ -121,13 +122,13 @@ public class StaticAircraftData {
                             aircraft.setEngine(aircraftDetails.get(i));
                             break;
                         case 23:
-                            aircraft.setModes((aircraftDetails.get(i)));
+                            aircraft.setModes((Boolean.parseBoolean(aircraftDetails.get(i))));
                             break;
                         case 24:
-                            aircraft.setAdsb((aircraftDetails.get(i)));
+                            aircraft.setAdsb((Boolean.parseBoolean(aircraftDetails.get(i))));
                             break;
                         case 25:
-                            aircraft.setAcars(aircraftDetails.get(i));
+                            aircraft.setAcars((Boolean.parseBoolean(aircraftDetails.get(i))));
                             break;
                         case 26:
                             aircraft.setNotes(aircraftDetails.get(i));

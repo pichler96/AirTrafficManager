@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 public class Aircraft {
     private String icao;
     private String registration;
@@ -10,9 +12,9 @@ public class Aircraft {
     private String regUntil;
     private String built;
     private String firstFlightDate;
-    private String modes;
-    private String adsb;
-    private String acars;
+    private Boolean modes;
+    private Boolean adsb;
+    private Boolean acars;
     private String notes;
     private String categoryDescription;
     private Operator operator;
@@ -116,27 +118,27 @@ public class Aircraft {
         this.firstFlightDate = firstFlightDate;
     }
 
-    public String isModes() {
+    public Boolean isModes() {
         return modes;
     }
 
-    public void setModes(String modes) {
+    public void setModes(Boolean modes) {
         this.modes = modes;
     }
 
-    public String isAdsb() {
+    public Boolean isAdsb() {
         return adsb;
     }
 
-    public void setAdsb(String adsb) {
+    public void setAdsb(Boolean adsb) {
         this.adsb = adsb;
     }
 
-    public String isAcars() {
+    public Boolean isAcars() {
         return acars;
     }
 
-    public void setAcars(String acars) {
+    public void setAcars(Boolean acars) {
         this.acars = acars;
     }
 

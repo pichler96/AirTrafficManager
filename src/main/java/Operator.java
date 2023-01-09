@@ -6,14 +6,14 @@ public class Operator {
     private String iata;
     private String name;
     private String callsign;
-    private ArrayList<Aircraft> listOfAircrafts = new ArrayList<>();
 
-    public Operator(String name, String callsign, String icao, String iata, ArrayList<Aircraft> listOfAircrafts) {
+
+    public Operator(String name, String callsign, String icao, String iata) {
         this.name = name;
         this.callsign = callsign;
         this.icao = icao;
         this.iata = iata;
-        this.listOfAircrafts = listOfAircrafts;
+
     }
 
     public String getName() {
@@ -48,13 +48,7 @@ public class Operator {
         this.iata = iata;
     }
 
-    public ArrayList<Aircraft> getListOfAircrafts() {
-        return listOfAircrafts;
-    }
 
-    public void setListOfAircrafts(ArrayList<Aircraft> listOfAircrafts) {
-        this.listOfAircrafts = listOfAircrafts;
-    }
 
     @Override
     public String toString() {
@@ -63,7 +57,6 @@ public class Operator {
                 ", iata='" + iata + '\'' +
                 ", name='" + name + '\'' +
                 ", callsign='" + callsign + '\'' +
-                ", listOfAircrafts=" + listOfAircrafts +
                 '}';
     }
 }

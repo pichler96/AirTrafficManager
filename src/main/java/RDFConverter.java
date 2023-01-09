@@ -51,7 +51,7 @@ public class RDFConverter {
         Property hasModes = model.createProperty(ex_URL+"hasModes");
         Property hasAdsb = model.createProperty(ex_URL+"hasAdsb");
         Property hasAcars = model.createProperty(ex_URL+"hasAcars");
-        Property hasNotes = model.createProperty(ex_URL+"hasnotes");
+        Property hasNotes = model.createProperty(ex_URL+"hasNotes");
         Property hasCategoryDescription = model.createProperty(ex_URL+"hasCategoryDescription");
         Property hasOperator = model.createProperty(ex_URL+"hasOperator");
         Property hasOwner = model.createProperty(ex_URL+"hasOwner");
@@ -60,32 +60,32 @@ public class RDFConverter {
         for (Aircraft aircraft : aircrafts) {
             //TODO: Remove Strings [Open -> mit Paul besprechen]
             Resource aircraftData = model.createResource(aircraftUri + aircraft.getIcao());
-            if (aircraft.getIcao() != null) aircraftData.addLiteral(hasIcao, aircraft.getIcao());
-            if (aircraft.getRegistration() != null) aircraftData.addLiteral(hasRegistration, aircraft.getRegistration());
-            if (aircraft.getManufacturer().getIcao() != null) aircraftData.addLiteral(hasManufacturer, aircraft.getManufacturer());
-            if (aircraft.getModel() != null) aircraftData.addLiteral(hasAircraftModel, aircraft.getModel());
-            if (aircraft.getTypeCode() != null) aircraftData.addLiteral(hasTypeCode, aircraft.getTypeCode());
-            if (aircraft.getSerialNumber() != null) aircraftData.addLiteral(hasSerialNumber, aircraft.getSerialNumber());
-            if (aircraft.getIcaoAircraftType() != null) aircraftData.addLiteral(hasIcaoAircraftType, aircraft.getIcaoAircraftType());
-            if (aircraft.getRegistered() != null) aircraftData.addLiteral(hasRegistered, aircraft.getRegistered());
-            if (aircraft.getRegUntil() != null) aircraftData.addLiteral(hasRegUntil, aircraft.getRegUntil());
-            if (aircraft.getBuilt() != null) aircraftData.addLiteral(hasBuilt, aircraft.getBuilt());
-            if (aircraft.getFirstFlightDate() != null) aircraftData.addLiteral(hasFirstFlightDate, aircraft.getFirstFlightDate());
+            if (aircraft.getIcao() != null || aircraft.getIcao() == "") aircraftData.addLiteral(hasIcao, aircraft.getIcao());
+            if (aircraft.getRegistration() != null || aircraft.getRegistration() == "") aircraftData.addLiteral(hasRegistration, aircraft.getRegistration());
+            if (aircraft.getManufacturer().getIcao() != null ||aircraft.getManufacturer().getIcao() =="") aircraftData.addLiteral(hasManufacturer, aircraft.getManufacturer());
+            if (aircraft.getModel() != null || aircraft.getModel() =="") aircraftData.addLiteral(hasAircraftModel, aircraft.getModel());
+            if (aircraft.getTypeCode() != null || aircraft.getTypeCode() =="") aircraftData.addLiteral(hasTypeCode, aircraft.getTypeCode());
+            if (aircraft.getSerialNumber() != null|| aircraft.getSerialNumber() =="") aircraftData.addLiteral(hasSerialNumber, aircraft.getSerialNumber());
+            if (aircraft.getIcaoAircraftType() != null ||aircraft.getIcaoAircraftType() =="") aircraftData.addLiteral(hasIcaoAircraftType, aircraft.getIcaoAircraftType());
+            if (aircraft.getRegistered() != null ||aircraft.getRegistered() =="") aircraftData.addLiteral(hasRegistered, aircraft.getRegistered());
+            if (aircraft.getRegUntil() != null ||aircraft.getRegUntil() =="") aircraftData.addLiteral(hasRegUntil, aircraft.getRegUntil());
+            if (aircraft.getBuilt() != null || aircraft.getBuilt() =="") aircraftData.addLiteral(hasBuilt, aircraft.getBuilt());
+            if (aircraft.getFirstFlightDate() != null ||aircraft.getFirstFlightDate()=="") aircraftData.addLiteral(hasFirstFlightDate, aircraft.getFirstFlightDate());
             if (aircraft.isModes() != null) aircraftData.addLiteral(hasModes, aircraft.isModes());
             if (aircraft.isAdsb() != null) aircraftData.addLiteral(hasAdsb, aircraft.isAdsb());
             if (aircraft.isAcars() != null) aircraftData.addLiteral(hasAcars, aircraft.isAcars());
-            if (aircraft.getNotes() != null) aircraftData.addLiteral(hasNotes, aircraft.getNotes());
-            if (aircraft.getCategoryDescription() != null) aircraftData.addLiteral(hasCategoryDescription, aircraft.getCategoryDescription());
-            if (aircraft.getOperator().getIcao() != null) aircraftData.addLiteral(hasOperator, aircraft.getOperator());
-            if (aircraft.getOwner() != null) aircraftData.addLiteral(hasOwner, aircraft.getOwner());
-            if (aircraft.getEngine() != null) aircraftData.addLiteral(hasEngine, aircraft.getEngine());
-            aircraftData.addProperty(RDF.type, model.createProperty("http://www.w3.org/2022/example#Aircraft"));
+            if (aircraft.getNotes() != null || aircraft.getNotes() == "") aircraftData.addLiteral(hasNotes, aircraft.getNotes());
+            if (aircraft.getCategoryDescription() != null || aircraft.getCategoryDescription() =="") aircraftData.addLiteral(hasCategoryDescription, aircraft.getCategoryDescription());
+            if (aircraft.getOperator().getIcao() != null ||aircraft.getOperator().getIcao() =="") aircraftData.addLiteral(hasOperator, aircraft.getOperator());
+            if (aircraft.getOwner() != null ||aircraft.getOwner()=="") aircraftData.addLiteral(hasOwner, aircraft.getOwner());
+            if (aircraft.getEngine() != null || aircraft.getEngine() =="") aircraftData.addLiteral(hasEngine, aircraft.getEngine());
+            aircraftData.addProperty(RDF.type, model.createProperty(ex_URL+"Aircraft"));
             
         }
 
         Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("aircraft-shacl.ttl"));
-        System.out.println(model);
-        System.out.println(shapes.getGraph());
+
+
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
             System.out.println("SHACL VALIDATION (STATIC) SUCCESSFUL");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/StaticData") ) {
@@ -113,49 +113,49 @@ public class RDFConverter {
         model.setNsPrefix("response", "http://www.dke-pr/aircraft/response#");
 
 
-        Property hasBaroAltitude = model.createProperty("http://aircraft/hasBaroAltitude");
-        Property hasGeoAltitude = model.createProperty("http://aircraft/hasGeoAltitude");
-        Property hasVelocity = model.createProperty("http://aircraft/hasVelocity");
-        Property hasLastContact = model.createProperty("http://aircraft/hasLastContact");
-        Property hasLastPositionUpdate = model.createProperty("http://aircraft/hasLastPositionUpdate");
-        Property hasOnGround = model.createProperty("http://aircraft/hasOnGround");
-        Property hasOriginCountry = model.createProperty("http://aircraft/hasOriginCountry");
-        Property hasLatitude = model.createProperty("http://aircraft/hasLatitude");
-        Property hasLongitude = model.createProperty("http://aircraft/hasLongitude");
-        Property hasHeading = model.createProperty("http://aircraft/hasHeading");
-        Property hasVerticalRate = model.createProperty("http://aircraft/hasVerticalRate");
-        Property hasIcao24 = model.createProperty("http://aircraft/hasIcao24");
-        Property hasCallsign = model.createProperty("http://aircraft/hasCallsign");
-        Property hasSquawk = model.createProperty("http://aircraft/hasSquawk");
-        Property hasSpi = model.createProperty("http://aircraft/hasSpi");
-        Property hasPositionSource = model.createProperty("http://aircraft/hasPositionSource");
-        Property hasSerials = model.createProperty("http://aircraft/hasSerials");
-        Property hasResponse = model.createProperty("http://aircraft/hasResponse");
+        Property hasBaroAltitude = model.createProperty(ex_URL+"hasBaroAltitude");
+        Property hasGeoAltitude = model.createProperty(ex_URL+"hasGeoAltitude");
+        Property hasVelocity = model.createProperty(ex_URL+"hasVelocity");
+        Property hasLastContact = model.createProperty(ex_URL+"hasLastContact");
+        Property hasLastPositionUpdate = model.createProperty(ex_URL+"hasLastPositionUpdate");
+        Property hasOnGround = model.createProperty(ex_URL+"hasOnGround");
+        Property hasOriginCountry = model.createProperty(ex_URL+"hasOriginCountry");
+        Property hasLatitude = model.createProperty(ex_URL+"hasLatitude");
+        Property hasLongitude = model.createProperty(ex_URL+"hasLongitude");
+        Property hasHeading = model.createProperty(ex_URL+"hasHeading");
+        Property hasVerticalRate = model.createProperty(ex_URL+"hasVerticalRate");
+        Property hasIcao24 = model.createProperty(ex_URL+"hasIcao24");
+        Property hasCallsign = model.createProperty(ex_URL+"hasCallsign");
+        Property hasSquawk = model.createProperty(ex_URL+"hasSquawk");
+        Property hasSpi = model.createProperty(ex_URL+"hasSpi");
+        Property hasPositionSource = model.createProperty(ex_URL+"hasPositionSource");
+        Property hasSerials = model.createProperty(ex_URL+"hasSerials");
+        Property hasResponse = model.createProperty(ex_URL+"hasResponse");
 
         for (State state : states) {
             //TODO: Remove Strings [Open -> mit Paul besprechen]
             Resource flightState = model.createResource(stateURI+state.getIcao24());
-            if (state.getBaroAltitude() != null) flightState.addProperty(hasBaroAltitude, String.valueOf(state.getBaroAltitude()));
-            if (state.getGeoAltitude() != null) flightState.addProperty(hasGeoAltitude, String.valueOf(state.getGeoAltitude()));
-            if (state.getVelocity() != null) flightState.addProperty(hasVelocity, String.valueOf(state.getVelocity()));
-            if (state.getLastContact() != null) flightState.addProperty(hasLastContact, String.valueOf(state.getLastContact()));
-            if (state.getLastPositionUpdate() != null) flightState.addProperty(hasLastPositionUpdate, String.valueOf(state.getLastPositionUpdate()));
-            if (String.valueOf(state.isOnGround()) != null) flightState.addProperty(hasOnGround, String.valueOf(state.isOnGround()));
-            if (state.getOriginCountry() != null) flightState.addProperty(hasOriginCountry, String.valueOf(state.getOriginCountry()));
-            if (state.getLatitude() != null) flightState.addProperty(hasLatitude, String.valueOf(state.getLatitude()));
-            if (state.getLongitude() != null) flightState.addProperty(hasLongitude, String.valueOf(state.getLongitude()));
-            if (state.getHeading() != null) flightState.addProperty(hasHeading, String.valueOf(state.getHeading()));
-            if (state.getVerticalRate() != null) flightState.addProperty(hasVerticalRate, String.valueOf(state.getVerticalRate()));
-            if (state.getIcao24() != null) flightState.addProperty(hasIcao24, String.valueOf(state.getIcao24()));
-            if (state.getCallsign() != null) flightState.addProperty(hasCallsign, String.valueOf(state.getCallsign()));
-            if (state.getSquawk() != null) flightState.addProperty(hasSquawk, String.valueOf(state.getSquawk()));
-            if (String.valueOf(state.isSpi()) != null) flightState.addProperty(hasSpi, String.valueOf(state.isSpi()));
-            if (state.getPositionSource() != null) flightState.addProperty(hasPositionSource, String.valueOf(state.getPositionSource()));
-            if (state.getSerials() != null) flightState.addProperty(hasSerials, String.valueOf(state.getSerials()));
-            if (state.getResponse() != null) flightState.addProperty(hasResponse, String.valueOf(state.getResponse()));
+            if (state.getBaroAltitude() != null) flightState.addLiteral(hasBaroAltitude, state.getBaroAltitude());
+            if (state.getGeoAltitude() != null) flightState.addLiteral(hasGeoAltitude, state.getGeoAltitude());
+            if (state.getVelocity() != null) flightState.addLiteral(hasVelocity, state.getVelocity());
+            if (state.getLastContact() != null) flightState.addLiteral(hasLastContact, state.getLastContact());
+            if (state.getLastPositionUpdate() != null) flightState.addLiteral(hasLastPositionUpdate, state.getLastPositionUpdate());
+            if (String.valueOf(state.isOnGround()) != null) flightState.addLiteral(hasOnGround, state.isOnGround());
+            if (state.getOriginCountry() != null) flightState.addLiteral(hasOriginCountry, state.getOriginCountry());
+            if (state.getLatitude() != null) flightState.addLiteral(hasLatitude, state.getLatitude());
+            if (state.getLongitude() != null) flightState.addLiteral(hasLongitude, state.getLongitude());
+            if (state.getHeading() != null) flightState.addLiteral(hasHeading, state.getHeading());
+            if (state.getVerticalRate() != null) flightState.addLiteral(hasVerticalRate, state.getVerticalRate());
+            if (state.getIcao24() != null) flightState.addLiteral(hasIcao24, state.getIcao24());
+            if (state.getCallsign() != null) flightState.addLiteral(hasCallsign, state.getCallsign());
+            if (state.getSquawk() != null) flightState.addLiteral(hasSquawk, state.getSquawk());
+            if (String.valueOf(state.isSpi()) != null) flightState.addLiteral(hasSpi, state.isSpi());
+            if (state.getPositionSource() != null) flightState.addLiteral(hasPositionSource, state.getPositionSource());
+            if (state.getSerials() != null) flightState.addLiteral(hasSerials, state.getSerials());
+            if (state.getResponse() != null) flightState.addLiteral(hasResponse, state.getResponse().getTime());
 
 
-            flightState.addProperty(RDF.type, model.createProperty("http://www.w3.org/2022/example#State"));
+            flightState.addProperty(RDF.type, model.createProperty(ex_URL+"State"));
             //TODO attributsname in shacl ändern (hasicao24 auf hasicao) [Lukas]
         }
 
@@ -175,6 +175,7 @@ public class RDFConverter {
             //model.write(System.out, "TURTLE");
         } else {
             System.out.println("SHACL VALIDATION NOT (DYNAMIC) SUCCESSFUL");
+            RDFDataMgr.write(System.out, ShaclValidator.get().validate(shapes, model.getGraph()).getModel(), Lang.TTL);
         }
     }
 }

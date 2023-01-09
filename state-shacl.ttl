@@ -11,8 +11,12 @@
 
 ex:StateShape
 	a sh:NodeShape;
-	<http://www.w3.org/ns/shacl#targetClass> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ;
+	ex:targetClass ex:State ;
     sh:closed true ;
+
+    sh:property [
+            sh:path rdf:type
+        ];
 	
 	sh:property [
 		sh:path ex:hasGeoAltitude;
@@ -94,5 +98,17 @@ ex:StateShape
 		sh:path ex:hasPositionSource;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
-	].
+	];
+
+	sh:property [
+    		sh:path ex:hasResponse;
+    		sh:datatype xsd:time;
+    		sh:maxCount 1;
+    ];
+
+	sh:property [
+    		sh:path ex:hasSerials;
+    		sh:datatype xsd:string;
+    		sh:maxCount 1;
+    	].
 

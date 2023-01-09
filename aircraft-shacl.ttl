@@ -11,6 +11,10 @@ ex:AircraftShape
 	a sh:NodeShape;
 	sh:targetClass ex:Aircraft;
     sh:closed true ;
+
+    sh:property [
+        sh:path rdf:type
+    ];
 	
 	sh:property [
 		sh:path ex:hasIcao24;
@@ -21,7 +25,6 @@ ex:AircraftShape
 		sh:path ex:hasRegistration;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
-		sh:minCount 2;
 	];
 	sh:property [
 		sh:path ex:hasAircraftModel;
@@ -45,22 +48,22 @@ ex:AircraftShape
 	];
 	sh:property [
 		sh:path ex:hasRegistered;
-		sh:datatype xsd:localDate;
+		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
 		sh:path ex:hasRegUntil;
-		sh:datatype xsd:localDate;
+		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
 		sh:path ex:hasBuilt;
-		sh:datatype xsd:localDate;
+		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
 		sh:path ex:hasFirstFlightDate;
-		sh:datatype xsd:localDate;
+		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
