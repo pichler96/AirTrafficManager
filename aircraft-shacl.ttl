@@ -117,6 +117,11 @@ ex:ManufacturerShape
 	a sh:NodeShape;
 	sh:targetClass ex:Manufacturer;
 	sh:closed true ;
+
+	sh:property [
+            sh:path rdf:type
+        ];
+
 	sh:property [
 		sh:path ex:hasManufacturerIcao;
 		sh:datatype xsd:string;
@@ -131,6 +136,11 @@ ex:ManufacturerShape
 ex:OperatorShape
 	a sh:NodeShape;
 	sh:targetClass ex:Operator;
+
+	sh:property [
+            sh:path rdf:type
+        ];
+
 	sh:property [
 		sh:path ex:hasIcao;
 		sh:datatype xsd:string;

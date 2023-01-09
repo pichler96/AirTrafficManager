@@ -21,6 +21,7 @@ ex:StateShape
 	sh:property [
 		sh:path ex:hasGeoAltitude;
 		sh:datatype xsd:double;
+		sh:maxCount 1;
 	];
 	sh:property [
 		sh:path ex:hasLongitude;

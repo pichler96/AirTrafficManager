@@ -104,13 +104,13 @@ public class RDFConverter {
         String stateURI = "http://www.dke-pr/state#";
 
 
-        model.setNsPrefix("sh" , "http://www.w3.org/ns/shacl#");
-        model.setNsPrefix("xsd" , "http://www.w3.org/2022/example#");
-        model.setNsPrefix("ex" , "http://www.w3.org/2022/example#");
-        model.setNsPrefix("rdf" , "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-        model.setNsPrefix("aircraft", "http://www.dke-pr/aircraft#");
-        model.setNsPrefix("state", "http://www.dke-pr/aircraft/state#");
-        model.setNsPrefix("response", "http://www.dke-pr/aircraft/response#");
+        model.setNsPrefix("sh" , sh_URL);
+        model.setNsPrefix("xsd" , xsd_URL);
+        model.setNsPrefix("ex" , ex_URL);
+        model.setNsPrefix("rdf" , rdf_URL);
+        model.setNsPrefix("aircraft", aircraft_URL);
+        model.setNsPrefix("state", state_URL);
+        model.setNsPrefix("response", response_URL);
 
 
         Property hasBaroAltitude = model.createProperty(ex_URL+"hasBaroAltitude");
@@ -166,6 +166,7 @@ public class RDFConverter {
 
             //TODO für jeden aufruf neuen dynamischen graph erstellen
             //TODO bei named graph time dynamisch an String anhängen (außerhalb der Iteration)
+            RDFDataMgr.write(System.out, ShaclValidator.get().validate(shapes, model.getGraph()).getModel(), Lang.TTL);
             System.out.println("SHACL VALIDATION (DYNAMIC) SUCCESSFUL");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/DynamicData") ) {
 
