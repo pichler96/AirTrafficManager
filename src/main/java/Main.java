@@ -29,12 +29,14 @@ public class Main {
             if (userInput.equals("1")) {
                 isProductiveModeFlag = true;
                 states = DynamicAircraftData.loadDynamicAircraftData();
-                convertDataIntoGraph();
+                convertDynamicDataIntoGraph();
+                convertStaticDataIntoGraph();
                 break;
             } else if (userInput.equals("2")) {
                 isProductiveModeFlag = true;
                 states = DynamicAircraftData.loadDummyAircraftData();
-                convertDataIntoGraph();
+                convertDynamicDataIntoGraph();
+                convertStaticDataIntoGraph();
                 break;
             } else if (userInput.equals("3")) {
                 System.exit(0);
@@ -52,7 +54,7 @@ public class Main {
             if (userInput.equalsIgnoreCase("update")) {
                 if (isProductiveModeFlag) {
                     states = DynamicAircraftData.loadDynamicAircraftData();
-                    convertDataIntoGraph();
+                    convertDynamicDataIntoGraph();
                 } else if (userInput.equalsIgnoreCase("exit")){
                     System.exit(0);
                 } else {
@@ -62,8 +64,11 @@ public class Main {
         } while (!userInput.equalsIgnoreCase("exit"));
     }
 
-    private static void convertDataIntoGraph() {
+    private static void convertStaticDataIntoGraph() {
         RDFConverter.convertStaticData(aircrafts);
+    }
+
+    private static void convertDynamicDataIntoGraph(){
         RDFConverter.convertDynamicData(states);
     }
 }
