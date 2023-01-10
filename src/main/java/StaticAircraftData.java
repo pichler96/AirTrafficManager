@@ -58,7 +58,7 @@ public class StaticAircraftData {
                             aircraft.setSerialNumber(aircraftDetails.get(i));
                             break;
                         case 8:
-                            //TODO linenumber?
+
                             break;
                         case 9:
                             aircraft.setAircraftType(aircraftDetails.get(i));
@@ -74,7 +74,7 @@ public class StaticAircraftData {
                             break;
                         case 13:
                             String operatorIata = aircraftDetails.get(i);
-                            //TODO
+
                             //listOfOperatorAircrafts.add(aircraft);
                             aircraft.setOperator(new Operator(operatorName, operatorCallSign, operatorIcao, operatorIata));
                             break;
@@ -82,7 +82,7 @@ public class StaticAircraftData {
                             aircraft.setOwner(aircraftDetails.get(i));
                             break;
                         case 15:
-                            //TODO testreg?
+
                             break;
                         case 16:
                             if (aircraftDetails.get(i).equals("") || aircraftDetails.get(i) == null) {
@@ -99,7 +99,7 @@ public class StaticAircraftData {
                             }
                             break;
                         case 18:
-                            //TODO status?
+
                             break;
                         case 19:
                             if (aircraftDetails.get(i).equals("") || aircraftDetails.get(i) == null) {
@@ -116,7 +116,7 @@ public class StaticAircraftData {
                             }
                             break;
                         case 21:
-                            //TODO seatconfiguration?
+
                             break;
                         case 22:
                             aircraft.setEngine(aircraftDetails.get(i));

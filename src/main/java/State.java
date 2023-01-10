@@ -3,7 +3,7 @@ import org.opensky.model.StateVector;
 import java.util.HashSet;
 import java.util.Set;
 
-//TODO load stateVector data into extended state [Gerald]
+
 public class State {
 
     private Double geoAltitude;

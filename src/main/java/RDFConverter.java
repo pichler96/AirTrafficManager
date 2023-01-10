@@ -5,6 +5,7 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.shacl.ShaclValidator;
 import org.apache.jena.shacl.Shapes;
 import org.apache.jena.vocabulary.RDF;
+import org.topbraid.shacl.validation.ValidationUtil;
 
 import java.time.Instant;
 import java.util.List;
@@ -12,12 +13,14 @@ import java.util.List;
 public class RDFConverter {
 
     static String sh_URL = "http://www.w3.org/ns/shacl#";
-    static String xsd_URL = "http://www.w3.org/2022/example#";
+    static String xsd_URL = "http://www.w3.org/2001/XMLSchema#";
     static String ex_URL = "http://www.w3.org/2022/example#";
     static String rdf_URL = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
     static String aircraft_URL = "http://www.dke-pr/aircraft#";
     static String state_URL = "http://www.dke-pr/aircraft/state#";
     static String response_URL = "http://www.dke-pr/aircraft/response#";
+
+
 
     /*
     @prefix aircraft:
@@ -61,25 +64,25 @@ public class RDFConverter {
         for (Aircraft aircraft : aircrafts) {
 
             Resource aircraftData = model.createResource(aircraftUri + aircraft.getIcao());
-            if (aircraft.getIcao() != null || aircraft.getIcao() == "") aircraftData.addLiteral(hasIcao, aircraft.getIcao());
-            if (aircraft.getRegistration() != null || aircraft.getRegistration() == "") aircraftData.addLiteral(hasRegistration, aircraft.getRegistration());
-            if (aircraft.getManufacturer().getIcao() != null ||aircraft.getManufacturer().getIcao() =="") aircraftData.addLiteral(hasManufacturer, aircraft.getManufacturer());
-            if (aircraft.getModel() != null || aircraft.getModel() =="") aircraftData.addLiteral(hasAircraftModel, aircraft.getModel());
-            if (aircraft.getTypeCode() != null || aircraft.getTypeCode() =="") aircraftData.addLiteral(hasTypeCode, aircraft.getTypeCode());
-            if (aircraft.getSerialNumber() != null|| aircraft.getSerialNumber() =="") aircraftData.addLiteral(hasSerialNumber, aircraft.getSerialNumber());
-            if (aircraft.getIcaoAircraftType() != null ||aircraft.getIcaoAircraftType() =="") aircraftData.addLiteral(hasIcaoAircraftType, aircraft.getIcaoAircraftType());
-            if (aircraft.getRegistered() != null ||aircraft.getRegistered() =="") aircraftData.addLiteral(hasRegistered, aircraft.getRegistered());
-            if (aircraft.getRegUntil() != null ||aircraft.getRegUntil() =="") aircraftData.addLiteral(hasRegUntil, aircraft.getRegUntil());
-            if (aircraft.getBuilt() != null || aircraft.getBuilt() =="") aircraftData.addLiteral(hasBuilt, aircraft.getBuilt());
-            if (aircraft.getFirstFlightDate() != null ||aircraft.getFirstFlightDate()=="") aircraftData.addLiteral(hasFirstFlightDate, aircraft.getFirstFlightDate());
+            if (aircraft.getIcao() != null) aircraftData.addLiteral(hasIcao, aircraft.getIcao());
+            if (aircraft.getRegistration() != null) aircraftData.addLiteral(hasRegistration, aircraft.getRegistration());
+            if (aircraft.getManufacturer().getIcao() != null ) aircraftData.addLiteral(hasManufacturer, aircraft.getManufacturer());
+            if (aircraft.getModel() != null ) aircraftData.addLiteral(hasAircraftModel, aircraft.getModel());
+            if (aircraft.getTypeCode() != null ) aircraftData.addLiteral(hasTypeCode, aircraft.getTypeCode());
+            if (aircraft.getSerialNumber() != null) aircraftData.addLiteral(hasSerialNumber, aircraft.getSerialNumber());
+            if (aircraft.getIcaoAircraftType() != null ) aircraftData.addLiteral(hasIcaoAircraftType, aircraft.getIcaoAircraftType());
+            if (aircraft.getRegistered() != null ) aircraftData.addLiteral(hasRegistered, aircraft.getRegistered());
+            if (aircraft.getRegUntil() != null ) aircraftData.addLiteral(hasRegUntil, aircraft.getRegUntil());
+            if (aircraft.getBuilt() != null ) aircraftData.addLiteral(hasBuilt, aircraft.getBuilt());
+            if (aircraft.getFirstFlightDate() != null ) aircraftData.addLiteral(hasFirstFlightDate, aircraft.getFirstFlightDate());
             if (aircraft.isModes() != null) aircraftData.addLiteral(hasModes, aircraft.isModes());
             if (aircraft.isAdsb() != null) aircraftData.addLiteral(hasAdsb, aircraft.isAdsb());
             if (aircraft.isAcars() != null) aircraftData.addLiteral(hasAcars, aircraft.isAcars());
-            if (aircraft.getNotes() != null || aircraft.getNotes() == "") aircraftData.addLiteral(hasNotes, aircraft.getNotes());
-            if (aircraft.getCategoryDescription() != null || aircraft.getCategoryDescription() =="") aircraftData.addLiteral(hasCategoryDescription, aircraft.getCategoryDescription());
-            if (aircraft.getOperator().getIcao() != null ||aircraft.getOperator().getIcao() =="") aircraftData.addLiteral(hasOperator, aircraft.getOperator());
-            if (aircraft.getOwner() != null ||aircraft.getOwner()=="") aircraftData.addLiteral(hasOwner, aircraft.getOwner());
-            if (aircraft.getEngine() != null || aircraft.getEngine() =="") aircraftData.addLiteral(hasEngine, aircraft.getEngine());
+            if (aircraft.getNotes() != null || aircraft.getNotes() != "") aircraftData.addLiteral(hasNotes, aircraft.getNotes());
+            if (aircraft.getCategoryDescription() != null ) aircraftData.addLiteral(hasCategoryDescription, aircraft.getCategoryDescription());
+            if (aircraft.getOperator().getIcao() != null ) aircraftData.addLiteral(hasOperator, aircraft.getOperator());
+            if (aircraft.getOwner() != null ) aircraftData.addLiteral(hasOwner, aircraft.getOwner());
+            if (aircraft.getEngine() != null ) aircraftData.addLiteral(hasEngine, aircraft.getEngine());
             aircraftData.addProperty(RDF.type, model.createProperty(ex_URL+"Aircraft"));
             
         }
@@ -89,7 +92,7 @@ public class RDFConverter {
 
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
             System.out.println("SHACL VALIDATION (STATIC) SUCCESSFUL");
-            try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/StaticData") ) {
+            try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
                 conn.load("http://localhost:3030/StaticData/"+Instant.now().getEpochSecond(), model);
             } catch (Exception ignored) {}
             //model.write(System.out, "TURTLE");
@@ -161,14 +164,16 @@ public class RDFConverter {
         }
 
         Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("state-shacl.ttl"));
-        //System.out.println(model);
+        //Model shapesModel = RDFDataMgr.loadModel("state-shacl.ttl");
+
         //System.out.println(shapes.getGraph());
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
 
-            
+            //Resource report = ValidationUtil.validateModel(model, shapesModel, false);
+            //RDFDataMgr.write(System.out, report.getModel(), Lang.TTL);
             //RDFDataMgr.write(System.out, ShaclValidator.get().validate(shapes, model.getGraph()).getModel(), Lang.TTL);
             System.out.println("SHACL VALIDATION (DYNAMIC) SUCCESSFUL");
-            try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/DynamicData") ) {
+            try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
 
                 conn.load("http://localhost:3030/DynamicData/"+ Instant.now().getEpochSecond(),model);
             }

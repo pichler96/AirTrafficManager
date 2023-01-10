@@ -1,17 +1,15 @@
 @prefix sh:	<http://www.w3.org/ns/shacl#>.
 @prefix xsd:	<http://www.w3.org/2001/XMLSchema#>.
-@prefix ex: <http://www.w3.org/2022/example#> .
+@prefix ex: <http://www.w3.org/2022/example#>.
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix aircraft: <http://www.dke-pr/aircraft#>.
 @prefix state: <http://www.dke-pr/aircraft/state#>.
 @prefix response: <http://www.dke-pr/aircraft/response#>.
 @prefix test: <http://www.dke-pr/test#>.
 
-
-
 ex:StateShape
 	a sh:NodeShape;
-	ex:targetClass ex:State ;
+	sh:targetClass ex:State ;
     sh:closed true ;
 
     sh:property [
@@ -27,7 +25,6 @@ ex:StateShape
 		sh:path ex:hasLongitude;
 		sh:datatype xsd:double;
 		sh:maxCount 1;
-		sh:minCount 2;
 	];
 	sh:property [
 		sh:path ex:hasLatitude;
@@ -103,7 +100,7 @@ ex:StateShape
 
 	sh:property [
     		sh:path ex:hasResponse;
-    		sh:datatype xsd:time;
+    		sh:datatype xsd:double;
     		sh:maxCount 1;
     ];
 

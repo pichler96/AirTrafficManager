@@ -34,5 +34,11 @@
             <type>pom</type>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.topbraid</groupId>
+            <artifactId>shacl</artifactId>
+            <version>1.4.2</version>
+        </dependency>
     </dependencies>
 </project>
