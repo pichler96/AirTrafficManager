@@ -17,8 +17,9 @@ public class RDFConverter {
     static String ex_URL = "http://www.w3.org/2022/example#";
     static String rdf_URL = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
     static String aircraft_URL = "http://www.dke-pr/aircraft#";
-    static String state_URL = "http://www.dke-pr/aircraft/state#";
-    static String response_URL = "http://www.dke-pr/aircraft/response#";
+    static String state_URL = "http://www.dke-pr/state#";
+    static String response_URL = "http://www.dke-pr/response#";
+    static String property_URL = "http://www.dke-pr/property#";
 
 
 
@@ -30,7 +31,6 @@ public class RDFConverter {
 
     static void convertStaticData(List<Aircraft> aircrafts) {
         Model model = ModelFactory.createDefaultModel();
-        String aircraftUri = "http://www.dke-pr/aircraft#";
 
         model.setNsPrefix("sh" , sh_URL);
         model.setNsPrefix("xsd" , xsd_URL);
@@ -39,31 +39,32 @@ public class RDFConverter {
         model.setNsPrefix("aircraft", aircraft_URL);
         model.setNsPrefix("state", state_URL);
         model.setNsPrefix("response", response_URL);
+        model.setNsPrefix("property", property_URL);
 
 
-        Property hasIcao = model.createProperty(ex_URL+"hasIcao24");
-        Property hasRegistration = model.createProperty(ex_URL +"hasRegistration");
-        Property hasManufacturer = model.createProperty(ex_URL +"hasManufacturer");
-        Property hasAircraftModel = model.createProperty(ex_URL+"hasAircraftModel");
-        Property hasTypeCode = model.createProperty(ex_URL+"hasTypeCode");
-        Property hasSerialNumber = model.createProperty(ex_URL+"hasSerialNumber");
-        Property hasIcaoAircraftType = model.createProperty(ex_URL+"hasIcaoAircraftType");
-        Property hasRegistered = model.createProperty(ex_URL+"hasRegistered");
-        Property hasRegUntil = model.createProperty(ex_URL+"hasRegUntil");
-        Property hasBuilt = model.createProperty(ex_URL+"hasBuilt");
-        Property hasFirstFlightDate = model.createProperty(ex_URL+"hasFirstFlightDate");
-        Property hasModes = model.createProperty(ex_URL+"hasModes");
-        Property hasAdsb = model.createProperty(ex_URL+"hasAdsb");
-        Property hasAcars = model.createProperty(ex_URL+"hasAcars");
-        Property hasNotes = model.createProperty(ex_URL+"hasNotes");
-        Property hasCategoryDescription = model.createProperty(ex_URL+"hasCategoryDescription");
-        Property hasOperator = model.createProperty(ex_URL+"hasOperator");
-        Property hasOwner = model.createProperty(ex_URL+"hasOwner");
-        Property hasEngine = model.createProperty(ex_URL+"hasEngine");
+        Property hasIcao = model.createProperty(property_URL+"hasIcao24");
+        Property hasRegistration = model.createProperty(property_URL +"hasRegistration");
+        Property hasManufacturer = model.createProperty(property_URL +"hasManufacturer");
+        Property hasAircraftModel = model.createProperty(property_URL+"hasAircraftModel");
+        Property hasTypeCode = model.createProperty(property_URL+"hasTypeCode");
+        Property hasSerialNumber = model.createProperty(property_URL+"hasSerialNumber");
+        Property hasIcaoAircraftType = model.createProperty(property_URL+"hasIcaoAircraftType");
+        Property hasRegistered = model.createProperty(property_URL+"hasRegistered");
+        Property hasRegUntil = model.createProperty(property_URL+"hasRegUntil");
+        Property hasBuilt = model.createProperty(property_URL+"hasBuilt");
+        Property hasFirstFlightDate = model.createProperty(property_URL+"hasFirstFlightDate");
+        Property hasModes = model.createProperty(property_URL+"hasModes");
+        Property hasAdsb = model.createProperty(property_URL+"hasAdsb");
+        Property hasAcars = model.createProperty(property_URL+"hasAcars");
+        Property hasNotes = model.createProperty(property_URL+"hasNotes");
+        Property hasCategoryDescription = model.createProperty(property_URL+"hasCategoryDescription");
+        Property hasOperator = model.createProperty(property_URL+"hasOperator");
+        Property hasOwner = model.createProperty(property_URL+"hasOwner");
+        Property hasEngine = model.createProperty(property_URL+"hasEngine");
 
         for (Aircraft aircraft : aircrafts) {
 
-            Resource aircraftData = model.createResource(aircraftUri + aircraft.getIcao());
+            Resource aircraftData = model.createResource(aircraft_URL + aircraft.getIcao());
             if (aircraft.getIcao() != null) aircraftData.addLiteral(hasIcao, aircraft.getIcao());
             if (aircraft.getRegistration() != null) aircraftData.addLiteral(hasRegistration, aircraft.getRegistration());
             if (aircraft.getManufacturer().getIcao() != null ) aircraftData.addLiteral(hasManufacturer, aircraft.getManufacturer());
@@ -105,7 +106,7 @@ public class RDFConverter {
 
     static void convertDynamicData(List<State> states){
         Model model = ModelFactory.createDefaultModel();
-        String stateURI = "http://www.dke-pr/state#";
+
 
 
         model.setNsPrefix("sh" , sh_URL);
@@ -115,30 +116,31 @@ public class RDFConverter {
         model.setNsPrefix("aircraft", aircraft_URL);
         model.setNsPrefix("state", state_URL);
         model.setNsPrefix("response", response_URL);
+        model.setNsPrefix("property", property_URL);
 
 
-        Property hasBaroAltitude = model.createProperty(ex_URL+"hasBaroAltitude");
-        Property hasGeoAltitude = model.createProperty(ex_URL+"hasGeoAltitude");
-        Property hasVelocity = model.createProperty(ex_URL+"hasVelocity");
-        Property hasLastContact = model.createProperty(ex_URL+"hasLastContact");
-        Property hasLastPositionUpdate = model.createProperty(ex_URL+"hasLastPositionUpdate");
-        Property hasOnGround = model.createProperty(ex_URL+"hasOnGround");
-        Property hasOriginCountry = model.createProperty(ex_URL+"hasOriginCountry");
-        Property hasLatitude = model.createProperty(ex_URL+"hasLatitude");
-        Property hasLongitude = model.createProperty(ex_URL+"hasLongitude");
-        Property hasHeading = model.createProperty(ex_URL+"hasHeading");
-        Property hasVerticalRate = model.createProperty(ex_URL+"hasVerticalRate");
-        Property hasIcao24 = model.createProperty(ex_URL+"hasIcao24");
-        Property hasCallsign = model.createProperty(ex_URL+"hasCallsign");
-        Property hasSquawk = model.createProperty(ex_URL+"hasSquawk");
-        Property hasSpi = model.createProperty(ex_URL+"hasSpi");
-        Property hasPositionSource = model.createProperty(ex_URL+"hasPositionSource");
-        Property hasSerials = model.createProperty(ex_URL+"hasSerials");
-        Property hasResponse = model.createProperty(ex_URL+"hasResponse");
+        Property hasBaroAltitude = model.createProperty(property_URL+"hasBaroAltitude");
+        Property hasGeoAltitude = model.createProperty(property_URL+"hasGeoAltitude");
+        Property hasVelocity = model.createProperty(property_URL+"hasVelocity");
+        Property hasLastContact = model.createProperty(property_URL+"hasLastContact");
+        Property hasLastPositionUpdate = model.createProperty(property_URL+"hasLastPositionUpdate");
+        Property hasOnGround = model.createProperty(property_URL+"hasOnGround");
+        Property hasOriginCountry = model.createProperty(property_URL+"hasOriginCountry");
+        Property hasLatitude = model.createProperty(property_URL+"hasLatitude");
+        Property hasLongitude = model.createProperty(property_URL+"hasLongitude");
+        Property hasHeading = model.createProperty(property_URL+"hasHeading");
+        Property hasVerticalRate = model.createProperty(property_URL+"hasVerticalRate");
+        Property hasIcao24 = model.createProperty(property_URL+"hasIcao24");
+        Property hasCallsign = model.createProperty(property_URL+"hasCallsign");
+        Property hasSquawk = model.createProperty(property_URL+"hasSquawk");
+        Property hasSpi = model.createProperty(property_URL+"hasSpi");
+        Property hasPositionSource = model.createProperty(property_URL+"hasPositionSource");
+        Property hasSerials = model.createProperty(property_URL+"hasSerials");
+        Property hasResponse = model.createProperty(property_URL+"hasResponse");
 
         for (State state : states) {
 
-            Resource flightState = model.createResource(stateURI+state.getIcao24()+"/"+state.getResponse().getTime());
+            Resource flightState = model.createResource(state_URL+state.getIcao24()+"/"+state.getResponse().getTime());
             if (state.getBaroAltitude() != null) flightState.addLiteral(hasBaroAltitude, state.getBaroAltitude());
             if (state.getGeoAltitude() != null) flightState.addLiteral(hasGeoAltitude, state.getGeoAltitude());
             if (state.getVelocity() != null) flightState.addLiteral(hasVelocity, state.getVelocity());

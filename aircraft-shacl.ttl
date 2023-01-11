@@ -3,8 +3,9 @@
 @prefix ex: <http://www.w3.org/2022/example#>.
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix aircraft: <http://www.dke-pr/aircraft#>.
-@prefix state: <http://www.dke-pr/aircraft/state#>.
-@prefix response: <http://www.dke-pr/aircraft/response#>.
+@prefix state: <http://www.dke-pr/state#>.
+@prefix response: <http://www.dke-pr/response#>.
+@prefix property: <http://www.dke-pr/property#>.
 
 
 ex:AircraftShape
@@ -17,97 +18,97 @@ ex:AircraftShape
     ];
 	
 	sh:property [
-		sh:path ex:hasIcao24;
+		sh:path property:hasIcao24;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasRegistration;
+		sh:path property:hasRegistration;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasAircraftModel;
+		sh:path property:hasAircraftModel;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasTypeCode;
+		sh:path property:hasTypeCode;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasSerialNumber;
+		sh:path property:hasSerialNumber;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasIcaoAircraftType;
+		sh:path property:hasIcaoAircraftType;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasRegistered;
+		sh:path property:hasRegistered;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasRegUntil;
+		sh:path property:hasRegUntil;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasBuilt;
+		sh:path property:hasBuilt;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasFirstFlightDate;
+		sh:path property:hasFirstFlightDate;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasModes;
+		sh:path property:hasModes;
 		sh:datatype xsd:boolean;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasAdsb;
+		sh:path property:hasAdsb;
 		sh:datatype xsd:boolean;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasAcars;
+		sh:path property:hasAcars;
 		sh:datatype xsd:boolean;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasNotes;
+		sh:path property:hasNotes;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasCategoryDescription;
+		sh:path property:hasCategoryDescription;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasOwner;
+		sh:path property:hasOwner;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasEngine;
+		sh:path property:hasEngine;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-          	sh:path ex:hasManufacturer ;
+          	sh:path property:hasManufacturer ;
           	sh:node ex:Manufacturer ;
           	sh:maxCount 1;
       	];
 	sh:property [
-          	sh:path ex:hasOperator ;
+          	sh:path property:hasOperator ;
           	sh:node ex:Operator ;
           	sh:maxCount 1;
       	].
@@ -123,12 +124,12 @@ ex:ManufacturerShape
         ];
 
 	sh:property [
-		sh:path ex:hasManufacturerIcao;
+		sh:path property:hasManufacturerIcao;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasManufacturerName;
+		sh:path property:hasManufacturerName;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	].
@@ -142,22 +143,22 @@ ex:OperatorShape
         ];
 
 	sh:property [
-		sh:path ex:hasIcao;
+		sh:path property:hasIcao;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasIata;
+		sh:path property:hasIata;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasName;
+		sh:path property:hasName;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasCallsign;
+		sh:path property:hasCallsign;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	].

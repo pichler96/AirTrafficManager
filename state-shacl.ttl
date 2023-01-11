@@ -5,7 +5,7 @@
 @prefix aircraft: <http://www.dke-pr/aircraft#>.
 @prefix state: <http://www.dke-pr/aircraft/state#>.
 @prefix response: <http://www.dke-pr/aircraft/response#>.
-@prefix test: <http://www.dke-pr/test#>.
+@prefix property: <http://www.dke-pr/property#>.
 
 ex:StateShape
 	a sh:NodeShape;
@@ -17,95 +17,95 @@ ex:StateShape
         ];
 	
 	sh:property [
-		sh:path ex:hasGeoAltitude;
+		sh:path property:hasGeoAltitude;
 		sh:datatype xsd:double;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasLongitude;
+		sh:path property:hasLongitude;
 		sh:datatype xsd:double;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasLatitude;
+		sh:path property:hasLatitude;
 		sh:datatype xsd:double;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasVelocity;
+		sh:path property:hasVelocity;
 		sh:datatype xsd:double;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasHeading;
+		sh:path property:hasHeading;
 		sh:datatype xsd:double;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasVerticalRate;
+		sh:path property:hasVerticalRate;
 		sh:datatype xsd:double;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasIcao24;
+		sh:path property:hasIcao24;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasCallsign;
+		sh:path property:hasCallsign;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasOnGround;
+		sh:path property:hasOnGround;
 		sh:datatype xsd:boolean;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasLastContact;
+		sh:path property:hasLastContact;
 		sh:datatype xsd:double;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasLastPositionUpdate;
+		sh:path property:hasLastPositionUpdate;
 		sh:datatype xsd:double;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasOriginCountry;
+		sh:path property:hasOriginCountry;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasSquawk;
+		sh:path property:hasSquawk;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasSpi;
+		sh:path property:hasSpi;
 		sh:datatype xsd:boolean;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasBaroAltitude;
+		sh:path property:hasBaroAltitude;
 		sh:datatype xsd:double;
 		sh:maxCount 1;
 	];
 	
 	sh:property [
-		sh:path ex:hasPositionSource;
+		sh:path property:hasPositionSource;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 
 	sh:property [
-    		sh:path ex:hasResponse;
+    		sh:path property:hasResponse;
     		sh:datatype xsd:double;
     		sh:maxCount 1;
     ];
 
 	sh:property [
-    		sh:path ex:hasSerials;
+    		sh:path property:hasSerials;
     		sh:datatype xsd:string;
     		sh:maxCount 1;
     	].
