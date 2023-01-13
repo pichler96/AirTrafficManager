@@ -94,7 +94,7 @@ public class RDFConverter {
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
             System.out.println("SHACL VALIDATION (STATIC) SUCCESSFUL");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
-                conn.load("http://localhost:3030/StaticData/"+Instant.now().getEpochSecond(), model);
+                conn.load("http://localhost:3030/StaticData/", model);
             } catch (Exception ignored) {}
             //model.write(System.out, "TURTLE");
         } else {
