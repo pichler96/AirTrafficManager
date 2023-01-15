@@ -11,7 +11,6 @@ import java.time.Instant;
 import java.util.List;
 
 public class RDFConverter {
-
     static String sh_URL = "http://www.w3.org/ns/shacl#";
     static String xsd_URL = "http://www.w3.org/2001/XMLSchema#";
     static String ex_URL = "http://www.w3.org/2022/example#";
@@ -21,17 +20,8 @@ public class RDFConverter {
     static String response_URL = "http://www.dke-pr/response#";
     static String property_URL = "http://www.dke-pr/property#";
 
-
-
-    /*
-    @prefix aircraft:
-    @prefix state:
-    @prefix response:
-    * */
-
     static void convertStaticData(List<Aircraft> aircrafts) {
         Model model = ModelFactory.createDefaultModel();
-
         model.setNsPrefix("sh" , sh_URL);
         model.setNsPrefix("xsd" , xsd_URL);
         model.setNsPrefix("ex" , ex_URL);
@@ -40,7 +30,6 @@ public class RDFConverter {
         model.setNsPrefix("state", state_URL);
         model.setNsPrefix("response", response_URL);
         model.setNsPrefix("property", property_URL);
-
 
         Property hasIcao = model.createProperty(property_URL+"hasIcao24");
         Property hasRegistration = model.createProperty(property_URL +"hasRegistration");
@@ -63,7 +52,6 @@ public class RDFConverter {
         Property hasEngine = model.createProperty(property_URL+"hasEngine");
 
         for (Aircraft aircraft : aircrafts) {
-
             Resource aircraftData = model.createResource(aircraft_URL + aircraft.getIcao());
             if (aircraft.getIcao() != null) aircraftData.addLiteral(hasIcao, aircraft.getIcao());
             if (aircraft.getRegistration() != null) aircraftData.addLiteral(hasRegistration, aircraft.getRegistration());
@@ -85,30 +73,23 @@ public class RDFConverter {
             if (aircraft.getOwner() != null ) aircraftData.addLiteral(hasOwner, aircraft.getOwner());
             if (aircraft.getEngine() != null ) aircraftData.addLiteral(hasEngine, aircraft.getEngine());
             aircraftData.addProperty(RDF.type, model.createProperty(ex_URL+"Aircraft"));
-            
         }
 
         Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("aircraft-shacl.ttl"));
-
-
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
             System.out.println("SHACL VALIDATION (STATIC) SUCCESSFUL");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
-                conn.load("http://localhost:3030/StaticData/", model);
+                conn.load("http://localhost:3030/StaticData", model);
             } catch (Exception ignored) {}
             //model.write(System.out, "TURTLE");
         } else {
             System.out.println("SHACL VALIDATION NOT (STATIC) SUCCESSFUL");
-            //System.out.println(ShaclValidator.get().validate(shapes, model.getGraph()).getGraph());
             RDFDataMgr.write(System.out, ShaclValidator.get().validate(shapes, model.getGraph()).getModel(), Lang.TTL);
         }
     }
 
     static void convertDynamicData(List<State> states){
         Model model = ModelFactory.createDefaultModel();
-
-
-
         model.setNsPrefix("sh" , sh_URL);
         model.setNsPrefix("xsd" , xsd_URL);
         model.setNsPrefix("ex" , ex_URL);
@@ -117,7 +98,6 @@ public class RDFConverter {
         model.setNsPrefix("state", state_URL);
         model.setNsPrefix("response", response_URL);
         model.setNsPrefix("property", property_URL);
-
 
         Property hasBaroAltitude = model.createProperty(property_URL+"hasBaroAltitude");
         Property hasGeoAltitude = model.createProperty(property_URL+"hasGeoAltitude");
@@ -139,8 +119,7 @@ public class RDFConverter {
         Property hasResponse = model.createProperty(property_URL+"hasResponse");
 
         for (State state : states) {
-
-            Resource flightState = model.createResource(state_URL+state.getIcao24()+"/"+state.getResponse().getTime());
+            Resource flightState = model.createResource(state_URL+state.getIcao24());
             if (state.getBaroAltitude() != null) flightState.addLiteral(hasBaroAltitude, state.getBaroAltitude());
             if (state.getGeoAltitude() != null) flightState.addLiteral(hasGeoAltitude, state.getGeoAltitude());
             if (state.getVelocity() != null) flightState.addLiteral(hasVelocity, state.getVelocity());
@@ -159,24 +138,14 @@ public class RDFConverter {
             if (state.getPositionSource() != null) flightState.addLiteral(hasPositionSource, state.getPositionSource());
             if (state.getSerials() != null) flightState.addLiteral(hasSerials, state.getSerials());
             if (state.getResponse() != null) flightState.addLiteral(hasResponse, state.getResponse().getTime());
-
-
             flightState.addProperty(RDF.type, model.createProperty(ex_URL+"State"));
-
         }
 
         Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("state-shacl.ttl"));
-        //Model shapesModel = RDFDataMgr.loadModel("state-shacl.ttl");
 
-        //System.out.println(shapes.getGraph());
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
-
-            //Resource report = ValidationUtil.validateModel(model, shapesModel, false);
-            //RDFDataMgr.write(System.out, report.getModel(), Lang.TTL);
-            //RDFDataMgr.write(System.out, ShaclValidator.get().validate(shapes, model.getGraph()).getModel(), Lang.TTL);
             System.out.println("SHACL VALIDATION (DYNAMIC) SUCCESSFUL");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
-
                 conn.load("http://localhost:3030/DynamicData/"+ Instant.now().getEpochSecond(),model);
             }
             catch (Exception err) {}

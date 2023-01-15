@@ -44,7 +44,7 @@ public class State {
         this.spi = stateVector.isSpi();
         this.baroAltitude = stateVector.getBaroAltitude();
         this.positionSource = getPositionSource();
-        this.serials = stateVector.getSerials();;
+        this.serials = stateVector.getSerials();
     }
 
     public State(String icao24, Double baroAltitude, Double geoAltitude, Double velocity, Double lastContact, Double lastPositionUpdate,
@@ -94,9 +94,7 @@ public class State {
         this.velocity = velocity;
     }
 
-    public Double getHeading() {
-        return heading;
-    }
+    public Double getHeading() { return heading; }
 
     public void setHeading(Double heading) {
         this.heading = heading;

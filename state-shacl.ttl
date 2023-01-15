@@ -109,4 +109,3 @@ ex:StateShape
     		sh:datatype xsd:string;
     		sh:maxCount 1;
     	].
-
