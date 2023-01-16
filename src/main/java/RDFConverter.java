@@ -108,7 +108,8 @@ public class RDFConverter {
         Property hasOriginCountry = model.createProperty(property_URL+"hasOriginCountry");
         Property hasLatitude = model.createProperty(property_URL+"hasLatitude");
         Property hasLongitude = model.createProperty(property_URL+"hasLongitude");
-        Property hasHeading = model.createProperty(property_URL+"hasHeading");
+        Property hasHeadingSin = model.createProperty(property_URL+"hasHeadingSin");
+        Property hasHeadingCos = model.createProperty(property_URL+"hasHeadingCos");
         Property hasVerticalRate = model.createProperty(property_URL+"hasVerticalRate");
         Property hasIcao24 = model.createProperty(property_URL+"hasIcao24");
         Property hasCallsign = model.createProperty(property_URL+"hasCallsign");
@@ -129,7 +130,8 @@ public class RDFConverter {
             if (state.getOriginCountry() != null) flightState.addLiteral(hasOriginCountry, state.getOriginCountry());
             if (state.getLatitude() != null) flightState.addLiteral(hasLatitude, state.getLatitude());
             if (state.getLongitude() != null) flightState.addLiteral(hasLongitude, state.getLongitude());
-            if (state.getHeading() != null) flightState.addLiteral(hasHeading, state.getHeading());
+            if (state.getHeadingSin() != null) flightState.addLiteral(hasHeadingSin, state.getHeadingSin());
+            if (state.getHeadingCos() != null) flightState.addLiteral(hasHeadingCos, state.getHeadingCos());
             if (state.getVerticalRate() != null) flightState.addLiteral(hasVerticalRate, state.getVerticalRate());
             if (state.getIcao24() != null) flightState.addLiteral(hasIcao24, state.getIcao24());
             if (state.getCallsign() != null) flightState.addLiteral(hasCallsign, state.getCallsign());
