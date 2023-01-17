@@ -1,20 +1,37 @@
-PREFIX ex: <http://www.w3.org/2022/example#>
-PREFIX property: <http://www.dke-pr/property#>
-PREFIX state: <http://www.dke-pr/aircraft/state#>
-PREFIX response: <http://www.dke-pr/aircraft/response#>
+@prefix sh:	<http://www.w3.org/ns/shacl#>.
+@prefix ex: <http://www.w3.org/2022/example#> .
+@prefix property: <http://www.dke-pr/property#> .
+@prefix state: <http://www.dke-pr/aircraft/state#> .
+@prefix response: <http://www.dke-pr/aircraft/response#> .
 
-SELECT ?state ?hasLatitude ?hasLongitude ?estimatedLatitude ?estimatedLongitude
-FROM <http://localhost:3030/DynamicData/1673777435>
-WHERE {
-  ?state a ex:State .
-  ?state property:hasLastPositionUpdate ?lastUpdate .
-  ?state property:hasResponse ?response .
-  ?state property:hasLatitude ?hasLatitude .
-  ?state property:hasLongitude ?hasLongitude .
-  ?state property:hasVelocity ?hasVelocity .
-  ?state property:hasHeadingSin ?hasHeadingSin.
-  ?state property:hasHeadingCos ?hasHeadingCos.
-  FILTER (?lastUpdate < ?response)
-  BIND ((?response - ?lastUpdate) * ?hasVelocity * ?hasHeadingSin / 6371008 * 180 / 3.14159 + ?hasLatitude as ?estimatedLatitude)
-  BIND ((?response - ?lastUpdate) * ?hasVelocity * ?hasHeadingCos / 6371008 * 180 / 3.14159 + ?hasLongitude as ?estimatedLongitude)
-}
+ex:StateShape a sh:NodeShape ;
+    sh:targetClass ex:State ;
+    sh:closed true ;
+
+    sh:rule [
+         a sh:SPARQLRule ;
+         sh:prefixes ex:, property: ;
+         sh:construct """
+                PREFIX ex: <http://www.w3.org/2022/example#>
+                PREFIX property: <http://www.dke-pr/property#>
+
+                CONSTRUCT {
+                    ?state a ex:State ;
+                    property:estimatedLatitude ?estimatedLatitude ;
+                    property:estimatedLongitude ?estimatedLongitude .
+                }
+                WHERE {
+                    ?state property:hasLastPositionUpdate ?lastUpdate .
+                    ?state property:hasResponse ?response .
+                    ?state property:hasLatitude ?hasLatitude .
+                    ?state property:hasLongitude ?hasLongitude .
+                    ?state property:hasVelocity ?hasVelocity .
+                    ?state property:hasHeadingSin ?hasHeadingSin .
+                    ?state property:hasHeadingCos ?hasHeadingCos .
+                    FILTER (?lastUpdate < ?response)
+                    BIND ((?response - ?lastUpdate) * ?hasVelocity * ?hasHeadingSin / 6371008 * 180 / 3.14159 + ?hasLatitude as ?estimatedLatitude)
+                    BIND ((?response - ?lastUpdate) * ?hasVelocity * ?hasHeadingCos / 6371008 * 180 / 3.14159 + ?hasLongitude as ?estimatedLongitude)
+                }
+        """
+    ];
+.

@@ -5,7 +5,6 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.shacl.ShaclValidator;
 import org.apache.jena.shacl.Shapes;
 import org.apache.jena.vocabulary.RDF;
-import org.topbraid.shacl.validation.ValidationUtil;
 
 import java.time.Instant;
 import java.util.List;
@@ -88,7 +87,7 @@ public class RDFConverter {
         }
     }
 
-    static void convertDynamicData(List<State> states){
+    static long convertDynamicData(List<State> states) {
         Model model = ModelFactory.createDefaultModel();
         model.setNsPrefix("sh" , sh_URL);
         model.setNsPrefix("xsd" , xsd_URL);
@@ -144,11 +143,12 @@ public class RDFConverter {
         }
 
         Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("state-shacl.ttl"));
+        long datetime = Instant.now().getEpochSecond();
 
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
             System.out.println("SHACL VALIDATION (DYNAMIC) SUCCESSFUL");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
-                conn.load("http://localhost:3030/DynamicData/"+ Instant.now().getEpochSecond(),model);
+                conn.load("http://localhost:3030/DynamicData/" + datetime, model);
             }
             catch (Exception err) {}
             //model.write(System.out, "TURTLE");
@@ -156,6 +156,7 @@ public class RDFConverter {
             System.out.println("SHACL VALIDATION NOT (DYNAMIC) SUCCESSFUL");
             RDFDataMgr.write(System.out, ShaclValidator.get().validate(shapes, model.getGraph()).getModel(), Lang.TTL);
         }
+        return datetime;
     }
 }
 

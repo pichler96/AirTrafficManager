@@ -6,7 +6,6 @@ public class Main {
     public static List<Aircraft> aircrafts = new ArrayList<>();
     public static List<State> states = new ArrayList<>();
 
-
     public static void main(String[] args) {
 
         boolean isProductiveModeFlag = false;
@@ -29,14 +28,14 @@ public class Main {
             if (userInput.equals("1")) {
                 isProductiveModeFlag = true;
                 states = DynamicAircraftData.loadDynamicAircraftData();
-                convertDynamicDataIntoGraph();
-                convertStaticDataIntoGraph();
+                executeStaticData();
+                executeDynamicData();
                 break;
             } else if (userInput.equals("2")) {
                 isProductiveModeFlag = true;
                 states = DynamicAircraftData.loadDummyAircraftData();
-                convertDynamicDataIntoGraph();
-                convertStaticDataIntoGraph();
+                executeStaticData();
+                executeDynamicData();
                 break;
             } else if (userInput.equals("3")) {
                 System.exit(0);
@@ -54,7 +53,7 @@ public class Main {
             if (userInput.equalsIgnoreCase("update")) {
                 if (isProductiveModeFlag) {
                     states = DynamicAircraftData.loadDynamicAircraftData();
-                    convertDynamicDataIntoGraph();
+                    executeDynamicData();
                 } else if (userInput.equalsIgnoreCase("exit")){
                     System.exit(0);
                 } else {
@@ -64,11 +63,12 @@ public class Main {
         } while (!userInput.equalsIgnoreCase("exit"));
     }
 
-    private static void convertStaticDataIntoGraph() {
+    private static void executeStaticData() {
         RDFConverter.convertStaticData(aircrafts);
     }
 
-    private static void convertDynamicDataIntoGraph(){
-        RDFConverter.convertDynamicData(states);
+    private static void executeDynamicData(){
+        long datetime = RDFConverter.convertDynamicData(states);
+        DataCollection.calculateFlightPosition(datetime);
     }
 }
