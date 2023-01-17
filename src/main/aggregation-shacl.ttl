@@ -1,0 +1,27 @@
+ex:AggregationShape
+    a sh:targetClass ex:State;
+    sh:rule:[
+        a sh:SPARQLRule;
+        sh:prefixes ex:, rdf:, property: ;
+        sh:construct """
+            PREFIX aircraft: <http://www.dke-pr/aircraft#>
+            PREFIX property: <http://www.dke-pr/property#>
+            PREFIX ex: <http://www.w3.org/2022/example#>
+
+            CONSTRUCT {
+                rdf:type ex:Aggregation;
+                property:parameters ?owner;
+            }
+            WHERE {
+                ?aircraft a ex:Aircraft;
+                property:hasOwner ?hasOwner;
+                property:hasIcao24 ?hasIcao24;
+
+                ?state a ex:State;
+                property:hasIcao24 ?icaoState;
+                Filter(?hasIcao24 = ?icaoState &&
+                        ?hasOwner = "Owner")
+            }
+        """
+    ];
+    .
