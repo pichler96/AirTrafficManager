@@ -37,10 +37,15 @@ ex:StateShape
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path property:hasHeading;
+		sh:path property:hasHeadingSin;
 		sh:datatype xsd:double;
 		sh:maxCount 1;
 	];
+    sh:property [
+        sh:path property:hasHeadingCos;
+        sh:datatype xsd:double;
+        sh:maxCount 1;
+    ];
 	sh:property [
 		sh:path property:hasVerticalRate;
 		sh:datatype xsd:double;
@@ -91,21 +96,28 @@ ex:StateShape
 		sh:datatype xsd:double;
 		sh:maxCount 1;
 	];
-	
 	sh:property [
 		sh:path property:hasPositionSource;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
-
 	sh:property [
     		sh:path property:hasResponse;
     		sh:datatype xsd:double;
     		sh:maxCount 1;
     ];
-
 	sh:property [
     		sh:path property:hasSerials;
     		sh:datatype xsd:string;
     		sh:maxCount 1;
-    	].
+    ];
+    sh:property [
+        sh:path property:estimatedLongitude;
+        sh:datatype xsd:double;
+        sh:maxCount 1;
+    ];
+    sh:property [
+        sh:path property:estimatedLatitude;
+        sh:datatype xsd:double;
+        sh:maxCount 1;
+    ].

@@ -1,0 +1,10 @@
+
+P
+java:S1118":Add a private constructor to hide the implicit public one.(ó¸×Ò
+h
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 32 to the 15 allowed.(Éµ¹ê
+Q	java:S125N"<This block of commented-out lines of code should be removed.(ãè‹«
+R
+java:S1128"0Remove this unused import 'java.time.LocalDate'.(›‘¬èýÿÿÿÿ8«ùˆÛ0
+H
+java:S1068"-Remove this unused "formatter" private field.(îò‹Îüÿÿÿÿ

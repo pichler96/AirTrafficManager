@@ -6,11 +6,12 @@ import java.util.Set;
 
 public class State {
 
-    private Double geoAltitude;
     private Double longitude;
     private Double latitude;
     private Double velocity;
-    private Double heading;
+    private Double geoAltitude;
+    private Double headingSin;
+    private Double headingCos;
     private Double verticalRate;
     private String icao24;
     private String callsign;
@@ -28,11 +29,12 @@ public class State {
     private Aircraft aircraft;
 
     public State(StateVector stateVector) {
-        this.geoAltitude = stateVector.getGeoAltitude();
         this.longitude = stateVector.getLongitude();
         this.latitude = stateVector.getLatitude();
         this.velocity = stateVector.getVelocity();
-        this.heading = stateVector.getHeading();
+        this.geoAltitude = stateVector.getGeoAltitude();
+        this.headingSin = Math.sin(stateVector.getHeading());
+        this.headingCos = Math.cos(stateVector.getHeading());
         this.verticalRate = stateVector.getVerticalRate();
         this.icao24 = stateVector.getIcao24();
         this.callsign = stateVector.getCallsign();
@@ -66,137 +68,68 @@ public class State {
         return geoAltitude;
     }
 
-    public void setGeoAltitude(Double geoAltitude) {
-        this.geoAltitude = geoAltitude;
-    }
-
     public Double getLongitude() {
         return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
     }
 
     public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
     public Double getVelocity() {
         return velocity;
     }
 
-    public void setVelocity(Double velocity) {
-        this.velocity = velocity;
-    }
+    public Double getHeadingSin() { return headingSin; }
 
-    public Double getHeading() { return heading; }
-
-    public void setHeading(Double heading) {
-        this.heading = heading;
-    }
+    public Double getHeadingCos() { return headingCos; }
 
     public Double getVerticalRate() {
         return verticalRate;
-    }
-
-    public void setVerticalRate(Double verticalRate) {
-        this.verticalRate = verticalRate;
     }
 
     public String getIcao24() {
         return icao24;
     }
 
-    public void setIcao24(String icao24) {
-        this.icao24 = icao24;
-    }
-
     public String getCallsign() {
         return callsign;
-    }
-
-    public void setCallsign(String callsign) {
-        this.callsign = callsign;
     }
 
     public boolean isOnGround() {
         return onGround;
     }
 
-    public void setOnGround(boolean onGround) {
-        this.onGround = onGround;
-    }
-
     public Double getLastContact() {
         return lastContact;
-    }
-
-    public void setLastContact(Double lastContact) {
-        this.lastContact = lastContact;
     }
 
     public Double getLastPositionUpdate() {
         return lastPositionUpdate;
     }
 
-    public void setLastPositionUpdate(Double lastPositionUpdate) {
-        this.lastPositionUpdate = lastPositionUpdate;
-    }
-
     public String getOriginCountry() {
         return originCountry;
-    }
-
-    public void setOriginCountry(String originCountry) {
-        this.originCountry = originCountry;
     }
 
     public String getSquawk() {
         return squawk;
     }
 
-    public void setSquawk(String squawk) {
-        this.squawk = squawk;
-    }
-
     public boolean isSpi() {
         return spi;
-    }
-
-    public void setSpi(boolean spi) {
-        this.spi = spi;
     }
 
     public Double getBaroAltitude() {
         return baroAltitude;
     }
 
-    public void setBaroAltitude(Double baroAltitude) {
-        this.baroAltitude = baroAltitude;
-    }
-
     public PositionSource getPositionSource() {
         return positionSource;
     }
 
-    public void setPositionSource(PositionSource positionSource) {
-        this.positionSource = positionSource;
-    }
-
     public Set<Integer> getSerials() {
         return serials;
-    }
-
-    public void addSerial(int serial) {
-        if (this.serials == null) {
-            this.serials = new HashSet<>();
-        }
-        this.serials.add(serial);
     }
 
     public Response getResponse() {
@@ -205,10 +138,6 @@ public class State {
 
     public void setResponse(Response response) {
         this.response = response;
-    }
-
-    public Aircraft getAircraft() {
-        return aircraft;
     }
 
     public void setAircraft(Aircraft aircraft) {
@@ -222,7 +151,8 @@ public class State {
                 ", longitude=" + longitude +
                 ", latitude=" + latitude +
                 ", velocity=" + velocity +
-                ", heading=" + heading +
+                ", headingSin=" + headingSin +
+                ", headingCos=" + headingCos +
                 ", verticalRate=" + verticalRate +
                 ", icao24='" + icao24 + '\'' +
                 ", callsign='" + callsign + '\'' +
@@ -251,7 +181,8 @@ public class State {
         if (longitude != null ? !longitude.equals(that.longitude) : that.longitude != null) return false;
         if (latitude != null ? !latitude.equals(that.latitude) : that.latitude != null) return false;
         if (velocity != null ? !velocity.equals(that.velocity) : that.velocity != null) return false;
-        if (heading != null ? !heading.equals(that.heading) : that.heading != null) return false;
+        if (headingSin != null ? !headingSin.equals(that.headingSin) : that.headingSin != null) return false;
+        if (headingCos != null ? !headingCos.equals(that.headingCos) : that.headingCos != null) return false;
         if (verticalRate != null ? !verticalRate.equals(that.verticalRate) : that.verticalRate != null) return false;
         if (!icao24.equals(that.icao24)) return false;
         if (callsign != null ? !callsign.equals(that.callsign) : that.callsign != null) return false;
@@ -272,7 +203,8 @@ public class State {
         result = 31 * result + (longitude != null ? longitude.hashCode() : 0);
         result = 31 * result + (latitude != null ? latitude.hashCode() : 0);
         result = 31 * result + (velocity != null ? velocity.hashCode() : 0);
-        result = 31 * result + (heading != null ? heading.hashCode() : 0);
+        result = 31 * result + (headingSin != null ? headingSin.hashCode() : 0);
+        result = 31 * result + (headingCos != null ? headingCos.hashCode() : 0);
         result = 31 * result + (verticalRate != null ? verticalRate.hashCode() : 0);
         result = 31 * result + icao24.hashCode();
         result = 31 * result + (callsign != null ? callsign.hashCode() : 0);
