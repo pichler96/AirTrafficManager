@@ -1,10 +1,11 @@
 PREFIX aircraft: <http://www.dke-pr/aircraft#>
 PREFIX property: <http://www.dke-pr/property#>
-PREFIX ex: <http://example.org/2022/example#>
+PREFIX ex: <http://www.w3.org/2022/example#>
 
-SELECT (COUNT(?aircraft1) AS ?count) FROM <http://localhost:3030/StaticData/1673524539>
-        WHERE {
-            ?aircraft1 a ex:Aircraft.
-  			?aircraft1 property:hasOwner ?hasOwner1;
-                FILTER(?hasOwner1 = "Private")
-		}
+SELECT ?hasOwner (Count(?aircraft) as ?Count) from <http://localhost:3030/StaticData>
+Where {
+  	?aircraft a ex:Aircraft .
+	?aircraft property:hasOwner ?hasOwner.
+  	FILTER(?hasOwner = "Private")
+}
+group by ?hasOwner

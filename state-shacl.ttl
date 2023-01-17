@@ -14,7 +14,7 @@ ex:StateShape
 
     sh:property [
             sh:path rdf:type
-        ];
+    ];
 	
 	sh:property [
 		sh:path property:hasGeoAltitude;
