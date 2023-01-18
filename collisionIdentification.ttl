@@ -1,0 +1,22 @@
+PREFIX ex: <http://www.w3.org/2022/example#>
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+
+#Compare response of first state should be the same as the second state
+
+SELECT ?aircraft1 ?aircraft2 ?lat1 ?long1 ?lat2 ?long2 ?distance
+WHERE {
+  ?aircraft1 ex:hasState ?state1 .
+  ?state1 ex:hasLatitude ?lat1 .
+  ?state1 ex:hasLongitude ?long1 .
+  ?aircraft2 ex:hasState ?state2 .
+  ?state2 ex:hasLatitude ?lat2 .
+  ?state2 ex:hasLongitude ?long2 .
+  ?aircraft1 ex:hasIcao24 ?icao1 .
+  ?aircraft2 ex:hasIcao24 ?icao2 .
+
+  # Calculate distance between aircrafts
+  BIND((?lat1 - ?lat2) * (?lat1 - ?lat2) + (?long1 - ?long2) * (?long1 - ?long2) AS ?distance)
+
+  # Only include pairs of aircraft that are within 100 meters of each other
+  FILTER(?distance <= 100)
+}
