@@ -47,11 +47,11 @@ public class Main {
 
         System.out.println("Would you like to update your aircraft states? Please enter the task description below.\n");
         do {
-            System.out.println("   update: Update states \n" +
+            System.out.println( " update: Update states \n" +
                                 " t1: Task 1 veraltete States \n" +
                                 " t2: Task 2 Kollisionsgefahr \n" +
                                 " t3: Task 3 Geschwindigkeit & Richtungsänderung \n" +
-                                " Private: Task 4 Durchschnittliche States des Owners Private" +
+                                " Private: Task 4 Durchschnittliche States des Owners Private \n" +
                                 "   exit: Exit" );
             userInput = in.nextLine();
             if (userInput.equalsIgnoreCase("update")) {
