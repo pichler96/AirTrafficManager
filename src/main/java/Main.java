@@ -48,15 +48,28 @@ public class Main {
         System.out.println("Would you like to update your aircraft states? Please enter the task description below.\n");
         do {
             System.out.println("   update: Update states \n" +
-                               "   exit: Exit");
+                                " t1: Task 1 veraltete States \n" +
+                                " t2: Task 2 Kollisionsgefahr \n" +
+                                " t3: Task 3 Geschwindigkeit & Richtungsänderung \n" +
+                                " Private: Task 4 Durchschnittliche States des Owners Private" +
+                                "   exit: Exit" );
             userInput = in.nextLine();
             if (userInput.equalsIgnoreCase("update")) {
                 if (isProductiveModeFlag) {
                     states = DynamicAircraftData.loadDynamicAircraftData();
                     executeDynamicData();
-                } else if (userInput.equalsIgnoreCase("exit")){
+                } else if (userInput.equalsIgnoreCase("t1")){
                     System.exit(0);
-                } else {
+                } else if (userInput.equalsIgnoreCase("t2")){
+                    System.exit(0);
+                }
+                else if (userInput.equalsIgnoreCase("t3")){
+                    System.exit(0);
+                }
+                else if (userInput.equalsIgnoreCase("Private")){
+                    System.exit(0);
+                }
+                else {
                     System.out.println("Please enter a valid task description from the ones below:");
                 }
             }
