@@ -6,6 +6,7 @@ public class Main {
     public static List<Aircraft> aircrafts = new ArrayList<>();
     public static List<State> states = new ArrayList<>();
 
+    public static long dateTime;
     public static void main(String[] args) {
 
         boolean isProductiveModeFlag = false;
@@ -58,20 +59,19 @@ public class Main {
                 if (isProductiveModeFlag) {
                     states = DynamicAircraftData.loadDynamicAircraftData();
                     executeDynamicData();
-                } else if (userInput.equalsIgnoreCase("t1")){
-                    System.exit(0);
-                } else if (userInput.equalsIgnoreCase("t2")){
-                    System.exit(0);
-                }
-                else if (userInput.equalsIgnoreCase("t3")){
-                    System.exit(0);
-                }
-                else if (userInput.equalsIgnoreCase("Private")){
-                    System.exit(0);
                 }
                 else {
                     System.out.println("Please enter a valid task description from the ones below:");
                 }
+            } else if (userInput.equalsIgnoreCase("t1")){
+                DataCollection.calculateFlightPosition(dateTime);
+            } else if (userInput.equalsIgnoreCase("t2")){
+                System.exit(0);
+            } else if (userInput.equalsIgnoreCase("t3")){
+                System.exit(0);
+            }
+            else if (userInput.equalsIgnoreCase("Private")){
+                DataCollection.calculateAggregation(dateTime, "Private");
             }
         } while (!userInput.equalsIgnoreCase("exit"));
     }
@@ -81,7 +81,8 @@ public class Main {
     }
 
     private static void executeDynamicData(){
-        long datetime = RDFConverter.convertDynamicData(states);
-        DataCollection.calculateFlightPosition(datetime);
+        dateTime = RDFConverter.convertDynamicData(states);
+
+
     }
 }

@@ -1,0 +1,36 @@
+@prefix sh:	<http://www.w3.org/ns/shacl#>.
+@prefix ex: <http://www.w3.org/2022/example#> .
+@prefix property: <http://www.dke-pr/property#> .
+@prefix state: <http://www.dke-pr/aircraft/state#> .
+@prefix response: <http://www.dke-pr/aircraft/response#> .
+@prefix aircraft: <http://www.dke-pr/aircraft#>.
+
+ex:AircraftShape a sh:NodeShape ;
+    sh:targetClass ex:Aircraft ;
+    sh:closed true ;
+
+    sh:rule [
+         a sh:SPARQLRule ;
+         sh:prefixes ex:, property: ;
+         sh:construct """
+                PREFIX ex: <http://www.w3.org/2022/example#>
+                PREFIX property: <http://www.dke-pr/property#>
+
+                CONSTRUCT {
+                    ?aircraft a ex:Aggregation ;
+                    property:parameter ?owner ;
+                    property:count ?count ;
+                    property:timestamp ?timestamp;
+                    property:type ?type;
+                }
+                WHERE {
+                    ?aircraft a ex:Aircraft .
+                    ?aircraft property:hasOwner ?hasOwner.
+                    FILTER(?hasOwner = #Owner#)
+                    BIND(?hasOwner as ?owner)
+                    BIND(Count(?aircraft) as ?count)
+
+                }
+        """
+    ];
+.
