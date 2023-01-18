@@ -22,6 +22,20 @@ public class DataCollection {
         }
     }
 
+    static void calculateAggregation(long datetime, String owner){
+        //Load the data model
+        Model dataModel = loadModel(true, datetime);
+        Model rulesModel = RDFDataMgr.loadModel("aggregation-shacl.ttl");
+
+        Model result = RuleUtil.executeRules(dataModel, rulesModel, null,null);
+
+        // Load result in the knowledge graph
+        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+            conn.load("http://localhost:3030/Aggregation/" + datetime, result);
+            System.out.println("   1) ESTIMATED FLIGHT POSITIONS UPDATED");
+        }
+    }
+
     private static Model loadModel(boolean staticData, long datetime) {
         String graph = "http://localhost:3030/";
         RDFConnection conn = RDFConnection.connect(graph + "AirTrafficManager");
