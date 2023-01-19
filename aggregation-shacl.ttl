@@ -21,7 +21,6 @@ ex:AvgAggregationEvent
         sh:construct """
             PREFIX ex: <http://www.w3.org/2022/example#>
             PREFIX property: <http://www.dke-pr/property#>
-
             CONSTRUCT{
                 _:avgAggregationEvenent a ex:AvgAggregationEvent;
                 event:timestamp ?timestamp ;
@@ -52,8 +51,3 @@ ex:AvgAggregationEvent
             }
             """
     ];
-
-
-
-
-

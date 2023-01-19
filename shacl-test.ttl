@@ -15,7 +15,6 @@ ex:AircraftShape a sh:NodeShape ;
          sh:construct """
                 PREFIX ex: <http://www.w3.org/2022/example#>
                 PREFIX property: <http://www.dke-pr/property#>
-
                 CONSTRUCT {
                     ?aircraft a ex:Aggregation ;
                     property:parameter ?owner ;

@@ -6,7 +6,7 @@ public class Main {
     public static List<Aircraft> aircrafts = new ArrayList<>();
     public static List<State> states = new ArrayList<>();
 
-
+    public static long dateTime;
     public static void main(String[] args) {
 
         boolean isProductiveModeFlag = false;
@@ -29,12 +29,14 @@ public class Main {
             if (userInput.equals("1")) {
                 isProductiveModeFlag = true;
                 states = DynamicAircraftData.loadDynamicAircraftData();
-                convertDataIntoGraph();
+                RDFConverter.convertDynamicData(states);
+                RDFConverter.convertStaticData(aircrafts);
                 break;
             } else if (userInput.equals("2")) {
                 isProductiveModeFlag = true;
                 states = DynamicAircraftData.loadDummyAircraftData();
-                convertDataIntoGraph();
+                RDFConverter.convertDynamicData(states);
+                RDFConverter.convertStaticData(aircrafts);
                 break;
             } else if (userInput.equals("3")) {
                 System.exit(0);
@@ -46,22 +48,18 @@ public class Main {
 
         System.out.println("Would you like to update your aircraft states? Please enter the task description below.\n");
         do {
-<<<<<<< Updated upstream
-            System.out.println("   update: Update states \n" +
-                               "   exit: Exit");
-=======
             System.out.println( " update: Update states \n" +
                                 " t1: Task 1 veraltete States \n" +
                                 " t2: Task 2 Kollisionsgefahr \n" +
                                 " t3: Task 3 Geschwindigkeit & Richtungsänderung \n" +
                                 " Private: Task 4 Anzahl Aircrafts des Owners Private \n" +
                                 " exit: Exit" );
->>>>>>> Stashed changes
+
             userInput = in.nextLine();
             if (userInput.equalsIgnoreCase("update")) {
                 if (isProductiveModeFlag) {
                     states = DynamicAircraftData.loadDynamicAircraftData();
-                    convertDataIntoGraph();
+                    RDFConverter.convertDynamicData(states);
                 } else if (userInput.equalsIgnoreCase("exit")){
                     System.exit(0);
                 } else {
@@ -71,16 +69,11 @@ public class Main {
         } while (!userInput.equalsIgnoreCase("exit"));
     }
 
-    private static void convertDataIntoGraph() {
+    private static void executeStaticData(){
         RDFConverter.convertStaticData(aircrafts);
-<<<<<<< Updated upstream
-        RDFConverter.convertDynamicData(states);
-=======
     }
-
     private static void executeDynamicData(){
         dateTime = RDFConverter.convertDynamicData(states);
 
->>>>>>> Stashed changes
     }
 }

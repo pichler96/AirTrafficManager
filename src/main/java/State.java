@@ -22,10 +22,14 @@ public class State {
     private boolean spi;
     private Double baroAltitude;
     private PositionSource positionSource;
+
+    private Double headingSin;
     private Set<Integer> serials;
 
     private Response response;
     private Aircraft aircraft;
+
+    private Double headingCos;
 
     public State(StateVector stateVector) {
         this.geoAltitude = stateVector.getGeoAltitude();
@@ -62,6 +66,20 @@ public class State {
         this.response = response;
     }
 
+    public Double getHeadingSin(){
+        return headingSin;
+    }
+
+    public void setHeadingSin(Double headingSin){
+        this.headingSin = headingSin;
+    }
+
+    public void setHeadingCos(Double headingCos){
+        this.headingCos = headingCos;
+    }
+    public Double getHeadingCos(){
+        return headingCos;
+    }
     public Double getGeoAltitude() {
         return geoAltitude;
     }
