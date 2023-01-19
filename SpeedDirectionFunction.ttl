@@ -25,15 +25,16 @@ ex:SpeedChangeEvent a sh:NodeShape ;
                 }
                 WHERE {
                     ?state property:hasLastPositionUpdate ?lastUpdate .
-                    ?state property:hasResponse ?response .
-                    ?state property:hasVelocity ?hasVelocity .
-                    FILTER (?lastUpdate < ?response)
-                    BIND (?response - ?lastUpdate AS ?timeDifference)
-                    BIND (?hasVelocity - ?lastVelocity / ?timeDifference AS ?speedChange)
-                    BIND (NOW() as ?timestamp)
-                    BIND (IF(?speedChange > 0, "Acceleration", "Slowdown") as ?speedInterpretation)
-                    BIND (?speedChange > xsd:double(?threshold) as ?overSpeedThreshold)
-                    FILTER(?overSpeedThreshold)
+                        ?state property:hasResponse ?response .
+                        ?state property:hasVelocity ?hasVelocity .
+                        FILTER (?lastUpdate < ?response)
+                        BIND (?response - ?lastUpdate AS ?timeDifference)
+                        BIND (?hasVelocity - ?lastVelocity / ?timeDifference AS ?speedChange)
+                        BIND (NOW() as ?timestamp)
+                        BIND (IF(?speedChange > 0, "Acceleration", "Slowdown") as ?speedInterpretation)
+                        BIND (abs(?speedChange) > xsd:double(?threshold) as ?overSpeedThreshold)
+                        BIND (abs(?speedChange) < xsd:double(?threshold) as ?belowSpeedThreshold)
+                        FILTER(?overSpeedThreshold || ?belowSpeedThreshold))
                 }
             """    ];
 
@@ -67,7 +68,9 @@ ex:DirectionChangeEvent a sh:NodeShape ;
                     BIND (NOW() as ?timestamp)
                     BIND (IF(?directionChange > 0 && ?directionChange <= 1.5708, "North", IF(?directionChange > 1.5708 && ?directionChange <= 3.14159, "West", IF(?directionChange > 3.14159 && ?directionChange <= 4.71239, "South", "East")) ) as ?directionInterpretation)
                     BIND (abs(?directionChange) > xsd:double(?threshold) as ?overDirectionThreshold)
-                    FILTER(?overDirectionThreshold)
+                    BIND (abs(?directionChange) < xsd:double(?threshold) as ?belowDirectionThreshold)
+                    FILTER(?overDirectionThreshold || ?belowDirectionThreshold)
+
                 }
             """
 ];
