@@ -1,37 +1,39 @@
-@prefix sh:	<http://www.w3.org/ns/shacl#>.
+@prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix ex: <http://www.w3.org/2022/example#> .
-@prefix property: <http://www.dke-pr/property#> .
-@prefix state: <http://www.dke-pr/aircraft/state#> .
-@prefix response: <http://www.dke-pr/aircraft/response#> .
-@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
 
-CONSTRUCT {
-  ?collisionEvent a ex:CollisionEvent;
-    ex:involvesAircraft ?aircraft1, ?aircraft2;
-    ex:occurredAt ?time;
-    ex:distance ?distance.
-}
-WHERE {
-  ?aircraft1 ex:hasState ?state1 .
-  ?state1 ex:hasLatitude ?lat1 .
-  ?state1 ex:hasLongitude ?long1 .
-  ?state1 ex:hasResponse ?response1 .
-  ?aircraft2 ex:hasState ?state2 .
-  ?state2 ex:hasLatitude ?lat2 .
-  ?state2 ex:hasLongitude ?long2 .
-  ?state2 ex:hasResponse ?response2 .
-  ?aircraft1 ex:hasIcao24 ?icao1 .
-  ?aircraft2 ex:hasIcao24 ?icao2 .
+ex:CollisionEventShape a sh:NodeShape ;
+    sh:targetClass ex:CollisionEvent ;
+    sh:closed true ;
+    sh:rule [        a sh:SPARQLRule ;        sh:prefixes ex: ;        sh:construct """
+            CONSTRUCT {
+              _:collisionEvent a ex:CollisionEvent;
+                ex:involvesAircraft ?aircraft1, ?aircraft2;
+                ex:occurredAt ?time;
+                ex:distance ?distance.
+            }
+            WHERE {
+              ?aircraft1 ex:hasState ?state1 .
+              ?state1 ex:hasLatitude ?lat1 .
+              ?state1 ex:hasLongitude ?long1 .
+              ?state1 ex:hasResponse ?response1 .
+              ?aircraft2 ex:hasState ?state2 .
+              ?state2 ex:hasLatitude ?lat2 .
+              ?state2 ex:hasLongitude ?long2 .
+              ?state2 ex:hasResponse ?response2 .
+              ?aircraft1 ex:hasIcao24 ?icao1 .
+              ?aircraft2 ex:hasIcao24 ?icao2 .
 
-  # Calculate distance between aircrafts
-  BIND((?lat1 - ?lat2) * (?lat1 - ?lat2) + (?long1 - ?long2) * (?long1 - ?long2) AS ?distance)
+              #Calculate distance between aircrafts
+              BIND((?lat1 - ?lat2) * (?lat1 - ?lat2) + (?long1 - ?long2) * (?long1 - ?long2) AS ?distance)
 
-  # Only include pairs of aircraft that are within 100 meters of each other and have the same response time
-  FILTER(?distance <= 100 && response1 = response2)
+              # Only include pairs of aircraft that are within 100 meters of each other and have the same response time
+              FILTER(?distance <= 100 && response1 = response2)
 
-  # Bind current time as the time of the collision event
-  BIND(NOW() AS ?time)
+              # bind current time as the time of the collision event
+              BIND(NOW() AS ?time)
 
-  # Create a new blank node for the collision event
-  BIND(BNODE() AS ?collisionEvent)
-}
+              # Create a blank node for the collision event
+              BIND(BNODE() AS _:collisionEvent)
+            }
+        """
+    ];
