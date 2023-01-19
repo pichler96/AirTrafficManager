@@ -1,9 +1,16 @@
-PREFIX ex: <http://www.w3.org/2022/example#>
-PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+@prefix sh:	<http://www.w3.org/ns/shacl#>.
+@prefix ex: <http://www.w3.org/2022/example#> .
+@prefix property: <http://www.dke-pr/property#> .
+@prefix state: <http://www.dke-pr/aircraft/state#> .
+@prefix response: <http://www.dke-pr/aircraft/response#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
 
-#Compare response of first state should be the same as the second state
-
-SELECT ?aircraft1 ?aircraft2 ?lat1 ?long1 ?response1 ?lat2 ?long2 ?response2 ?distance
+CONSTRUCT {
+  ?collisionEvent a ex:CollisionEvent;
+    ex:involvesAircraft ?aircraft1, ?aircraft2;
+    ex:occurredAt ?time;
+    ex:distance ?distance.
+}
 WHERE {
   ?aircraft1 ex:hasState ?state1 .
   ?state1 ex:hasLatitude ?lat1 .
@@ -21,4 +28,10 @@ WHERE {
 
   # Only include pairs of aircraft that are within 100 meters of each other and have the same response time
   FILTER(?distance <= 100 && response1 = response2)
+
+  # Bind current time as the time of the collision event
+  BIND(NOW() AS ?time)
+
+  # Create a new blank node for the collision event
+  BIND(BNODE() AS ?collisionEvent)
 }
