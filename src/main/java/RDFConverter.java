@@ -68,13 +68,13 @@ public class RDFConverter {
             Resource aircraftData = model.createResource(aircraft_URL + aircraft.getIcao());
             if (aircraft.getIcao() != null) model.add(aircraftData,hasIcao,model.createTypedLiteral(aircraft.getIcao()));
             if (aircraft.getRegistration() != null) model.add(aircraftData,hasRegistration,model.createTypedLiteral(aircraft.getRegistration()));
-            if (aircraft.getManufacturer().getIcao() != null ) {
-                Resource manufacturer = model.createResource(manufacturer_URL+aircraft.getManufacturer().getIcao());
-                model.add(manufacturer,hasManufacturerIcao,model.createTypedLiteral(aircraft.getManufacturer().getIcao()));
-                model.add(manufacturer,hasManufacturerName,model.createTypedLiteral(aircraft.getManufacturer().getName()));
-                model.add(manufacturer,RDF.type,ex_URL+"Manufacturer");
-                model.add(aircraftData,hasManufacturer,manufacturer);
-            }
+            //if (aircraft.getManufacturer().getIcao() != null ) {
+                //Resource manufacturer = model.createResource(manufacturer_URL+aircraft.getManufacturer().getIcao());
+                //model.add(manufacturer,hasManufacturerIcao,model.createTypedLiteral(aircraft.getManufacturer().getIcao()));
+                //model.add(manufacturer,hasManufacturerName,model.createTypedLiteral(aircraft.getManufacturer().getName()));
+                //model.add(manufacturer,RDF.type,ex_URL+"Manufacturer");
+                //model.add(aircraftData,hasManufacturer,manufacturer);
+            //}
             if (aircraft.getModel() != null ) model.add(aircraftData,hasAircraftModel,model.createTypedLiteral(aircraft.getModel()));
             if (aircraft.getTypeCode() != null ) model.add(aircraftData,hasTypeCode,model.createTypedLiteral(aircraft.getTypeCode()));
             if (aircraft.getSerialNumber() != null) model.add(aircraftData,hasSerialNumber,model.createTypedLiteral(aircraft.getSerialNumber()));
@@ -106,25 +106,19 @@ public class RDFConverter {
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
             System.out.println("SHACL VALIDATION (STATIC) SUCCESSFUL");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
-                conn.load("http://localhost:3030/StaticData/", model);
-                RDFDataMgr.write(System.out,model.getGraph(), Lang.TTL);
+                conn.load("http://localhost:3030/StaticData", model);
+                //RDFDataMgr.write(System.out,model.getGraph(), Lang.TTL);
             } catch (Exception ignored) {
                 System.out.println(ignored);
-                RDFDataMgr.write(System.out,model.getGraph(), Lang.TTL);
-                //RDFDataMgr.write(System.out,model.getGraph(), Lang.TTL);
-                //RDFDataMgr.write(System.out,model.getGraph(),Lang.TTL);
-                //RDFDataMgr.write(System.out, ShaclValidator.get().validate(shapes, model.getGraph()).getModel(), Lang.TTL);
             }
         } else {
             System.out.println("SHACL VALIDATION NOT (STATIC) SUCCESSFUL");
-            //System.out.println(ShaclValidator.get().validate(shapes, model.getGraph()).getGraph());
             RDFDataMgr.write(System.out, ShaclValidator.get().validate(shapes, model.getGraph()).getModel(), Lang.TTL);
         }
     }
 
     static long convertDynamicData(List<State> states){
         Model model = ModelFactory.createDefaultModel();
-        String stateURI = "http://www.dke-pr/state#";
 
 
         model.setNsPrefix("sh" , sh_URL);
@@ -189,14 +183,7 @@ public class RDFConverter {
         }
 
         Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("state-shacl.ttl"));
-        //Model shapesModel = RDFDataMgr.loadModel("state-shacl.ttl");
-
-        //System.out.println(shapes.getGraph());
         if (ShaclValidator.get().validate(shapes, model.getGraph()).conforms()) {
-
-            //Resource report = ValidationUtil.validateModel(model, shapesModel, false);
-            //RDFDataMgr.write(System.out, report.getModel(), Lang.TTL);
-            //RDFDataMgr.write(System.out, ShaclValidator.get().validate(shapes, model.getGraph()).getModel(), Lang.TTL);
             System.out.println("SHACL VALIDATION (DYNAMIC) SUCCESSFUL");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
                 conn.load("http://localhost:3030/DynamicData/"+ dateTime,model);
@@ -204,7 +191,6 @@ public class RDFConverter {
             catch (Exception err) {
                 System.out.println(err);
             }
-            //model.write(System.out, "TURTLE");
         } else {
             System.out.println("SHACL VALIDATION NOT (DYNAMIC) SUCCESSFUL");
             RDFDataMgr.write(System.out, ShaclValidator.get().validate(shapes, model.getGraph()).getModel(), Lang.TTL);

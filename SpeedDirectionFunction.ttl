@@ -63,9 +63,12 @@ ex:DirectionChangeEvent a sh:NodeShape ;
                     ?state property:hasHeadingCos ?hasHeadingCos .
                     FILTER (?lastUpdate < ?response)
                     BIND (?response - ?lastUpdate AS ?timeDifference)
-                    BIND (atan2(?hasHeadingSin - ?lastHeadingSin / ?timeDifference, ?hasHeadingCos - ?lastHeadingCos / ?timeDifference) AS ?directionChange)
+                    BIND (atan2(?hasHeadingSin - ?lastHeadingSin / ?timeDifference, ?hasHeadingCos -
+                    ?lastHeadingCos / ?timeDifference) AS ?directionChange)
                     BIND (NOW() as ?timestamp)
-                    BIND (IF(?directionChange > 0 && ?directionChange <= 1.5708, "North", IF(?directionChange > 1.5708 && ?directionChange <= 3.14159, "West", IF(?directionChange > 3.14159 && ?directionChange <= 4.71239, "South", "East")) ) as ?directionInterpretation)
+                    BIND (IF(?directionChange > 0 && ?directionChange <= 1.5708, "North",
+                    IF(?directionChange > 1.5708 && ?directionChange <= 3.14159, "West",
+                    IF(?directionChange > 3.14159 && ?directionChange <= 4.71239, "South", "East")) ) as ?directionInterpretation)
                     BIND (abs(?directionChange) > xsd:double(?threshold) as ?overDirectionThreshold)
                     FILTER(?overDirectionThreshold)
                 }

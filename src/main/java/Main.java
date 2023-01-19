@@ -29,14 +29,14 @@ public class Main {
             if (userInput.equals("1")) {
                 isProductiveModeFlag = true;
                 states = DynamicAircraftData.loadDynamicAircraftData();
-                RDFConverter.convertDynamicData(states);
-                RDFConverter.convertStaticData(aircrafts);
+                executeStaticData();
+                executeDynamicData();
                 break;
             } else if (userInput.equals("2")) {
                 isProductiveModeFlag = true;
                 states = DynamicAircraftData.loadDummyAircraftData();
-                RDFConverter.convertDynamicData(states);
-                RDFConverter.convertStaticData(aircrafts);
+                executeDynamicData();
+                executeStaticData();
                 break;
             } else if (userInput.equals("3")) {
                 System.exit(0);
@@ -59,12 +59,18 @@ public class Main {
             if (userInput.equalsIgnoreCase("update")) {
                 if (isProductiveModeFlag) {
                     states = DynamicAircraftData.loadDynamicAircraftData();
-                    RDFConverter.convertDynamicData(states);
+                    executeDynamicData();
                 } else if (userInput.equalsIgnoreCase("exit")){
                     System.exit(0);
                 } else {
                     System.out.println("Please enter a valid task description from the ones below:");
                 }
+            } else if (userInput.equalsIgnoreCase("t1")){
+                DataCollection.calculateFlightPosition(dateTime);
+            } else if (userInput.equalsIgnoreCase("t2")){
+                System.exit(0);
+            } else if (userInput.equalsIgnoreCase("t3")){
+                System.exit(0);
             }
         } while (!userInput.equalsIgnoreCase("exit"));
     }
@@ -74,6 +80,5 @@ public class Main {
     }
     private static void executeDynamicData(){
         dateTime = RDFConverter.convertDynamicData(states);
-
     }
 }
