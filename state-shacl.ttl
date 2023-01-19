@@ -5,7 +5,13 @@
 @prefix aircraft: <http://www.dke-pr/aircraft#>.
 @prefix state: <http://www.dke-pr/aircraft/state#>.
 @prefix response: <http://www.dke-pr/aircraft/response#>.
+<<<<<<< Updated upstream
 @prefix test: <http://www.dke-pr/test#>.
+=======
+@prefix property: <http://www.dke-pr/property#>.
+@prefix manufacturer: <http://www.dke-pr/manufacturer#>.
+@prefix operator: <http://www.dke-pr/operator#>.
+>>>>>>> Stashed changes
 
 ex:StateShape
 	a sh:NodeShape;
@@ -47,8 +53,13 @@ ex:StateShape
 		sh:maxCount 1;
 	];
 	sh:property [
+<<<<<<< Updated upstream
 		sh:path ex:hasIcao24;
 		sh:datatype xsd:string;
+=======
+		sh:path property:ofAircraft;
+		sh:class ex:Aircraft;
+>>>>>>> Stashed changes
 		sh:maxCount 1;
 	];
 	sh:property [

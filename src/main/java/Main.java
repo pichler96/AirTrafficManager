@@ -46,8 +46,17 @@ public class Main {
 
         System.out.println("Would you like to update your aircraft states? Please enter the task description below.\n");
         do {
+<<<<<<< Updated upstream
             System.out.println("   update: Update states \n" +
                                "   exit: Exit");
+=======
+            System.out.println( " update: Update states \n" +
+                                " t1: Task 1 veraltete States \n" +
+                                " t2: Task 2 Kollisionsgefahr \n" +
+                                " t3: Task 3 Geschwindigkeit & Richtungsänderung \n" +
+                                " Private: Task 4 Anzahl Aircrafts des Owners Private \n" +
+                                " exit: Exit" );
+>>>>>>> Stashed changes
             userInput = in.nextLine();
             if (userInput.equalsIgnoreCase("update")) {
                 if (isProductiveModeFlag) {
@@ -64,6 +73,14 @@ public class Main {
 
     private static void convertDataIntoGraph() {
         RDFConverter.convertStaticData(aircrafts);
+<<<<<<< Updated upstream
         RDFConverter.convertDynamicData(states);
+=======
+    }
+
+    private static void executeDynamicData(){
+        dateTime = RDFConverter.convertDynamicData(states);
+
+>>>>>>> Stashed changes
     }
 }

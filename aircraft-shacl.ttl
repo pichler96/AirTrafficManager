@@ -3,8 +3,16 @@
 @prefix ex: <http://www.w3.org/2022/example#>.
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix aircraft: <http://www.dke-pr/aircraft#>.
+<<<<<<< Updated upstream
 @prefix state: <http://www.dke-pr/aircraft/state#>.
 @prefix response: <http://www.dke-pr/aircraft/response#>.
+=======
+@prefix state: <http://www.dke-pr/state#>.
+@prefix response: <http://www.dke-pr/response#>.
+@prefix property: <http://www.dke-pr/property#>.
+@prefix manufacturer: <http://www.dke-pr/manufacturer#>.
+@prefix operator: <http://www.dke-pr/operator#>.
+>>>>>>> Stashed changes
 
 
 ex:AircraftShape
@@ -102,6 +110,7 @@ ex:AircraftShape
 		sh:maxCount 1;
 	];
 	sh:property [
+<<<<<<< Updated upstream
           	sh:path ex:hasManufacturer ;
           	sh:node ex:Manufacturer ;
           	sh:maxCount 1;
@@ -109,6 +118,15 @@ ex:AircraftShape
 	sh:property [
           	sh:path ex:hasOperator ;
           	sh:node ex:Operator ;
+=======
+          	sh:path property:hasManufacturer ;
+          	sh:class ex:Manufacturer ;
+          	sh:maxCount 1;
+      	];
+	sh:property [
+          	sh:path property:hasOperator ;
+          	sh:class ex:Operator ;
+>>>>>>> Stashed changes
           	sh:maxCount 1;
       	].
 
@@ -125,12 +143,11 @@ ex:ManufacturerShape
 	sh:property [
 		sh:path ex:hasManufacturerIcao;
 		sh:datatype xsd:string;
-		sh:maxCount 1;
 	];
 	sh:property [
 		sh:path ex:hasManufacturerName;
 		sh:datatype xsd:string;
-		sh:maxCount 1;
+
 	].
 
 ex:OperatorShape
@@ -142,22 +159,38 @@ ex:OperatorShape
         ];
 
 	sh:property [
+<<<<<<< Updated upstream
 		sh:path ex:hasIcao;
+=======
+		sh:path property:hasOperatorIcao;
+>>>>>>> Stashed changes
 		sh:datatype xsd:string;
-		sh:maxCount 1;
+
 	];
 	sh:property [
+<<<<<<< Updated upstream
 		sh:path ex:hasIata;
+=======
+		sh:path property:hasOperatorIata;
+>>>>>>> Stashed changes
 		sh:datatype xsd:string;
-		sh:maxCount 1;
+
 	];
 	sh:property [
+<<<<<<< Updated upstream
 		sh:path ex:hasName;
+=======
+		sh:path property:hasOperatorName;
+>>>>>>> Stashed changes
 		sh:datatype xsd:string;
-		sh:maxCount 1;
+
 	];
 	sh:property [
+<<<<<<< Updated upstream
 		sh:path ex:hasCallsign;
+=======
+		sh:path property:hasOperatorCallsign;
+>>>>>>> Stashed changes
 		sh:datatype xsd:string;
-		sh:maxCount 1;
+
 	].
