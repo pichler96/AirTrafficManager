@@ -14,8 +14,7 @@ ex:SpeedChangeEvent a sh:NodeShape ;
         sh:construct """
                 PREFIX ex: <http://www.w3.org/2022/example#>
                 PREFIX property: <http://www.dke-pr/property#>
-                PREFIX event: <http://www.dke-pr/event#>
-                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
 
                 CONSTRUCT {
                     _:speedChangeEvent a ex:SpeedChangeEvent ;
@@ -48,7 +47,7 @@ ex:DirectionChangeEvent a sh:NodeShape ;
             sh:construct """
                 PREFIX ex: <http://www.w3.org/2022/example#>
                 PREFIX property: <http://www.dke-pr/property#>
-                PREFIX event: <http://www.dke-pr/event#>
+
 
                 CONSTRUCT {
                     _:directionChangeEvent a ex:DirectionChangeEvent ;
