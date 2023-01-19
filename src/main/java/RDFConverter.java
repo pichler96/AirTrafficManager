@@ -54,7 +54,7 @@ public class RDFConverter {
             Resource aircraftData = model.createResource(aircraft_URL + aircraft.getIcao());
             if (aircraft.getIcao() != null) aircraftData.addLiteral(hasIcao, aircraft.getIcao());
             if (aircraft.getRegistration() != null) aircraftData.addLiteral(hasRegistration, aircraft.getRegistration());
-            if (aircraft.getManufacturer().getIcao() != null ) aircraftData.addLiteral(hasManufacturer, aircraft.getManufacturer());
+            //if (aircraft.getManufacturer().getIcao() != null ) aircraftData.addLiteral(hasManufacturer, aircraft.getManufacturer());
             if (aircraft.getModel() != null ) aircraftData.addLiteral(hasAircraftModel, aircraft.getModel());
             if (aircraft.getTypeCode() != null ) aircraftData.addLiteral(hasTypeCode, aircraft.getTypeCode());
             if (aircraft.getSerialNumber() != null) aircraftData.addLiteral(hasSerialNumber, aircraft.getSerialNumber());
@@ -68,7 +68,7 @@ public class RDFConverter {
             if (aircraft.isAcars() != null) aircraftData.addLiteral(hasAcars, aircraft.isAcars());
             if (aircraft.getNotes() != null || aircraft.getNotes() != "") aircraftData.addLiteral(hasNotes, aircraft.getNotes());
             if (aircraft.getCategoryDescription() != null ) aircraftData.addLiteral(hasCategoryDescription, aircraft.getCategoryDescription());
-            if (aircraft.getOperator().getIcao() != null ) aircraftData.addLiteral(hasOperator, aircraft.getOperator());
+            //if (aircraft.getOperator().getIcao() != null ) aircraftData.addLiteral(hasOperator, aircraft.getOperator());
             if (aircraft.getOwner() != null ) aircraftData.addLiteral(hasOwner, aircraft.getOwner());
             if (aircraft.getEngine() != null ) aircraftData.addLiteral(hasEngine, aircraft.getEngine());
             aircraftData.addProperty(RDF.type, model.createProperty(ex_URL+"Aircraft"));

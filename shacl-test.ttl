@@ -17,18 +17,24 @@ ex:AircraftShape a sh:NodeShape ;
                 PREFIX property: <http://www.dke-pr/property#>
 
                 CONSTRUCT {
-                    ?aircraft a ex:Aggregation ;
-                    property:parameter ?owner ;
+                    ?aggregation a ex:Aggregation ;
                     property:count ?count ;
-                    property:timestamp ?timestamp;
-                    property:type ?type;
+
                 }
                 WHERE {
-                    ?aircraft a ex:Aircraft .
-                    ?aircraft property:hasOwner ?hasOwner.
-                    FILTER(?hasOwner = #Owner#)
-                    BIND(?hasOwner as ?owner)
-                    BIND(Count(?aircraft) as ?count)
+                {
+                    SELECT (Count(?aircraft) as ?count)
+                    where {
+                        ?aircraft a ex:Aircraft .
+                        ?aircraft property:hasOwner ?hasOwner.
+                        FILTER(?hasOwner = "Private")
+                       
+                    }
+
+                }
+
+
+
 
                 }
         """
