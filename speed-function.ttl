@@ -1,0 +1,44 @@
+prefix sh:	<http://www.w3.org/ns/shacl#>
+prefix ex: <http://www.w3.org/2022/example#>
+prefix property: <http://www.dke-pr/property#>
+prefix state: <http://www.dke-pr/aircraft/state#>
+prefix response: <http://www.dke-pr/aircraft/response#>
+
+ex:SpeedChangeEvent a sh:NodeShape ;
+sh:targetClass ex:State ;
+sh:closed true ;
+
+sh:rule [
+a sh:SPARQLRule ;
+sh:prefixes ex:, property: ;
+sh:construct """
+
+
+
+                CONSTRUCT {
+                    ?speedChangeEvent a ex:SpeedChangeEvent ;
+                    property:timestamp ?timestamp ;
+                    property:referenceState ?state ;
+                    property:value ?speedChange ;
+                    property:interpretation ?speedInterpretation .
+
+                }
+                WHERE {
+                    ?state property:hasLastPositionUpdate ?lastUpdate .
+                        ?state property:hasResponse ?response .
+                        ?state property:hasVelocity ?hasVelocity .
+                        FILTER (?lastUpdate < ?response)
+                        BIND (?response - ?lastUpdate AS ?timeDifference)
+                        BIND (?hasVelocity - ?lastVelocity / ?timeDifference AS ?speedChange)
+                        BIND (NOW() as ?timestamp)
+                        BIND (IF(?speedChange > 0, "Acceleration", "Slowdown") as ?speedInterpretation)
+                        BIND (abs(?speedChange) > xsd:double(?threshold) as ?overSpeedThreshold)
+                        BIND (abs(?speedChange) < xsd:double(?threshold) as ?belowSpeedThreshold)
+                        FILTER(?overSpeedThreshold || ?belowSpeedThreshold))
+                }
+            """    ];
+    .
+
+
+
+

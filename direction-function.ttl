@@ -1,0 +1,42 @@
+prefix sh:	<http://www.w3.org/ns/shacl#>
+prefix ex: <http://www.w3.org/2022/example#>
+prefix property: <http://www.dke-pr/property#>
+prefix state: <http://www.dke-pr/aircraft/state#>
+prefix response: <http://www.dke-pr/aircraft/response#>
+
+ex:DirectionChangeEvent a sh:NodeShape ;
+sh:targetClass ex:DirectionChangeEvent ;
+sh:closed true ;
+
+sh:rule [
+a sh:SPARQLRule ;
+sh:prefixes ex:, property: ;
+sh:construct """
+
+
+
+                CONSTRUCT {
+                    ?directionChangeEvent a ex:DirectionChangeEvent ;
+                    property:timestamp ?timestamp ;
+                    property:referenceState ?state ;
+                    property:value ?directionChange ;
+                    property:interpretation ?directionInterpretation .
+                }
+                WHERE {
+                    ?state property:hasLastPositionUpdate ?lastUpdate .
+                    ?state property:hasResponse ?response .
+                    ?state property:hasHeadingSin ?hasHeadingSin .
+                    ?state property:hasHeadingCos ?hasHeadingCos .
+                    FILTER (?lastUpdate < ?response)
+                    BIND (?response - ?lastUpdate AS ?timeDifference)
+                    BIND (atan2(?hasHeadingSin - ?lastHeadingSin / ?timeDifference, ?hasHeadingCos - ?lastHeadingCos / ?timeDifference) AS ?directionChange)
+                    BIND (NOW() as ?timestamp)
+                    BIND (IF(?directionChange > 0 && ?directionChange <= 1.5708, "North", IF(?directionChange > 1.5708 && ?directionChange <= 3.14159, "West", IF(?directionChange > 3.14159 && ?directionChange <= 4.71239, "South", "East")) ) as ?directionInterpretation)
+                    BIND (abs(?directionChange) > xsd:double(?threshold) as ?overDirectionThreshold)
+                    BIND (abs(?directionChange) < xsd:double(?threshold) as ?belowDirectionThreshold)
+                    FILTER(?overDirectionThreshold || ?belowDirectionThreshold)
+
+                }
+            """
+];
+    .
