@@ -54,7 +54,7 @@ public class DataCollection {
         // Load result in the knowledge graph
         try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
             conn.load("http://localhost:3030/SpeedChange/" + datetime, result);
-            System.out.println("   1) Speed Change detected");
+            System.out.println("   3) Speed Change detected");
         }
     }static void detectDirectionChange(long datetime) {
 
@@ -68,7 +68,7 @@ public class DataCollection {
         // Load result in the knowledge graph
         try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
             conn.load("http://localhost:3030/DirectionChange/" + datetime, result);
-            System.out.println("   1) Direction Change detected");
+            System.out.println("   3) Direction Change detected");
         }
     }
 
