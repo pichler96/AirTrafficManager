@@ -66,7 +66,7 @@ public class Main {
             } else if (userInput.equalsIgnoreCase("t1")){
                 DataCollection.calculateFlightPosition(dateTime);
             } else if (userInput.equalsIgnoreCase("t2")){
-                System.exit(0);
+                DataCollection.detectCollision(dateTime);
             } else if (userInput.equalsIgnoreCase("t3")){
                 System.exit(0);
             }

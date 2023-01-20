@@ -27,6 +27,22 @@ public class DataCollection {
         }
     }
 
+    static void detectCollision(long datetime) {
+
+        // Load the data model that rules
+        Model dataModel = loadModel(false, datetime);
+        Model rulesModel = RDFDataMgr.loadModel("collisionIdentification.ttl");
+
+        // Perform the rule calculation
+        Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
+
+        // Load result in the knowledge graph
+        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+            conn.load("http://localhost:3030/CollisionDetection/" + datetime, result);
+            System.out.println("   1) Collision detected");
+        }
+    }
+
     static void calculateAggregation(long datetime, String owner){
         //Load the data model
         Model dataModel = loadModel(true, datetime);
