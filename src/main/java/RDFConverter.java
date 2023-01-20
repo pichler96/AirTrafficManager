@@ -10,6 +10,7 @@ import org.topbraid.shacl.validation.ValidationUtil;
 import java.time.Instant;
 import java.util.List;
 
+
 public class RDFConverter {
 
     static String sh_URL = "http://www.w3.org/ns/shacl#";
@@ -34,13 +35,13 @@ public class RDFConverter {
         model.setNsPrefix("state", state_URL);
         model.setNsPrefix("response", response_URL);
         model.setNsPrefix("property", property_URL);
-        //model.setNsPrefix("manufacturer", manufacturer_URL);
-        //model.setNsPrefix("operator",operator_URL);
+        model.setNsPrefix("manufacturer", manufacturer_URL);
+        model.setNsPrefix("operator",operator_URL);
 
 
         Property hasIcao = model.createProperty(property_URL+"hasIcao24");
         Property hasRegistration = model.createProperty(property_URL +"hasRegistration");
-        Property hasManufacturer = model.createProperty(property_URL +"hasManufacturer");
+        //Property hasManufacturer = model.createProperty(property_URL +"hasManufacturer");
         Property hasAircraftModel = model.createProperty(property_URL+"hasAircraftModel");
         Property hasTypeCode = model.createProperty(property_URL+"hasTypeCode");
         Property hasSerialNumber = model.createProperty(property_URL+"hasSerialNumber");
@@ -57,24 +58,26 @@ public class RDFConverter {
         Property hasOperator = model.createProperty(property_URL+"hasOperator");
         Property hasOwner = model.createProperty(property_URL+"hasOwner");
         Property hasEngine = model.createProperty(property_URL+"hasEngine");
-        Property hasManufacturerName = model.createProperty(property_URL+"hasManufacturerName");
-        Property hasManufacturerIcao = model.createProperty(property_URL+"hasManufacturerIcao");
+        //Property hasManufacturerName = model.createProperty(property_URL+"hasManufacturerName");
+        //Property hasManufacturerIcao = model.createProperty(property_URL+"hasManufacturerIcao");
         Property hasOperatorIcao = model.createProperty(property_URL+"hasOperatorIcao");
         Property hasOperatorIata = model.createProperty(property_URL+"hasOperatorIata");
         Property hasOperatorName = model.createProperty(property_URL+"hasOperatorName");
         Property hasOperatorCallsign = model.createProperty(property_URL+"hasOperatorCallsign");
 
+
         for (Aircraft aircraft : aircrafts) {
             Resource aircraftData = model.createResource(aircraft_URL + aircraft.getIcao());
             if (aircraft.getIcao() != null) model.add(aircraftData,hasIcao,model.createTypedLiteral(aircraft.getIcao()));
             if (aircraft.getRegistration() != null) model.add(aircraftData,hasRegistration,model.createTypedLiteral(aircraft.getRegistration()));
-            //if (aircraft.getManufacturer().getIcao() != null ) {
-                //Resource manufacturer = model.createResource(manufacturer_URL+aircraft.getManufacturer().getIcao());
-                //model.add(manufacturer,hasManufacturerIcao,model.createTypedLiteral(aircraft.getManufacturer().getIcao()));
-                //model.add(manufacturer,hasManufacturerName,model.createTypedLiteral(aircraft.getManufacturer().getName()));
-                //model.add(manufacturer,RDF.type,ex_URL+"Manufacturer");
-                //model.add(aircraftData,hasManufacturer,manufacturer);
-            //}
+            /*if (aircraft.getManufacturer().getIcao() != null ) {
+                Resource manufacturer = model.createResource(manufacturer_URL+aircraft.getManufacturer().getIcao());
+                model.add(manufacturer,hasManufacturerIcao,model.createTypedLiteral(aircraft.getManufacturer().getIcao()));
+                model.add(manufacturer,hasManufacturerName,model.createTypedLiteral(aircraft.getManufacturer().getName()));
+                model.add(manufacturer,RDF.type,ex_URL+"Manufacturer");
+                model.add(aircraftData,hasManufacturer,manufacturer);
+            }*/
+
             if (aircraft.getModel() != null ) model.add(aircraftData,hasAircraftModel,model.createTypedLiteral(aircraft.getModel()));
             if (aircraft.getTypeCode() != null ) model.add(aircraftData,hasTypeCode,model.createTypedLiteral(aircraft.getTypeCode()));
             if (aircraft.getSerialNumber() != null) model.add(aircraftData,hasSerialNumber,model.createTypedLiteral(aircraft.getSerialNumber()));
@@ -94,12 +97,12 @@ public class RDFConverter {
                 model.add(operator,hasOperatorIata,model.createTypedLiteral(aircraft.getOperator().getIata()));
                 model.add(operator,hasOperatorName,model.createTypedLiteral(aircraft.getOperator().getName()));
                 model.add(operator,hasOperatorCallsign,model.createTypedLiteral(aircraft.getOperator().getCallsign()));
-                model.add(operator,RDF.type,model.createResource(ex_URL+"Operator"));
+                model.add(operator,RDF.type,model.createResource(operator_URL+"Operator"));
                 model.add(aircraftData,hasOperator,operator);
             }
             if (aircraft.getOwner() != null ) model.add(aircraftData,hasOwner,model.createTypedLiteral(aircraft.getOwner()));
             if (aircraft.getEngine() != null ) model.add(aircraftData,hasEngine,model.createTypedLiteral(aircraft.getEngine()));
-            model.add(aircraftData,RDF.type,ex_URL+"Aircraft");
+            model.add(aircraftData,RDF.type,model.createResource(aircraft_URL+"Aircraft"));
         }
 
         Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("aircraft-shacl.ttl"));
@@ -170,7 +173,7 @@ public class RDFConverter {
             if (state.getVerticalRate() != null) model.add(flightState,hasVerticalRate,model.createTypedLiteral(state.getVerticalRate()));
             if (state.getIcao24() != null) {
                     Resource aircraft = model.createResource(aircraft_URL+state.getIcao24());
-                    aircraft.addProperty(RDF.type, model.createResource(ex_URL+"Aircraft"));
+                    aircraft.addProperty(RDF.type, model.createResource(aircraft_URL+"Aircraft"));
                     model.add(flightState,ofAircraft,aircraft);
             };
             if (state.getCallsign() != null) model.add(flightState,hasCallsign,model.createTypedLiteral(state.getCallsign()));
@@ -179,7 +182,7 @@ public class RDFConverter {
             if (state.getPositionSource() != null) model.add(flightState,hasPositionSource,model.createTypedLiteral(state.getPositionSource()));
             if (state.getSerials() != null) model.add(flightState,hasSerials,model.createTypedLiteral(state.getSerials()));
             if (state.getResponse() != null) model.add(flightState,hasResponse,model.createTypedLiteral(state.getResponse().getTime()));
-            model.add(flightState,RDF.type,ex_URL+"State");
+            model.add(flightState,RDF.type,model.createResource(state_URL+"State"));
         }
 
         Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("state-shacl.ttl"));

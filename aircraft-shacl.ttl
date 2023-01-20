@@ -11,117 +11,113 @@
 
 ex:AircraftShape
 	a sh:NodeShape;
-	sh:targetClass ex:Aircraft;
+	sh:targetClass aircraft:Aircraft;
     sh:closed true ;
     sh:property [
         sh:path rdf:type
     ];
 	
 	sh:property [
-		sh:path ex:hasIcao24;
+		sh:path property:hasIcao24;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasRegistration;
+		sh:path property:hasRegistration;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasAircraftModel;
+		sh:path property:hasAircraftModel;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasTypeCode;
+		sh:path property:hasTypeCode;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasSerialNumber;
+		sh:path property:hasSerialNumber;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasIcaoAircraftType;
+		sh:path property:hasIcaoAircraftType;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasRegistered;
+		sh:path property:hasRegistered;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasRegUntil;
+		sh:path property:hasRegUntil;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasBuilt;
+		sh:path property:hasBuilt;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasFirstFlightDate;
+		sh:path property:hasFirstFlightDate;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasModes;
+		sh:path property:hasModes;
 		sh:datatype xsd:boolean;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasAdsb;
+		sh:path property:hasAdsb;
 		sh:datatype xsd:boolean;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasAcars;
+		sh:path property:hasAcars;
 		sh:datatype xsd:boolean;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasNotes;
+		sh:path property:hasNotes;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasCategoryDescription;
+		sh:path property:hasCategoryDescription;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasOwner;
+		sh:path property:hasOwner;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasEngine;
+		sh:path property:hasEngine;
 		sh:datatype xsd:string;
 		sh:maxCount 1;
 	];
-	sh:property [
-          	sh:path ex:hasManufacturer ;
-          	sh:class ex:Manufacturer ;
-          	sh:maxCount 1;
-      	];
 	sh:property [
           	sh:path property:hasManufacturer ;
-          	sh:class ex:Manufacturer ;
+          	sh:class manufacturer:Manufacturer ;
           	sh:maxCount 1;
       	];
+
 	sh:property [
           	sh:path property:hasOperator ;
-          	sh:class ex:Operator ;
+          	sh:class operator:Operator ;
           	sh:maxCount 1;
       	].
 
 
 ex:ManufacturerShape
 	a sh:NodeShape;
-	sh:targetClass ex:Manufacturer;
+	sh:targetClass manufacturer:Manufacturer;
 	sh:closed true ;
 
 	sh:property [
@@ -129,18 +125,18 @@ ex:ManufacturerShape
         ];
 
 	sh:property [
-		sh:path ex:hasManufacturerIcao;
+		sh:path property:hasManufacturerIcao;
 		sh:datatype xsd:string;
 	];
 	sh:property [
-		sh:path ex:hasManufacturerName;
+		sh:path property:hasManufacturerName;
 		sh:datatype xsd:string;
 
 	].
 
 ex:OperatorShape
 	a sh:NodeShape;
-	sh:targetClass ex:Operator;
+	sh:targetClass operator:Operator;
 
 	sh:property [
             sh:path rdf:type

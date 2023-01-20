@@ -36,7 +36,8 @@ public class State {
         this.longitude = stateVector.getLongitude();
         this.latitude = stateVector.getLatitude();
         this.velocity = stateVector.getVelocity();
-        this.heading = stateVector.getHeading();
+        this.headingSin = Math.sin(stateVector.getHeading());
+        this.headingCos = Math.cos(stateVector.getHeading());
         this.verticalRate = stateVector.getVerticalRate();
         this.icao24 = stateVector.getIcao24();
         this.callsign = stateVector.getCallsign();
