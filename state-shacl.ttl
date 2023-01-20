@@ -12,7 +12,7 @@
 
 ex:StateShape
 	a sh:NodeShape;
-	sh:targetClass ex:State ;
+	sh:targetClass state:State ;
     sh:closed true ;
 
     sh:property [
@@ -40,10 +40,15 @@ ex:StateShape
 		sh:maxCount 1;
 	];
 	sh:property [
-		sh:path ex:hasHeading;
+		sh:path ex:hasHeadingCos;
 		sh:datatype xsd:double;
 		sh:maxCount 1;
 	];
+	sh:property [
+    		sh:path ex:hasHeadingSin;
+    		sh:datatype xsd:double;
+    		sh:maxCount 1;
+    ];
 	sh:property [
 		sh:path ex:hasVerticalRate;
 		sh:datatype xsd:double;
@@ -51,7 +56,7 @@ ex:StateShape
 	];
 	sh:property [
 		sh:path property:ofAircraft;
-		sh:class ex:Aircraft;
+		sh:class aircraft:Aircraft;
 		sh:maxCount 1;
 	];
 	sh:property [

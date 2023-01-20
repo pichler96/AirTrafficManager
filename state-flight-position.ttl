@@ -10,12 +10,14 @@ ex:StateShape a sh:NodeShape ;
 
     sh:rule [
          a sh:SPARQLRule ;
-         sh:prefixes ex:, property: ;
+         sh:prefixes ex:, property: , state:;
          sh:construct """
                 PREFIX ex: <http://www.w3.org/2022/example#>
                 PREFIX property: <http://www.dke-pr/property#>
+                PREFIX state: <http://www.dke-pr/state#>
+
                 CONSTRUCT {
-                    ?state a ex:State ;
+                    ?state a state:State ;
                     property:estimatedLatitude ?estimatedLatitude ;
                     property:estimatedLongitude ?estimatedLongitude .
                 }
