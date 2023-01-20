@@ -42,6 +42,35 @@ public class DataCollection {
             System.out.println("   2) Collision detected");
         }
     }
+    static void detectSpeedChange(long datetime) {
+
+        // Load the data model that rules
+        Model dataModel = loadModel(false, datetime);
+        Model rulesModel = RDFDataMgr.loadModel("speed-function.ttl");
+
+        // Perform the rule calculation
+        Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
+
+        // Load result in the knowledge graph
+        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+            conn.load("http://localhost:3030/SpeedChange/" + datetime, result);
+            System.out.println("   1) Speed Change detected");
+        }
+    }static void detectDirectionChange(long datetime) {
+
+        // Load the data model that rules
+        Model dataModel = loadModel(false, datetime);
+        Model rulesModel = RDFDataMgr.loadModel("direction-function.ttl");
+
+        // Perform the rule calculation
+        Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
+
+        // Load result in the knowledge graph
+        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+            conn.load("http://localhost:3030/DirectionChange/" + datetime, result);
+            System.out.println("   1) Direction Change detected");
+        }
+    }
 
     static void calculateAggregation(long datetime, String owner){
         //Load the data model
