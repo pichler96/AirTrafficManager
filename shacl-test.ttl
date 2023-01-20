@@ -5,8 +5,8 @@
 @prefix response: <http://www.dke-pr/aircraft/response#> .
 @prefix aircraft: <http://www.dke-pr/aircraft#>.
 
-ex:AircraftShape a sh:NodeShape ;
-    sh:targetClass ex:Aircraft ;
+ex:AggregationShape a sh:NodeShape ;
+    sh:targetClass ex:Aggregation ;
     sh:closed true ;
 
     sh:rule [
@@ -19,18 +19,15 @@ ex:AircraftShape a sh:NodeShape ;
                     ?aircraft a ex:Aggregation ;
                     property:parameter ?owner ;
                     property:count ?count ;
-                    property:timestamp ?timestamp;
-                    property:type ?type;
                 }
                 WHERE {
                 {
-                    select (Count(?aircraft) as ?count)
-                    where {
-                        ?aircraft a ex:Aircraft .
-                        ?aircraft property:hasOwner ?hasOwner.
-                        FILTER(?hasOwner = #Owner#)
-                    }
+                          ?state a state:State.
+                          ?state property:ofAircraft ?aircraft.
+                          ?aircraft a aircraft:Aircraft.
+                          ?aircraft property:hasOwner ?hasOwner
                 }
+                BIND(
                 BIND(?hasOwner as ?owner)
                 }
         """

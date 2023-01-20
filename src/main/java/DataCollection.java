@@ -62,11 +62,15 @@ public class DataCollection {
         String graph = "http://localhost:3030/";
         RDFConnection conn = RDFConnection.connect(graph + "AirTrafficManager");
 
+        Model dataGraph = conn.fetch(graph+"DynamicData/"+datetime);
         if (staticData) {
             graph += "StaticData";
+            Model staticGraph = conn.fetch(graph);
+            dataGraph.add(staticGraph);
+            return dataGraph;
         } else {
-            graph += "DynamicData/" + datetime;
+            return dataGraph;
         }
-        return conn.fetch(graph);
+
     }
 }
