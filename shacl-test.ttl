@@ -25,17 +25,13 @@ ex:AircraftShape a sh:NodeShape ;
                 {
                     SELECT (Count(?aircraft) as ?count)
                     where {
-                        ?aircraft a ex:Aircraft .
-                        ?aircraft property:hasOwner ?hasOwner.
+                        ?aggregation a ex:Aircraft .
+                        ?aggregation property:hasOwner ?hasOwner.
                         FILTER(?hasOwner = "Private")
                        
                     }
 
                 }
-
-
-
-
                 }
         """
     ];

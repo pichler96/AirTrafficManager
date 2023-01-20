@@ -1,41 +1,42 @@
-@prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix ex: <http://www.w3.org/2022/example#> .
-@prefix property: <http://www.dke-pr/property#> .
+ex:AvgAggregationEvent
+    a sh:nodeShape;
+    sh:targetClass ex:AvgAggregationEvent;
+    sh:closed true;
 
-ex:AverageCountShape
-    a sh:Rule ;
-    sh:construct """
-    CONSTRUCT {
-        ?averageCountValue a sh:NodeShape ;
-        rdf:type ex:AverageCount;
-        sh:property [
-            sh:path property:hasOwner ;
-            sh:averageCount ?averageCountValue
-        ] .
-    }
-    WHERE {
-        {
-            SELECT (SUM(?count) as ?countValue)
-            WHERE {
-                SELECT ?hasIcao24 (COUNT(?state) as ?count)
-                WHERE {
-                    GRAPH <states> {
-                        ?state a ex:State ;
-                        property:hasIcao24 ?hasIcao24 .
-                    }
-                }
-                VALUES ?hasIcao24 {
-                    SELECT ?hasIcao24
-                    WHERE {
-                        GRAPH <aircraft> {
-                            ?aircraft a ex:Aircraft ;
-                            property:hasOwner "Private" ;
-                            property:hasIcao24 ?hasIcao24 .
-                            }
-                        }
-                    }
+    sh:rule[
+        a sh:SPARQLRule;
+        sh:prefixes ex:, property: ;
+        sh:construct """
+            PREFIX ex: <http://www.w3.org/2022/example#>
+            PREFIX property: <http://www.dke-pr/property#>
+            CONSTRUCT{
+                ?avgAggregationEvent a ex:AvgAggregationEvent;
+                property:timestamp ?timestamp ;
+                property:owner ?owner ;
+                property:avgCount ?avgCount ;
+                property:type ?type .
             }
-        }
-        BIND(?countValue / (COUNT(DISTINCT ?hasIcao24) AS ?averageCountValue)
-    }
-    """ .
+            WHERE {
+                select (avg(?count) as ?avgCount)
+                where {
+                {SELECT (COUNT(?state) as ?count)
+                    where {
+                        {
+                                GRAPH <http://localhost:3030/DynamicData/1674125711> {
+                                    ?state a ex:State ;
+                                    property:ofAircraft ?aircraft.
+                                }
+                            }
+                            {
+                                GRAPH <http://localhost:3030/StaticData> {
+                                    ?aircraft a ex:Aircraft;
+                                    property:hasOwner ?Owner.
+                                    Filter(?Owner = #Owner#)
+                                }
+                            }
+                    }
+                  }
+                }
+            }
+            """
+    ];
