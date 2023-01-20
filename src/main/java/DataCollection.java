@@ -39,7 +39,7 @@ public class DataCollection {
         // Load result in the knowledge graph
         try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
             conn.load("http://localhost:3030/CollisionDetection/" + datetime, result);
-            System.out.println("   1) Collision detected");
+            System.out.println("   2) Collision detected");
         }
     }
 
@@ -70,7 +70,7 @@ public class DataCollection {
         // Load result in the knowledge graph
         try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
             conn.load("http://localhost:3030/Aggregation/" + datetime, result);
-            System.out.println("   1) Aggregation created");
+            System.out.println("   4) Aggregation created");
         }
     }
 
