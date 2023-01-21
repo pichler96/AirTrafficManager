@@ -1,35 +1,35 @@
-@prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix ex: <http://www.w3.org/2022/example#> .
+prefix sh:	<http://www.w3.org/ns/shacl#>
+prefix xsd:	<http://www.w3.org/2001/XMLSchema#>
+prefix ex: <http://www.w3.org/2022/example#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix aircraft: <http://www.dke-pr/aircraft#>
+prefix state: <http://www.dke-pr/state#>
+prefix response: <http://www.dke-pr/response#>
+prefix property: <http://www.dke-pr/property#>
 
-ex:CollisionEventShape a sh:NodeShape ;
-    sh:targetClass ex:CollisionEvent ;
-    sh:closed true ;
-    sh:rule [        a sh:SPARQLRule ;        sh:prefixes ex: ;        sh:construct """
-            CONSTRUCT {
-              _:collisionEvent a ex:CollisionEvent;
-                ex:involvesAircraft ?aircraft1, ?aircraft2;
-                ex:occurredAt ?time;
-                ex:distance ?distance.
-            }
-            WHERE {
-              ?aircraft1 ex:hasState ?state1 .
-              ?state1 ex:hasLatitude ?lat1 .
-              ?state1 ex:hasLongitude ?long1 .
-              ?state1 ex:hasResponse ?response1 .
-              ?aircraft2 ex:hasState ?state2 .
-              ?state2 ex:hasLatitude ?lat2 .
-              ?state2 ex:hasLongitude ?long2 .
-              ?state2 ex:hasResponse ?response2 .
-              ?aircraft1 ex:hasIcao24 ?icao1 .
-              ?aircraft2 ex:hasIcao24 ?icao2 .
-              #Calculate distance between aircrafts
-              BIND((?lat1 - ?lat2) * (?lat1 - ?lat2) + (?long1 - ?long2) * (?long1 - ?long2) AS ?distance)
-              # Only include pairs of aircraft that are within 100 meters of each other and have the same response time
-              FILTER(?distance <= 100 && response1 = response2)
-              # bind current time as the time of the collision event
-              BIND(NOW() AS ?time)
-              # Create a blank node for the collision event
-              BIND(BNODE() AS _:collisionEvent)
-            }
-        """
-    ];
+SELECT 
+?state1 ?state2  ?distance
+
+from <http://localhost:3030/DynamicData/1674307780>
+from <http://localhost:3030/StaticData>
+WHERE {  
+  ?state1 a state:State.
+  ?state1 property:hasLatitude ?lat1 .
+  ?state1 property:hasLongitude ?long1 .
+  ?state1 property:hasResponse ?response1 .
+  ?state1 property:ofAircraft ?aircraft1 .
+  ?aircraft1 property:hasIcao24 ?icao1.
+  
+  ?state2 a state:State.
+  ?state2 property:hasLatitude ?lat2 .
+  ?state2 property:hasLongitude ?long2 .
+  ?state2 property:hasResponse ?response2 .  
+  ?state2 property:ofAircraft ?aircraft2 .
+  ?aircraft2 property:hasIcao24 ?icao2.
+
+  # Calculate distance between aircrafts
+  BIND((?lat1 - ?lat2) * (?lat1 - ?lat2) + (?long1 - ?long2) * (?long1 - ?long2) AS ?distance)
+
+  # Only include pairs of aircraft that are within 100 meters of each other and have the same response time
+  FILTER(?distance <= 100 && ?response1 = ?response2 && ?icao1 != ?icao2)
+}
