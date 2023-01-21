@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 PREFIX ex: <http://www.w3.org/2022/example#>
 PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
 
@@ -22,3 +23,38 @@ WHERE {
   # Only include pairs of aircraft that are within 100 meters of each other and have the same response time
   FILTER(?distance <= 100 && response1 = response2)
 }
+=======
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://www.w3.org/2022/example#> .
+@prefix property: <http://www.dke-pr/property#> .
+@prefix collisionEvent: <http://www.pr-dke/collisionEvent#>
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+ex:CollisionEventShape a sh:NodeShape ;
+    sh:targetClass ex:State ;
+    sh:rule [        a sh:SPARQLRule ;        sh:prefixes ex:, property:, rdf:;        sh:construct """
+
+            CONSTRUCT {
+            ?collisionDescription
+                rdf:type ex:Collision ;
+                property:aircraftLatitudes ?lat1, ?lat2 ;
+                property:aircraftLongitudes ?long1, ?long2 ;
+            }
+            WHERE {
+               ?state1 a ex:State ;
+                    property:icao ?icao1 ;
+                    property:latitude ?lat1 ;
+                    property:longitude ?long1 ;
+               ?state2 a ex:State ;
+                    property:icao ?icao2 ;
+                    property:latitude ?lat2 ;
+                    property:longitude ?long2 ;
+               BIND (?lat1 - ?lat2) * (?lat1 - ?lat2) + (?long1 - ?long2) * (?long1 - ?long2) as ?distance
+               FILTER(?icao1 != ?icao2
+                    && ?distance <= 100 )
+               BIND(uri(concat(collisionEvent:, ?icao1, ?icao2)) as ?collisionDescription )
+            }
+        """
+    ] ;
+.
+>>>>>>> Stashed changes
