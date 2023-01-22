@@ -11,10 +11,10 @@ import java.nio.file.Paths;
 
 
 public class DataCollection {
-    static void calculateFlightPosition(long datetime) {
+    static void calculateFlightPosition(long dateTime) {
 
         // Load the data model that rules
-        Model dataModel = loadModel(false, datetime);
+        Model dataModel = loadModel(false, dateTime);
         Model rulesModel = RDFDataMgr.loadModel("state-flight-position.ttl");
 
         // Perform the rule calculation
@@ -22,8 +22,53 @@ public class DataCollection {
 
         // Load result in the knowledge graph
         try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
-            conn.load("http://localhost:3030/FlightPosition/" + datetime, result);
+            conn.load("http://localhost:3030/FlightPosition/" + dateTime, result);
             System.out.println("   1) ESTIMATED FLIGHT POSITIONS UPDATED");
+        }
+    }
+
+    public static void detectCollision(long dateTime) {
+        // Load the data model that rules
+        Model dataModel = loadModel(false, dateTime);
+        Model rulesModel = RDFDataMgr.loadModel("state-flight-position.ttl");
+
+        // Perform the rule calculation
+        Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
+
+        // Load result in the knowledge graph
+        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+            conn.load("http://localhost:3030/FlightPosition/" + dateTime, result);
+            System.out.println("   2) POTENTIAL COLLISION RISKS LISTED");
+        }
+    }
+
+    public static void detectSpeedChange(long dateTime) {
+        // Load the data model that rules
+        Model dataModel = loadModel(false, dateTime);
+        Model rulesModel = RDFDataMgr.loadModel("speed-function.ttl");
+
+        // Perform the rule calculation
+        Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
+
+        // Load result in the knowledge graph
+        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+            conn.load("http://localhost:3030/SpeedChange/" + dateTime, result);
+            System.out.println("   3) SPEED CHANGE DETECTED");
+        }
+    }
+
+    public static void detectDirectionChange(long dateTime) {
+        // Load the data model that rules
+        Model dataModel = loadModel(false, dateTime);
+        Model rulesModel = RDFDataMgr.loadModel("direction-function.ttl");
+
+        // Perform the rule calculation
+        Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
+
+        // Load result in the knowledge graph
+        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+            conn.load("http://localhost:3030/DirectionChange/" + dateTime, result);
+            System.out.println("   3) DIRECTION CHANGE DETECTED");
         }
     }
 
@@ -54,7 +99,7 @@ public class DataCollection {
         // Load result in the knowledge graph
         try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
             conn.load("http://localhost:3030/Aggregation/" + datetime, result);
-            System.out.println("   1) Aggregation created");
+            System.out.println("   1) AGGREGATION CREATED");
         }
     }
 
