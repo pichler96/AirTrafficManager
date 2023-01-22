@@ -2,7 +2,6 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdfconnection.RDFConnection;
 import org.apache.jena.riot.RDFDataMgr;
 import org.topbraid.shacl.rules.RuleUtil;
-import org.topbraid.shacl.util.ModelPrinter;
 
 import java.io.IOException;
 import java.nio.file.Files;
