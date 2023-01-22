@@ -1,0 +1,33 @@
+prefix sh:	<http://www.w3.org/ns/shacl#>
+prefix xsd:	<http://www.w3.org/2001/XMLSchema#>
+prefix ex: <http://www.w3.org/2022/example#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix aircraft: <http://www.dke-pr/aircraft#>
+prefix state: <http://www.dke-pr/state#>
+prefix response: <http://www.dke-pr/response#>
+prefix property: <http://www.dke-pr/property#>
+prefix manufacturer: <http://www.dke-pr/manufacturer#>
+prefix operator: <http://www.dke-pr/operator#>
+prefix math: <http://www.w3.org/2000/10/swap/math#>
+
+
+SELECT ?state ?directionChange ?directionInterpretation
+       from <http://localhost:3030/StaticData>
+       from <http://localhost:3030/DynamicData/1674294574>
+WHERE {
+?state property:hasLastPositionUpdate ?lastUpdate .
+?state property:hasResponse ?response .
+       ?state property:hasHeadingSin ?hasHeadingSin .
+?state property:hasHeadingCos ?hasHeadingCos .
+FILTER (?lastUpdate < ?response)
+BIND (?response - ?lastUpdate AS ?timeDifference)
+BIND (math:ATAN2(?hasHeadingSin - ?lastUpdate / ?timeDifference, ?hasHeadingCos -
+                                                                  ?lastUpdate / ?timeDifference) AS ?directionChange)
+BIND (NOW() as ?timestamp)
+BIND (IF(?directionChange > 0 && ?directionChange <= 1.5708, "North",
+                                                     IF(?directionChange > 1.5708 && ?directionChange <= 3.14159, "West",
+                                                                                                         IF(?directionChange > 3.14159 && ?directionChange <= 4.71239, "South", "East")) ) as ?directionInterpretation)
+BIND (abs(?directionChange) > xsd:double(?threshold) as ?overDirectionThreshold)
+
+
+}
