@@ -66,14 +66,65 @@ public class Main {
                     System.out.println("Please enter a valid task description from the ones below:");
                 }
             } else if (userInput.equalsIgnoreCase("t1")){
-                //DataCollection.calculateFlightPosition(dateTime);
-            } else if (userInput.equalsIgnoreCase("t2")){
-                //DataCollection.detectCollision(dateTime);
+                do {
+                    System.out.println("Would you like to enter threshold value for the last time updated?\n" +
+                                       "Please enter yes to input threshold value, no to use default values or exit" +
+                                        " to exit the task below:");
+                    userInput = in.nextLine();
+                    if (userInput.equalsIgnoreCase("yes")) {
+                        DataCollection.calculateFlightPosition(dateTime, 2000.0);
+                    }
+                    else if (userInput.equalsIgnoreCase("no")){
+                        DataCollection.calculateFlightPosition(dateTime);
+                    }
+                } while(!userInput.equalsIgnoreCase("exit"));
+                userInput = "nextLoop";
+            } else if (userInput.equalsIgnoreCase("t2")) {
+                do {
+                    System.out.println("Would you like to enter threshold value for the minimum distance aircrafts" +
+                            "can have between each other before a collision warning occurs?\n" +
+                            "Please enter yes to input threshold value, no to use default values or exit" +
+                            " to exit the task below:");
+                    userInput = in.nextLine();
+                    if (userInput.equalsIgnoreCase("yes")) {
+                        DataCollection.detectCollision(dateTime, 200.0);
+                    }
+                    else if (userInput.equalsIgnoreCase("no")){
+                        DataCollection.detectCollision(dateTime);
+                    }
+                } while(!userInput.equalsIgnoreCase("exit"));
+                userInput = "nextLoop";
             } else if (userInput.equalsIgnoreCase("t3")){
-                //DataCollection.detectSpeedChange(dateTime);
-                //DataCollection.detectDirectionChange(dateTime);
+                do {
+                    System.out.println("Would you like to enter threshold values for the the minimum amount of" +
+                            " speed change and/or direction change that should be detected?\n" +
+                            "Please enter yes to input threshold value, no to use default values or exit" +
+                            " to exit the task below:");
+                    userInput = in.nextLine();
+                    if (userInput.equalsIgnoreCase("yes")) {
+                        DataCollection.detectSpeedChange(dateTime, 100.0);
+                        DataCollection.detectDirectionChange(dateTime, 100.0);
+                    }
+                    else if (userInput.equalsIgnoreCase("no")){
+                        DataCollection.detectSpeedChange(dateTime);
+                        DataCollection.detectDirectionChange(dateTime);
+                    }
+                } while(!userInput.equalsIgnoreCase("exit"));
+                userInput = "nextLoop";
             } else if (userInput.equalsIgnoreCase("Private")){
-            //DataCollection.calculateAggregation(dateTime, "Private");
+                do {
+                    System.out.println("Would you like to enter a specific airline to aggregate for?\n" +
+                            "Please enter yes to input threshold value, no to use default values or exit" +
+                            " to exit the task below:");
+                    userInput = in.nextLine();
+                    if (userInput.equalsIgnoreCase("yes")) {
+                        DataCollection.calculateAggregation(dateTime, "Austrian Airlines");
+                    }
+                    else if (userInput.equalsIgnoreCase("no")){
+                        DataCollection.calculateAggregation(dateTime, "Private");
+                    }
+                } while(!userInput.equalsIgnoreCase("exit"));
+                userInput = "nextLoop";
             }
         } while (!userInput.equalsIgnoreCase("exit"));
     }

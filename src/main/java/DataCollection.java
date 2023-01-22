@@ -27,6 +27,22 @@ public class DataCollection {
         }
     }
 
+    static void calculateFlightPosition(long dateTime, Double lastUpdateTime) {
+
+        // Load the data model that rules
+        Model dataModel = loadModel(false, dateTime);
+        Model rulesModel = RDFDataMgr.loadModel("state-flight-position.ttl");
+
+        // Perform the rule calculation
+        Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
+
+        // Load result in the knowledge graph
+        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+            conn.load("http://localhost:3030/FlightPosition/" + dateTime, result);
+            System.out.println("   1) ESTIMATED FLIGHT POSITIONS UPDATED");
+        }
+    }
+
     public static void detectCollision(long dateTime) {
         // Load the data model that rules
         Model dataModel = loadModel(false, dateTime);
@@ -39,6 +55,22 @@ public class DataCollection {
         try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
             conn.load("http://localhost:3030/FlightPosition/" + dateTime, result);
             System.out.println("   2) POTENTIAL COLLISION RISKS LISTED");
+        }
+    }
+
+    static void detectCollision(long datetime, Double minDistance) {
+
+        // Load the data model that rules
+        Model dataModel = loadModel(false, datetime);
+        Model rulesModel = RDFDataMgr.loadModel("collisionIdentification.ttl");
+
+        // Perform the rule calculation
+        Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
+
+        // Load result in the knowledge graph
+        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager")) {
+            conn.load("http://localhost:3030/CollisionDetection/" + datetime, result);
+            System.out.println("   2) Collision detected");
         }
     }
 
@@ -57,6 +89,22 @@ public class DataCollection {
         }
     }
 
+    static void detectSpeedChange(long datetime, Double minSpeedChange) {
+
+        // Load the data model that rules
+        Model dataModel = loadModel(false, datetime);
+        Model rulesModel = RDFDataMgr.loadModel("speed-function.ttl");
+
+        // Perform the rule calculation
+        Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
+
+        // Load result in the knowledge graph
+        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager")) {
+            conn.load("http://localhost:3030/SpeedChange/" + datetime, result);
+            System.out.println("   3) Speed Change detected");
+        }
+    }
+
     public static void detectDirectionChange(long dateTime) {
         // Load the data model that rules
         Model dataModel = loadModel(false, dateTime);
@@ -69,6 +117,53 @@ public class DataCollection {
         try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
             conn.load("http://localhost:3030/DirectionChange/" + dateTime, result);
             System.out.println("   3) DIRECTION CHANGE DETECTED");
+        }
+    }
+
+    static void detectDirectionChange(long datetime, Double minDirectionChange) {
+
+        // Load the data model that rules
+        Model dataModel = loadModel(false, datetime);
+        Model rulesModel = RDFDataMgr.loadModel("direction-function.ttl");
+
+        // Perform the rule calculation
+        Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
+
+        // Load result in the knowledge graph
+        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+            conn.load("http://localhost:3030/DirectionChange/" + datetime, result);
+            System.out.println("   3) Direction Change detected");
+        }
+    }
+
+    static void calculateAggregation(long datetime){
+        //Load the data model
+        Model dataModel = loadModel(true, datetime);
+        String modelPath = "shacl-test.ttl";
+
+        Path path = Paths.get(modelPath);
+
+        String filetext = null;
+        try {
+            filetext = Files.readString(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        filetext = filetext.replace("#Owner#", "" + "owner");
+        try {
+            Files.writeString(path, filetext);
+        } catch (IOException ex) {
+            System.out.println(ex);
+            throw new RuntimeException(ex);
+        }
+        Model rulesModel = RDFDataMgr.loadModel(modelPath);
+
+        Model result = RuleUtil.executeRules(dataModel, rulesModel, null,null);
+
+        // Load result in the knowledge graph
+        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+            conn.load("http://localhost:3030/Aggregation/" + datetime, result);
+            System.out.println("   4) Aggregation created");
         }
     }
 
