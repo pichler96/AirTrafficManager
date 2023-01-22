@@ -75,7 +75,7 @@ public class DataCollection {
     static void calculateAggregation(long datetime, String owner){
         //Load the data model
         Model dataModel = loadModel(true, datetime);
-        String modelPath = "shacl-test.ttl";
+        String modelPath = "count-shacl.ttl";
 
         Path path = Paths.get(modelPath);
 

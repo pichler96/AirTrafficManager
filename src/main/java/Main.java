@@ -66,14 +66,14 @@ public class Main {
                     System.out.println("Please enter a valid task description from the ones below:");
                 }
             } else if (userInput.equalsIgnoreCase("t1")){
-                DataCollection.calculateFlightPosition(dateTime);
+                //DataCollection.calculateFlightPosition(dateTime);
             } else if (userInput.equalsIgnoreCase("t2")){
-                DataCollection.detectCollision(dateTime);
+                //DataCollection.detectCollision(dateTime);
             } else if (userInput.equalsIgnoreCase("t3")){
-                DataCollection.detectSpeedChange(dateTime);
-                DataCollection.detectDirectionChange(dateTime);
+                //DataCollection.detectSpeedChange(dateTime);
+                //DataCollection.detectDirectionChange(dateTime);
             } else if (userInput.equalsIgnoreCase("Private")){
-            DataCollection.calculateAggregation(dateTime, "Private");
+            //DataCollection.calculateAggregation(dateTime, "Private");
             }
         } while (!userInput.equalsIgnoreCase("exit"));
     }
