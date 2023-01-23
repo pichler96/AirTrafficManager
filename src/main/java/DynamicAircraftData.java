@@ -48,6 +48,8 @@ public class DynamicAircraftData {
             State state = new State(aircraft.getIcao(), 3244.34, 3123.3, 213123.3,
                     0.0, 0.0, true, "GER", 0.0, 0.0, new Response(-1.0));
             states.add(state);
+            if(states.size()>30)
+                break;
         }
         return states;
     }
