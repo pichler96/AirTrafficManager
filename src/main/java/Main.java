@@ -78,7 +78,7 @@ public class Main {
                             " to exit the task below:");
                     userInput = in.nextLine();
                     if (userInput.equalsIgnoreCase("yes")) {
-                        DataCollection.detectCollision(dateTime, 200.0);
+                        DataCollection.detectCollision(dateTime, Double.parseDouble(userInput)0);
                     }
                     else if (userInput.equalsIgnoreCase("no")){
                         DataCollection.detectCollision(dateTime);
@@ -93,8 +93,8 @@ public class Main {
                             " to exit the task below:");
                     userInput = in.nextLine();
                     if (userInput.equalsIgnoreCase("yes")) {
-                        DataCollection.detectSpeedChange(dateTime, 100.0);
-                        DataCollection.detectDirectionChange(dateTime, 100.0);
+                        DataCollection.detectSpeedChange(dateTime, Double.parseDouble(userInput));
+                        DataCollection.detectDirectionChange(dateTime, Double.parseDouble(userInput));
                     }
                     else if (userInput.equalsIgnoreCase("no")){
                         DataCollection.detectSpeedChange(dateTime);
@@ -109,7 +109,7 @@ public class Main {
                             " to exit the task below:");
                     userInput = in.nextLine();
                     if (userInput.equalsIgnoreCase("yes")) {
-                        DataCollection.calculateAggregation(dateTime, "Austrian");
+                        DataCollection.calculateAggregation(dateTime, userInput);
                     }
                     else if (userInput.equalsIgnoreCase("no")){
                         DataCollection.calculateAggregation(dateTime, "Private");
