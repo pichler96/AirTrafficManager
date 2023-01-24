@@ -78,7 +78,7 @@ public class Main {
                             " to exit the task below:");
                     userInput = in.nextLine();
                     if (userInput.equalsIgnoreCase("yes")) {
-                        DataCollection.detectCollision(dateTime, Double.parseDouble(userInput)0);
+                        DataCollection.detectCollision(dateTime, Double.parseDouble(userInput));
                     }
                     else if (userInput.equalsIgnoreCase("no")){
                         DataCollection.detectCollision(dateTime);
