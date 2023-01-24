@@ -1,5 +1,6 @@
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdfconnection.RDFConnection;
+import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.topbraid.shacl.rules.RuleUtil;
 import org.topbraid.shacl.util.ModelPrinter;
@@ -17,6 +18,7 @@ public class DataCollection {
         Model dataModel = loadModel(false, dateTime);
         Model rulesModel = RDFDataMgr.loadModel("state-flight-position.ttl");
 
+        RDFDataMgr.write(System.out,rulesModel, Lang.TTL);
         // Perform the rule calculation
         Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
 
@@ -27,21 +29,6 @@ public class DataCollection {
         }
     }
 
-    static void calculateFlightPosition(long dateTime, Double lastUpdateTime) {
-
-        // Load the data model that rules
-        Model dataModel = loadModel(false, dateTime);
-        Model rulesModel = RDFDataMgr.loadModel("state-flight-position.ttl");
-
-        // Perform the rule calculation
-        Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
-
-        // Load result in the knowledge graph
-        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
-            conn.load("http://localhost:3030/FlightPosition/" + dateTime, result);
-            System.out.println("   1) ESTIMATED FLIGHT POSITIONS UPDATED");
-        }
-    }
 
     public static void detectCollision(long dateTime) {
         // Load the data model that rules

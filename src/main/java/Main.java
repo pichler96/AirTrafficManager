@@ -67,16 +67,7 @@ public class Main {
                 }
             } else if (userInput.equalsIgnoreCase("t1")){
                 do {
-                    System.out.println("Would you like to enter threshold value for the last time updated?\n" +
-                                       "Please enter yes to input threshold value, no to use default values or exit" +
-                                        " to exit the task below:");
-                    userInput = in.nextLine();
-                    if (userInput.equalsIgnoreCase("yes")) {
-                        DataCollection.calculateFlightPosition(dateTime, 2000.0);
-                    }
-                    else if (userInput.equalsIgnoreCase("no")){
-                        DataCollection.calculateFlightPosition(dateTime);
-                    }
+                    DataCollection.calculateFlightPosition(dateTime);
                 } while(!userInput.equalsIgnoreCase("exit"));
                 userInput = "nextLoop";
             } else if (userInput.equalsIgnoreCase("t2")) {
