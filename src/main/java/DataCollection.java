@@ -18,7 +18,7 @@ public class DataCollection {
         Model dataModel = loadModel(false, dateTime);
         Model rulesModel = RDFDataMgr.loadModel("state-flight-position.ttl");
 
-        RDFDataMgr.write(System.out,rulesModel, Lang.TTL);
+        //RDFDataMgr.write(System.out,rulesModel, Lang.TTL);
         // Perform the rule calculation
         Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
 
@@ -120,37 +120,6 @@ public class DataCollection {
         try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
             conn.load("http://localhost:3030/DirectionChange/" + datetime, result);
             System.out.println("   3) Direction Change detected");
-        }
-    }
-
-    static void calculateAggregation(long datetime){
-        //Load the data model
-        Model dataModel = loadModel(true, datetime);
-        String modelPath = "shacl-test.ttl";
-
-        Path path = Paths.get(modelPath);
-
-        String filetext = null;
-        try {
-            filetext = Files.readString(path);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        filetext = filetext.replace("#Owner#", "" + "owner");
-        try {
-            Files.writeString(path, filetext);
-        } catch (IOException ex) {
-            System.out.println(ex);
-            throw new RuntimeException(ex);
-        }
-        Model rulesModel = RDFDataMgr.loadModel(modelPath);
-
-        Model result = RuleUtil.executeRules(dataModel, rulesModel, null,null);
-
-        // Load result in the knowledge graph
-        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
-            conn.load("http://localhost:3030/Aggregation/" + datetime, result);
-            System.out.println("   4) Aggregation created");
         }
     }
 

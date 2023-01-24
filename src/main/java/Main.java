@@ -52,7 +52,7 @@ public class Main {
                                 " t1: Task 1 veraltete States \n" +
                                 " t2: Task 2 Kollisionsgefahr \n" +
                                 " t3: Task 3 Geschwindigkeit & Richtungsänderung \n" +
-                                " Private: Task 4 Anzahl Aircrafts des Owners Private \n" +
+                                " t4: Task 4 Anzahl Aircrafts des Owners Private \n" +
                                 " exit: Exit" );
 
             userInput = in.nextLine();
@@ -102,14 +102,14 @@ public class Main {
                     }
                 } while(!userInput.equalsIgnoreCase("exit"));
                 userInput = "nextLoop";
-            } else if (userInput.equalsIgnoreCase("Private")){
+            } else if (userInput.equalsIgnoreCase("t4")){
                 do {
                     System.out.println("Would you like to enter a specific airline to aggregate for?\n" +
                             "Please enter yes to input threshold value, no to use default values or exit" +
                             " to exit the task below:");
                     userInput = in.nextLine();
                     if (userInput.equalsIgnoreCase("yes")) {
-                        DataCollection.calculateAggregation(dateTime, "Austrian Airlines");
+                        DataCollection.calculateAggregation(dateTime, "Austrian");
                     }
                     else if (userInput.equalsIgnoreCase("no")){
                         DataCollection.calculateAggregation(dateTime, "Private");
