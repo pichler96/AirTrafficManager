@@ -66,9 +66,9 @@ public class Main {
                     System.out.println("Please enter a valid task description from the ones below:");
                 }
             } else if (userInput.equalsIgnoreCase("t1")){
-                do {
                     DataCollection.calculateFlightPosition(dateTime);
-                } while(!userInput.equalsIgnoreCase("exit"));
+                    userInput = in.nextLine();
+                while(!userInput.equalsIgnoreCase("exit"));
                 userInput = "nextLoop";
             } else if (userInput.equalsIgnoreCase("t2")) {
                 do {
