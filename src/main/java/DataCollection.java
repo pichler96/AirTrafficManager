@@ -2,6 +2,8 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdfconnection.RDFConnection;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.shacl.ShaclValidator;
+import org.apache.jena.shacl.Shapes;
 import org.topbraid.shacl.rules.RuleUtil;
 import org.topbraid.shacl.util.ModelPrinter;
 
@@ -21,10 +23,16 @@ public class DataCollection {
         // Perform the rule calculation
         Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
 
-        // Load result in the knowledge graph
-        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
-            conn.load("http://localhost:3030/FlightPosition/" + dateTime, result);
-            System.out.println("   TASK 1) ESTIMATED FLIGHT POSITIONS UPDATED");
+        // Validate the result and load in the knowledge graph
+        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("state-flight-position-shacl.ttl"));
+        if (ShaclValidator.get().validate(shapes, result.getGraph()).conforms()) {
+            System.out.println("    TASK 1) ESTIMATED FLIGHT POSITIONS UPDATED");
+            try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+                conn.load("http://localhost:3030/FlightPosition/" + dateTime, result);
+            }
+        } else {
+            System.out.println("    TASK 1) ESTIMATED FLIGHT POSITIONS FAILED");
+            RDFDataMgr.write(System.out, result, Lang.TTL);
         }
     }
 
