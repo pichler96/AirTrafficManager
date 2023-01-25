@@ -109,6 +109,7 @@ public class Main {
                             " to exit the task below:");
                     userInput = in.nextLine();
                     if (userInput.equalsIgnoreCase("yes")) {
+                        userInput = in.nextLine();
                         DataCollection.calculateAggregation(dateTime, userInput);
                     }
                     else if (userInput.equalsIgnoreCase("no")){

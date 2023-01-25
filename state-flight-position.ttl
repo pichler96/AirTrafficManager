@@ -5,7 +5,7 @@
 @prefix response: <http://www.dke-pr/aircraft/response#> .
 
 ex:StateShape a sh:NodeShape ;
-    sh:targetClass ex:State ;
+    sh:targetClass state:State ;
     sh:closed true ;
 
     sh:rule [

@@ -126,7 +126,7 @@ public class DataCollection {
     static void calculateAggregation(long datetime, String owner){
         //Load the data model
         Model dataModel = loadModel(true, datetime);
-        String modelPath = "count-shacl.ttl";
+        String modelPath = "count-rule.ttl";
 
         Path path = Paths.get(modelPath);
 
