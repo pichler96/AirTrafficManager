@@ -1,8 +1,8 @@
 @prefix sh:	<http://www.w3.org/ns/shacl#>.
 @prefix ex: <http://www.w3.org/2022/example#> .
 @prefix property: <http://www.dke-pr/property#> .
-@prefix state: <http://www.dke-pr/aircraft/state#> .
-@prefix response: <http://www.dke-pr/aircraft/response#> .
+@prefix state: <http://www.dke-pr/state#> .
+@prefix response: <http://www.dke-pr/response#> .
 
 ex:StateShape a sh:NodeShape ;
     sh:targetClass state:State ;

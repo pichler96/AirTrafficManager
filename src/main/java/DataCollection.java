@@ -18,14 +18,13 @@ public class DataCollection {
         Model dataModel = loadModel(false, dateTime);
         Model rulesModel = RDFDataMgr.loadModel("state-flight-position.ttl");
 
-        //RDFDataMgr.write(System.out,rulesModel, Lang.TTL);
         // Perform the rule calculation
         Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
 
         // Load result in the knowledge graph
         try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
             conn.load("http://localhost:3030/FlightPosition/" + dateTime, result);
-            System.out.println("   1) ESTIMATED FLIGHT POSITIONS UPDATED");
+            System.out.println("   TASK 1) ESTIMATED FLIGHT POSITIONS UPDATED");
         }
     }
 

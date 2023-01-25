@@ -5,8 +5,6 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.shacl.ShaclValidator;
 import org.apache.jena.shacl.Shapes;
 import org.apache.jena.vocabulary.RDF;
-import org.topbraid.shacl.validation.ValidationUtil;
-
 import java.time.Instant;
 import java.util.List;
 

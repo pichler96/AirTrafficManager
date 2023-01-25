@@ -67,9 +67,6 @@ public class Main {
                 }
             } else if (userInput.equalsIgnoreCase("t1")){
                     DataCollection.calculateFlightPosition(dateTime);
-                    userInput = in.nextLine();
-                while(!userInput.equalsIgnoreCase("exit"));
-                userInput = "nextLoop";
             } else if (userInput.equalsIgnoreCase("t2")) {
                 do {
                     System.out.println("Would you like to enter threshold value for the minimum distance aircrafts" +
