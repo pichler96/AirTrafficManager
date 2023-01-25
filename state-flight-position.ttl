@@ -30,8 +30,8 @@ ex:StateShape a sh:NodeShape ;
                     ?state property:hasHeadingSin ?hasHeadingSin .
                     ?state property:hasHeadingCos ?hasHeadingCos .
                     FILTER (?lastUpdate < ?response)
-                    BIND ((?response - ?lastUpdate) * ?hasVelocity * ?hasHeadingSin / 6371008 * 180 / 3.14159 + ?hasLatitude as ?estimatedLatitude)
-                    BIND ((?response - ?lastUpdate) * ?hasVelocity * ?hasHeadingCos / 6371008 * 180 / 3.14159 + ?hasLongitude as ?estimatedLongitude)
+                    BIND ((?response - ?lastUpdate) * ?hasVelocity * ?hasHeadingCos / 6371008 * 180 / 3.14159 + ?hasLatitude as ?estimatedLatitude)
+                    BIND ((?response - ?lastUpdate) * ?hasVelocity * ?hasHeadingSin / 6371008 * 180 / 3.14159 + ?hasLongitude as ?estimatedLongitude)
                 }
         """
     ];
