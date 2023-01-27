@@ -7,6 +7,7 @@ public class Main {
     public static List<State> states = new ArrayList<>();
 
     public static long dateTime;
+    public static List<Long> dynamicGraphTimeStamps;
     public static void main(String[] args) {
 
         boolean isProductiveModeFlag = false;
@@ -123,5 +124,6 @@ public class Main {
     }
     private static void executeDynamicData(){
         dateTime = RDFConverter.convertDynamicData(states);
+        dynamicGraphTimeStamps.add(dateTime);
     }
 }
