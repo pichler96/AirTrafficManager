@@ -5,34 +5,41 @@
 @prefix response: <http://www.dke-pr/response#> .
 @prefix aggregation: <http://www.dke-pr/aggregation#>.
 @prefix aircraft: <http://www.dke-pr/aircraft#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 
 ex:AggregationShape a sh:NodeShape ;
-    sh:targetClass aggregation:Aggregation ;
+    sh:targetClass state:State;
     sh:closed true ;
 
     sh:rule [
          a sh:SPARQLRule ;
-         sh:prefixes ex:, property: , state:, aggregation:, aircraft: ;
+         sh:prefixes ex:, property: , state:, aggregation:, aircraft:, rdf:;
          sh:construct """
                 PREFIX ex: <http://www.w3.org/2022/example#>
                 PREFIX property: <http://www.dke-pr/property#>
                 PREFIX state: <http://www.dke-pr/state#>
                 PREFIX aggregation: <http://www.dke-pr/aggregation#>
                 PREFIX aircraft: <http://www.dke-pr/aircraft#>
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
                 CONSTRUCT {
                     ?aggregation a aggregation:Aggregation ;
-                    property:owner ?owner ;
-                    #property:countStates ?countStates .
+                    property:hasOwner ?owner ;
+                    property:countStates ?countStates .
+                    property:timeStamp ?time.
                 }
                 WHERE {
+                Select (Count(?state) as ?countStates) (?hasOwner as ?owner) (Now() as ?time)
+                where{
                     ?state a state:State.
                     ?state property:ofAircraft ?aircraft.
                     ?aircraft a aircraft:Aircraft.
                     ?aircraft property:hasOwner ?hasOwner
-                    Filter(?hasOwner = #Owner#)
+                    Filter(?hasOwner = "Austrian")
                     #BIND(Count(?state) as ?countStates)
-                    BIND(?hasOwner as ?owner)
+                    #BIND(?hasOwner as ?owner)
+                    #BIND(NOW() as ?time)
+                  }group by ?owner
                 }
         """
     ];
