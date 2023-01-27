@@ -108,13 +108,12 @@ public class RDFConverter {
             System.out.println("SHACL VALIDATION (STATIC) SUCCESSFUL");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
                 conn.load("http://localhost:3030/StaticData", model);
-                //RDFDataMgr.write(System.out,model.getGraph(), Lang.TTL);
             } catch (Exception ignored) {
                 System.out.println(ignored);
             }
         } else {
             System.out.println("SHACL VALIDATION NOT (STATIC) SUCCESSFUL");
-            RDFDataMgr.write(System.out, ShaclValidator.get().validate(shapes, model.getGraph()).getModel(), Lang.TTL);
+            RDFDataMgr.write(System.out, model, Lang.TTL);
         }
     }
 
@@ -194,7 +193,7 @@ public class RDFConverter {
             }
         } else {
             System.out.println("SHACL VALIDATION NOT (DYNAMIC) SUCCESSFUL");
-            RDFDataMgr.write(System.out, ShaclValidator.get().validate(shapes, model.getGraph()).getModel(), Lang.TTL);
+            RDFDataMgr.write(System.out, model, Lang.TTL);
         }
         return dateTime;
     }
