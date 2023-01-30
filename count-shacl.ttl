@@ -9,21 +9,14 @@ prefix property: <http://www.dke-pr/property#>
 prefix manufacturer: <http://www.dke-pr/manufacturer#>
 prefix operator: <http://www.dke-pr/operator#>
 
-#Select ?hasOwner (avg(?count) as ?average)
-#from <http://localhost:3030/StaticData>
-#from <http://localhost:3030/DynamicData/1674380646>
-#where{    
-  #{
-    SELECT ?hasOwner (Count(?state) as ?count)   
-	from <http://localhost:3030/StaticData>
-	from <http://localhost:3030/DynamicData/1674387772>
-    WHERE {
-      ?state a state:State.
-      ?state property:ofAircraft ?aircraft.
-      ?aircraft a aircraft:Aircraft.
-      ?aircraft property:hasOwner ?hasOwner
-      Filter(?hasOwner = "Austrian")
-   
+SELECT ?hasOwner (Count(?state) as ?count) (Now() as ?time) ("Count" as ?type)
+from <http://localhost:3030/StaticData>
+from <http://localhost:3030/DynamicData/1674387772>
+WHERE {
+     ?state a state:State.
+     ?state property:ofAircraft ?aircraft.
+     ?aircraft a aircraft:Aircraft.
+     ?aircraft property:hasOwner ?hasOwner
+     Filter(?hasOwner = "Austrian")
  }group by?hasOwner
-#}
-#}group by ?hasOwner
+

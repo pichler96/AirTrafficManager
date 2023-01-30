@@ -1,0 +1,40 @@
+@prefix sh:	<http://www.w3.org/ns/shacl#>.
+@prefix xsd:	<http://www.w3.org/2001/XMLSchema#>.
+@prefix ex: <http://www.w3.org/2022/example#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix aircraft: <http://www.dke-pr/aircraft#>.
+@prefix state: <http://www.dke-pr/aircraft/state#>.
+@prefix response: <http://www.dke-pr/aircraft/response#>.
+@prefix property: <http://www.dke-pr/property#>.
+@prefix aggregation: <http://www.dke-pr/aggregation#>.
+
+
+ex:CountShape
+	a sh:NodeShape;
+	sh:targetClass aggregation:Aggregation ;
+    sh:closed true ;
+
+    sh:property [
+            sh:path rdf:type
+    ];
+	sh:property [
+		sh:path property:hasOwner;
+		sh:datatype xsd:string;
+		sh:maxCount 1;
+	];
+	sh:property [
+		sh:path property:time;
+		sh:datatype xsd:datetime;
+		sh:maxCount 1;
+	];
+	sh:property [
+    	sh:path property:countStates;
+    	sh:datatype xsd:integer;
+    	sh:maxCount 1;
+    ]
+    sh:property[
+        sh:path property:type;
+        sh:datatype xsd:string;
+        sh:maxCount 1;
+    ].
+

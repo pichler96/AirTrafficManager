@@ -25,21 +25,19 @@ ex:AggregationShape a sh:NodeShape ;
                 CONSTRUCT {
                     ?aggregation a aggregation:Aggregation ;
                     property:hasOwner ?owner ;
-                    property:countStates ?countStates .
-                    property:timeStamp ?time.
+                    property:countStates ?countStates ;
+                    property:time ?time;
+                    property:type ?type.
                 }
                 WHERE {
-                Select (Count(?state) as ?countStates) (?hasOwner as ?owner) (Now() as ?time)
+                Select (Count(?state) as ?countStates) (?hasOwner as ?owner) (Now() as ?time) ("Count" as ?type)
                 where{
                     ?state a state:State.
                     ?state property:ofAircraft ?aircraft.
                     ?aircraft a aircraft:Aircraft.
                     ?aircraft property:hasOwner ?hasOwner
                     Filter(?hasOwner = "Austrian")
-                    #BIND(Count(?state) as ?countStates)
-                    #BIND(?hasOwner as ?owner)
-                    #BIND(NOW() as ?time)
-                  }group by ?owner
+                  }group by ?hasOwner
                 }
         """
     ];
