@@ -25,7 +25,7 @@ public class StaticAircraftData {
     static List<Aircraft> loadStaticAircraftData() {
         try {
             //Test case with 10 data sets
-            CSVReader reader = new CSVReaderBuilder(new FileReader("aircraftDatabase-filtered-new.csv")).withCSVParser(new CSVParserBuilder().withSeparator(';').build()).build();
+            CSVReader reader = new CSVReaderBuilder(new FileReader("aircraft-database.csv")).withCSVParser(new CSVParserBuilder().withSeparator(';').build()).build();
 
 
             reader.skip(1);
