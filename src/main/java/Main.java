@@ -6,8 +6,8 @@ public class Main {
     public static List<Aircraft> aircrafts = new ArrayList<>();
     public static List<State> states = new ArrayList<>();
 
-    public static long dateTime;
-    public static List<Long> dynamicGraphTimeStamps;
+    public static Long dateTime;
+    public static List<Long> dynamicGraphTimeStamps = new ArrayList<>();
     public static void main(String[] args) {
 
         boolean isProductiveModeFlag = false;
