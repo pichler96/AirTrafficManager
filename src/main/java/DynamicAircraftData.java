@@ -45,8 +45,40 @@ public class DynamicAircraftData {
     static List<State> loadDummyAircraftData() {
         List<State> states = new ArrayList<>();
         for (Aircraft aircraft : Main.aircrafts) {
-            State state = new State(aircraft.getIcao(), 3244.34, 3123.3, 213123.3,
-                    0.0, 0.0, true, "GER", 0.0, 0.0, new Response(-1.0));
+            State state = new State(aircraft.getIcao(),
+                    /*3244.34,
+                    3123.3,
+                    213123.3,
+                    0.0,
+                    0.0,
+                    true,
+                    "GER",
+                    0.0,
+                    0.0,
+                    new Response(-1.0),
+                    0.0,
+                    0.0,
+                    0.0,
+                    "callSign",
+                    "squawk",
+                    true*/
+                    Math.random(),
+                    Math.random(),
+                    Math.random(),
+                    Math.random(),
+                    Math.random(),
+                    true,
+                    "GER",
+                    Math.random(),
+                    Math.random(),
+                    new Response(-1.0),
+                    Math.random(),
+                    Math.random(),
+                    Math.random(),
+                    "callSign",
+                    "squawk",
+                    true);
+
             states.add(state);
             if(states.size()>30)
                 break;

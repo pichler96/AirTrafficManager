@@ -27,7 +27,7 @@ public class State {
     private Set<Integer> serials;
 
     private Response response;
-    private Aircraft aircraft;
+    private Aircraft ofAircraft;
 
     private Double headingCos;
 
@@ -53,7 +53,7 @@ public class State {
     }
 
     public State(String icao24, Double baroAltitude, Double geoAltitude, Double velocity, Double lastContact, Double lastPositionUpdate,
-                 Boolean isOnGround, String originCountry, Double latitude, Double longitude, Response response) {
+                 Boolean isOnGround, String originCountry, Double latitude, Double longitude, Response response, Double headingSin, Double headingCos,Double verticalRate,String callsign,String squawk, boolean spi) {
         this.icao24 = icao24;
         this.baroAltitude = baroAltitude;
         this.geoAltitude = geoAltitude;
@@ -65,6 +65,12 @@ public class State {
         this.latitude = latitude;
         this.longitude = longitude;
         this.response = response;
+        this.headingSin = headingSin;
+        this.headingCos = headingCos;
+        this.verticalRate = verticalRate;
+        this.callsign = callsign;
+        this.squawk = squawk;
+        this.spi = spi;
     }
 
     public Double getHeadingSin(){
@@ -229,11 +235,11 @@ public class State {
     }
 
     public Aircraft getAircraft() {
-        return aircraft;
+        return ofAircraft;
     }
 
     public void setAircraft(Aircraft aircraft) {
-        this.aircraft = aircraft;
+        this.ofAircraft = aircraft;
     }
 
     @Override
