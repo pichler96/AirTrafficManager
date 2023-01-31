@@ -4,6 +4,7 @@ import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.shacl.ShaclValidator;
 import org.apache.jena.shacl.Shapes;
+import org.apache.jena.shacl.ValidationReport;
 import org.topbraid.shacl.rules.RuleUtil;
 import org.topbraid.shacl.util.ModelPrinter;
 
@@ -14,10 +15,10 @@ import java.nio.file.Paths;
 
 
 public class DataCollection {
-    static void calculateFlightPosition(long dateTime) {
+    static void calculateFlightPosition(long datetime) {
 
         // Load the data model that rules
-        Model dataModel = loadModel(false, dateTime);
+        Model dataModel = loadModel(false, datetime);
         Model rulesModel = RDFDataMgr.loadModel("state-flight-position.ttl");
 
         // Perform the rule calculation
@@ -28,7 +29,7 @@ public class DataCollection {
         if (ShaclValidator.get().validate(shapes, result.getGraph()).conforms()) {
             System.out.println("    TASK 1) ESTIMATED FLIGHT POSITIONS UPDATED");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
-                conn.load("http://localhost:3030/FlightPosition/" + dateTime, result);
+                conn.load("http://localhost:3030/FlightPosition/" + datetime, result);
             }
         } else {
             System.out.println("    TASK 1) ESTIMATED FLIGHT POSITIONS FAILED");
@@ -37,19 +38,28 @@ public class DataCollection {
     }
 
 
-    public static void detectCollision(long dateTime) {
+    public static void detectCollision(long datetime) {
         // Load the data model that rules
-        Model dataModel = loadModel(false, dateTime);
+        Model dataModel = loadModel(false, datetime);
         Model rulesModel = RDFDataMgr.loadModel("state-flight-position.ttl");
 
         // Perform the rule calculation
         Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
 
-        // Load result in the knowledge graph
-        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
-            conn.load("http://localhost:3030/FlightPosition/" + dateTime, result);
-            System.out.println("   2) POTENTIAL COLLISION RISKS LISTED");
+
+        // Validate the result and load in the knowledge graph
+        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("Platzhalter für SHACL-Shape"));
+        if (ShaclValidator.get().validate(shapes, result.getGraph()).conforms()) {
+            System.out.println("    TASK 2) Collision detected");
+            try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+                conn.load("http://localhost:3030/CollisionDetection/" + datetime, result);
+            }
+        } else {
+            System.out.println("    TASK 2) Collision Detection FAILED");
+            RDFDataMgr.write(System.out, result, Lang.TTL);
         }
+
+
     }
 
     static void detectCollision(long datetime, Double minDistance) {
@@ -61,26 +71,43 @@ public class DataCollection {
         // Perform the rule calculation
         Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
 
-        // Load result in the knowledge graph
-        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager")) {
-            conn.load("http://localhost:3030/CollisionDetection/" + datetime, result);
-            System.out.println("   2) Collision detected");
+        // Validate the result and load in the knowledge graph
+        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("Platzhalter für SHACL-Shape"));
+        if (ShaclValidator.get().validate(shapes, result.getGraph()).conforms()) {
+            System.out.println("    TASK 2) Collision detected");
+            try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+                conn.load("http://localhost:3030/CollisionDetection/" + datetime, result);
+            }
+        } else {
+            System.out.println("    TASK 2) Collision Detection FAILED");
+            RDFDataMgr.write(System.out, result, Lang.TTL);
         }
+
+
     }
 
-    public static void detectSpeedChange(long dateTime) {
+    public static void detectSpeedChange(long datetime) {
         // Load the data model that rules
-        Model dataModel = loadModel(false, dateTime);
+        Model dataModel = loadModel(false, datetime);
         Model rulesModel = RDFDataMgr.loadModel("speed-function.ttl");
 
         // Perform the rule calculation
         Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
 
-        // Load result in the knowledge graph
-        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
-            conn.load("http://localhost:3030/SpeedChange/" + dateTime, result);
-            System.out.println("   3) SPEED CHANGE DETECTED");
+        // Validate the result and load in the knowledge graph
+        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("Platzhalter für SHACL-Shape"));
+        if (ShaclValidator.get().validate(shapes, result.getGraph()).conforms()) {
+            System.out.println("    TASK 3) Speed Change detected");
+            try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+                conn.load("http://localhost:3030/SpeedChange/" + datetime, result);
+            }
+        } else {
+            System.out.println("    TASK 3) Speed Change Detection FAILED");
+            RDFDataMgr.write(System.out, result, Lang.TTL);
         }
+
+
+
     }
 
     static void detectSpeedChange(long datetime, Double minSpeedChange) {
@@ -92,26 +119,41 @@ public class DataCollection {
         // Perform the rule calculation
         Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
 
-        // Load result in the knowledge graph
-        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager")) {
-            conn.load("http://localhost:3030/SpeedChange/" + datetime, result);
-            System.out.println("   3) Speed Change detected");
+        // Validate the result and load in the knowledge graph
+        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("Platzhalter für SHACL-Shape"));
+        if (ShaclValidator.get().validate(shapes, result.getGraph()).conforms()) {
+            System.out.println("    TASK 3) Speed Change detected");
+            try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+                conn.load("http://localhost:3030/SpeedChange/" + datetime, result);
+            }
+        } else {
+            System.out.println("    TASK 3) Speed Change Detection FAILED");
+            RDFDataMgr.write(System.out, result, Lang.TTL);
         }
+
+
     }
 
-    public static void detectDirectionChange(long dateTime) {
+    public static void detectDirectionChange(long datetime) {
         // Load the data model that rules
-        Model dataModel = loadModel(false, dateTime);
+        Model dataModel = loadModel(false, datetime);
         Model rulesModel = RDFDataMgr.loadModel("direction-function.ttl");
 
         // Perform the rule calculation
         Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
 
-        // Load result in the knowledge graph
-        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
-            conn.load("http://localhost:3030/DirectionChange/" + dateTime, result);
-            System.out.println("   3) DIRECTION CHANGE DETECTED");
+        // Validate the result and load in the knowledge graph
+        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("Platzhalter für SHACL-Shape"));
+        if (ShaclValidator.get().validate(shapes, result.getGraph()).conforms()) {
+            System.out.println("    TASK 3) Direction Change detected");
+            try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+                conn.load("http://localhost:3030/DirectionChange/" + datetime, result);
+            }
+        } else {
+            System.out.println("    TASK 3) Direction Change Detection FAILED");
+            RDFDataMgr.write(System.out, result, Lang.TTL);
         }
+
     }
 
     static void detectDirectionChange(long datetime, Double minDirectionChange) {
@@ -123,11 +165,18 @@ public class DataCollection {
         // Perform the rule calculation
         Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
 
-        // Load result in the knowledge graph
-        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
-            conn.load("http://localhost:3030/DirectionChange/" + datetime, result);
-            System.out.println("   3) Direction Change detected");
+        // Validate the result and load in the knowledge graph
+        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("Platzhalter für SHACL-Shape"));
+        if (ShaclValidator.get().validate(shapes, result.getGraph()).conforms()) {
+            System.out.println("    TASK 3) Direction Change detected");
+            try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+                conn.load("http://localhost:3030/DirectionChange/" + datetime, result);
+            }
+        } else {
+            System.out.println("    TASK 3) Direction Change Detection FAILED");
+            RDFDataMgr.write(System.out, result, Lang.TTL);
         }
+
     }
 
     static void calculateAggregation(long datetime, String owner){
@@ -154,11 +203,20 @@ public class DataCollection {
 
         Model result = RuleUtil.executeRules(dataModel, rulesModel, null,null);
 
-        // Load result in the knowledge graph
-        try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
-            conn.load("http://localhost:3030/Aggregation/" + datetime, result);
-            System.out.println("   1) AGGREGATION CREATED");
+        // Validate the result and load in the knowledge graph
+        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("count-shape-shacl.ttl"));
+        if (ShaclValidator.get().validate(shapes, result.getGraph()).conforms()) {
+            System.out.println("    TASK 4) Aggregation Count Succesful");
+            try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
+                conn.load("http://localhost:3030/Aggregation/" + datetime, result);
+            }
+        } else {
+            System.out.println("    TASK 4) Aggregation Count FAILED");
+            RDFDataMgr.write(System.out, result, Lang.TTL);
         }
+
+
+
     }
 
     private static Model loadModel(boolean staticData, long datetime) {
