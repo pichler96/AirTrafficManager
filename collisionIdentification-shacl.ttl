@@ -1,0 +1,23 @@
+ex:StateShape
+	a sh:NodeShape;
+	sh:targetClass state:State ;
+    sh:closed true ;
+
+    sh:property [
+            sh:path rdf:type
+    ];
+    sh:property [
+    		sh:path property:state1;
+    		sh:class state:State;
+    		sh:maxCount 1;
+    ];
+    sh:property [
+        	sh:path property:state2;
+        	sh:class state:State;
+        	sh:maxCount 1;
+    ];
+	sh:property [
+		sh:path property:distance;
+		sh:datatype xsd:long;
+		sh:maxCount 1;
+	].
