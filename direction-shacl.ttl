@@ -1,0 +1,37 @@
+@prefix sh:	<http://www.w3.org/ns/shacl#>.
+@prefix xsd:	<http://www.w3.org/2001/XMLSchema#>.
+@prefix ex: <http://www.w3.org/2022/example#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix aircraft: <http://www.dke-pr/aircraft#>.
+@prefix state: <http://www.dke-pr/aircraft/state#>.
+@prefix response: <http://www.dke-pr/aircraft/response#>.
+@prefix property: <http://www.dke-pr/property#>.
+
+ex:StateShape
+    a sh:NodeShape ;
+    sh:targetClass state:State ;
+    sh:property [
+        sh:path property:hasLastPositionUpdate ;
+        sh:datatype xsd:dateTime ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path property:hasResponse ;
+        sh:datatype xsd:dateTime ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path property:hasHeadingSin ;
+        sh:datatype xsd:double ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+            sh:path property:hasHeadingCos ;
+            sh:datatype xsd:double ;
+            sh:minCount 1 ;
+        ] ;
+    sh:property [
+        sh:path property:directionChange;
+        sh:datatype xsd:double ;
+        sh:minCount 1 ;
+    ] .

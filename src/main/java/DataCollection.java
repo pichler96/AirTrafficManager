@@ -95,7 +95,7 @@ public class DataCollection {
         Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
 
         // Validate the result and load in the knowledge graph
-        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("Platzhalter für SHACL-Shape"));
+        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("speed-shacl.ttl"));
         if (ShaclValidator.get().validate(shapes, result.getGraph()).conforms()) {
             System.out.println("    TASK 3) Speed Change detected");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
@@ -120,7 +120,7 @@ public class DataCollection {
         Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
 
         // Validate the result and load in the knowledge graph
-        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("Platzhalter für SHACL-Shape"));
+        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("speed-shacl.ttl"));
         if (ShaclValidator.get().validate(shapes, result.getGraph()).conforms()) {
             System.out.println("    TASK 3) Speed Change detected");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
@@ -143,7 +143,7 @@ public class DataCollection {
         Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
 
         // Validate the result and load in the knowledge graph
-        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("Platzhalter für SHACL-Shape"));
+        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("direction-shacl.ttl"));
         if (ShaclValidator.get().validate(shapes, result.getGraph()).conforms()) {
             System.out.println("    TASK 3) Direction Change detected");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
@@ -166,7 +166,7 @@ public class DataCollection {
         Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
 
         // Validate the result and load in the knowledge graph
-        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("Platzhalter für SHACL-Shape"));
+        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("direction-shacl.ttl"));
         if (ShaclValidator.get().validate(shapes, result.getGraph()).conforms()) {
             System.out.println("    TASK 3) Direction Change detected");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {

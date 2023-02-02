@@ -10,18 +10,46 @@ prefix manufacturer: <http://www.dke-pr/manufacturer#>
 prefix operator: <http://www.dke-pr/operator#>
 
 
-SELECT ?state ?speedChange ?speedInterpretation
-       from <http://localhost:3030/StaticData>
-       from <http://localhost:3030/DynamicData/1674294574>
-WHERE {
-?state property:hasLastPositionUpdate ?lastUpdate .
-?state property:hasResponse ?response .
-       ?state property:hasVelocity ?hasVelocity .
-FILTER (?lastUpdate < ?response)
-BIND (?response - ?lastUpdate AS ?timeDifference)
-BIND (?hasVelocity - ?lastUpdate / ?timeDifference AS ?speedChange)
-BIND (NOW() as ?timestamp)
-BIND (IF(?speedChange > 0, "Acceleration", "Slowdown") as ?speedInterpretation)
-BIND (?speedChange > xsd:double(?threshold) as ?overSpeedThreshold)
 
-}
+ex:SpeedChangeShape a sh:NodeShape ;
+       sh:targetClass ex:State ;
+       sh:rule [
+             a sh:SPARQLRule ;
+             sh:prefixes ex:, rdf:, property: ;
+             sh:construct """
+                PREFIX ex: <http://www.w3.org/2022/example#>
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX property: <http://www.dke-pr/property#>
+                PREFIX speedChange: <http://www.dke-pr/speedChange#>
+                PREFIX state: <http://www.dke-pr/state#>
+                CONSTRUCT {
+                    ?speedChangeEvent
+                        rdf:type ex:VelocityChange ;
+                        property:velocity1 ?timeLastPos1 ;
+                        property:velocity2 ?timeLastPos2 ;
+                        property:velocityChange ?velocityChangeValue ;
+                        property:interpretation ?interpretation .
+
+
+                }
+                SELECT ?state ?speedChange ?speedInterpretation
+                       from <http://localhost:3030/StaticData>
+                       from <http://localhost:3030/DynamicData/1674294574>
+                WHERE {
+                        ?state property:hasLastPositionUpdate ?lastUpdate .
+                        ?state property:hasResponse ?response .
+                               ?state property:hasVelocity ?hasVelocity .
+                        FILTER (?lastUpdate < ?response)
+                        BIND (?response - ?lastUpdate AS ?timeDifference)
+                        BIND (?hasVelocity - ?lastUpdate / ?timeDifference AS ?speedChange)
+                        BIND (NOW() as ?timestamp)
+                        BIND (IF(?speedChange > 0, "Acceleration", "Slowdown") as ?speedInterpretation)
+                        BIND (?speedChange > xsd:double(?threshold) as ?overSpeedThreshold)
+                        BIND (?speedChange < xsd:double(?threshold) as ?belowSpeedThreshold)
+          }
+        """
+    ];
+.
+
+
+
