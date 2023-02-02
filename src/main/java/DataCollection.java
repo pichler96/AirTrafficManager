@@ -39,16 +39,20 @@ public class DataCollection {
 
 
     public static void detectCollision(long datetime) {
+
         // Load the data model that rules
+        Model prevStateDataModel = null;
+        if (Main.dynamicGraphTimeStamps.size() > 1) {
+            prevStateDataModel = loadModel(false, Main.dynamicGraphTimeStamps.get(Main.dynamicGraphTimeStamps.size() - 1));
+        }
         Model dataModel = loadModel(false, datetime);
-        Model rulesModel = RDFDataMgr.loadModel("state-flight-position.ttl");
+        Model rulesModel = RDFDataMgr.loadModel("collisionIdentification.ttl");
 
         // Perform the rule calculation
-        Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
-
+        Model result = RuleUtil.executeRules(dataModel, rulesModel, prevStateDataModel, null);
 
         // Validate the result and load in the knowledge graph
-        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("Platzhalter für SHACL-Shape"));
+        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("collisionIdentification-shacl.ttl"));
         if (ShaclValidator.get().validate(shapes, result.getGraph()).conforms()) {
             System.out.println("    TASK 2) Collision detected");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {
@@ -58,21 +62,19 @@ public class DataCollection {
             System.out.println("    TASK 2) Collision Detection FAILED");
             RDFDataMgr.write(System.out, result, Lang.TTL);
         }
-
-
     }
 
     static void detectCollision(long datetime, Double minDistance) {
-
         // Load the data model that rules
+        Model prevStateDataModel = loadModel(false, Main.dynamicGraphTimeStamps.get(Main.dynamicGraphTimeStamps.size() - 1));
         Model dataModel = loadModel(false, datetime);
         Model rulesModel = RDFDataMgr.loadModel("collisionIdentification.ttl");
 
         // Perform the rule calculation
-        Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
+        Model result = RuleUtil.executeRules(dataModel, rulesModel, prevStateDataModel, null);
 
         // Validate the result and load in the knowledge graph
-        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("Platzhalter für SHACL-Shape"));
+        Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("collisionIdentification-shacl.ttl"));
         if (ShaclValidator.get().validate(shapes, result.getGraph()).conforms()) {
             System.out.println("    TASK 2) Collision detected");
             try (RDFConnection conn = RDFConnection.connect("http://localhost:3030/AirTrafficManager") ) {

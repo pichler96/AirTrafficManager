@@ -1,0 +1,62 @@
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX ex: <http://www.w3.org/2022/example#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX aircraft: <http://www.dke-pr/aircraft#>
+PREFIX state: <http://www.dke-pr/state#>
+PREFIX response: <http://www.dke-pr/response#>
+PREFIX property: <http://www.dke-pr/property#>
+
+SELECT
+  ?state1 ?state2 ?distance
+FROM <http://localhost:3030/DynamicData/1674307780>
+FROM <http://localhost:3030/StaticData>
+WHERE {
+  # Current state of aircraft 1
+  ?state1 a state:State.
+  ?state1 property:hasLatitude ?lat1 .
+  ?state1 property:hasLongitude ?long1 .
+  ?state1 property:hasResponse ?response1 .
+  ?state1 property:ofAircraft ?aircraft1 .
+  ?aircraft1 property:hasIcao24 ?icao1.
+
+  # Previous state of aircraft 1
+  ?prevstate1 a state:State.
+  ?prevstate1 property:hasLatitude ?prevlat1 .
+  ?prevstate1 property:hasLongitude ?prevlong1 .
+  ?prevstate1 property:ofAircraft ?aircraft1 .
+  ?prevstate1 property:atTime ?prevstate1time.
+
+  # Current state of aircraft 2
+  ?state2 a state:State.
+  ?state2 property:hasLatitude ?lat2 .
+  ?state2 property:hasLongitude ?long2 .
+  ?state2 property:hasResponse ?response2 .
+  ?state2 property:ofAircraft ?aircraft2 .
+  ?aircraft2 property:hasIcao24 ?icao2.
+
+  # Previous state of aircraft 2
+  ?prevstate2 a state:State.
+  ?prevstate2 property:hasLatitude ?prevlat2 .
+  ?prevstate2 property:hasLongitude ?prevlong2 .
+  ?prevstate2 property:ofAircraft ?aircraft2 .
+  ?prevstate2 property:atTime ?prevstate2time.
+
+  # Make sure that the current and previous state belong to the same aircraft
+  FILTER(?icao1 = ?aircraft1 && ?icao2 = ?aircraft2)
+
+  # Calculate the distance between the current state of aircraft 1 and 2
+  BIND((?lat1 - ?lat2) * (?lat1 - ?lat2) + (?long1 - ?long2) * (?long1 - ?long2) AS ?distance)
+
+  # Calculate the distance between the previous state of aircraft 1 and 2
+  BIND((?prevlat1 - ?prevlat2) * (?prevlat1 - ?prevlat2) + (?prevlong1 - ?prevlong2) * (?prevlong1 - ?prevlong2) AS ?prevdistance)
+
+  # Only include pairs of aircraft that are within 100 meters of each other and have the same response time, and are moving closer to each other compared to their previous state
+  FILTER(?distance <= 100 && ?response1 = ?response2 && ?icao1 != ?icao2 && ?distance < ?prevdistance)
+?state1 ex:timestamp ?timestamp1.
+?prevstate1 ex:timestamp ?prevtimestamp1.
+FILTER(?timestamp1 > ?prevtimestamp1)
+?state2 ex:timestamp ?timestamp2.
+?prevstate2 ex:timestamp ?prevtimestamp2.
+FILTER(?timestamp2 > ?prevtimestamp2)
+}
