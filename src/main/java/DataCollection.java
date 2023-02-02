@@ -65,11 +65,12 @@ public class DataCollection {
     static void detectCollision(long datetime, Double minDistance) {
 
         // Load the data model that rules
+        Model prevStateDataModel = loadModel(false, Main.dynamicGraphTimeStamps.get(Main.dynamicGraphTimeStamps.size() - 1));
         Model dataModel = loadModel(false, datetime);
         Model rulesModel = RDFDataMgr.loadModel("collisionIdentification.ttl");
 
         // Perform the rule calculation
-        Model result = RuleUtil.executeRules(dataModel, rulesModel, null, null);
+        Model result = RuleUtil.executeRules(dataModel, rulesModel, prevStateDataModel, null);
 
         // Validate the result and load in the knowledge graph
         Shapes shapes = Shapes.parse(RDFDataMgr.loadGraph("Platzhalter für SHACL-Shape"));
